@@ -1,0 +1,68 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+**/node_modules/
+node_modules/
+client/node_modules/
+server/node_modules/
+server/node_modules/**
+server/node_modules/.bin/
+.pnp
+.pnp.js
+package-lock.json
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Build
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Testing
+coverage/
+.nyc_output/
+cypress/videos/
+cypress/screenshots/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache
+.eslintcache
+.cache/
+
+# Client specific
+client/.next/
+client/out/
+client/.vercel/
+client/build/
+client/dist/
+
+# Server specific
+server/dist/
+server/logs/
+server/uploads/
+
+# Misc
+.vercel
+.serverless/
+next-env.d.ts

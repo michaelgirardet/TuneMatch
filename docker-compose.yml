@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://api:5000
+
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data: 

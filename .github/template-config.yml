@@ -1,0 +1,9 @@
+# Configuration du template
+name: Next.js Express MySQL Template
+description: Template full stack avec Next.js, Express, MySQL, TypeScript et Docker
+categories:
+  - fullstack
+  - typescript
+  - nextjs
+  - express
+  - mysql 
