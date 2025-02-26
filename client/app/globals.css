@@ -55,7 +55,6 @@
   #register-form {
     overflow-y: auto;
     overflow-x: hidden;
-    padding-top: 7em;
   }
 
   .button {
@@ -71,6 +70,14 @@
     color: #fafafa;
     text-align: center;
   }
+}
+
+/* Styles pour le toast */
+.Toastify__toast {
+  background-color: #a71666 !important;
+  color: #f0f0f0 !important;
+  font-size: 1.2em;
+  font-weight: 300;
 }
 
 /* Pour les styles très spécifiques ou difficiles à faire en Tailwind */

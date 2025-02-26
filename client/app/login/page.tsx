@@ -1,45 +1,69 @@
+'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/authStore';
+import { useAuth } from '../contexts/AuthContext';
+import Navbar from '@/components/Navbar';
+import Footer from '../../components/Footer';
+import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import Link from 'next/link';
-import WhiteHouse from '../../public/house-icon-wh.svg';
-import WhiteRegister from '../../public/register-icon-wh.svg';
-import Image from 'next/image';
 
 export default function Login() {
+  const { setIsAuthenticated } = useAuth();
+  const router = useRouter();
+  const login = useAuthStore((state) => state.login);
+  const [formData, setFormData] = useState({
+    email: '',
+    mot_de_passe: '',
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        login(data.token, data.user);
+        router.push('/profile');
+        () => setIsAuthenticated(true);
+        ToasterSuccess('🔥 Vous êtes branché ! Prêt à faire vibrer la scène ?');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'Erreur lors de la connexion');
+        ToasterError('🚨 Oups, fausse note ! Quelque chose a cloché. Réessaie !');
+        console.error(error);
+      }
+    } catch (_err) {
+      setError('Erreur de connexion au serveur');
+    }
+  };
+
   return (
     <main className="min-h-screen w-full flex flex-col">
-      <nav className="navbar">
-        <ul>
-          <li>
-            <Link href="/register" className="text-white hover:text-gray-300">
-              <Image
-                className="w-7"
-                src={WhiteRegister}
-                alt="utilisateur avec un plus"
-                aria-label="icon de navigation vers la page d'
-                inscription"
-              />
-            </Link>
-          </li>
-          <li>
-            <Link href="/" className="text-white hover:text-gray-300">
-              <Image
-                className="w-7"
-                src={WhiteHouse}
-                alt="maison blanche"
-                aria-label="icon de navigation vers la page d'
-              accueil"
-              />
-            </Link>
-          </li>
-        </ul>
+      <nav>
+        <Navbar />
       </nav>
       <div className="flex flex-col items-center justify-center h-[85vh]">
         <h1 className="title font-quicksand pb-10 text-center">Connexion</h1>
-        <form className="flex flex-col justify-center items-center gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-5">
           <div className="p-5 flex flex-col justify-center item-center">
             <label htmlFor="email" className="form-label" aria-label="email form" />
             <input
               type="email"
               id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               className="font-sulphur form-input flex w-[280px] self-center p-2 rounded"
               placeholder="Email"
               required
@@ -50,12 +74,18 @@ export default function Login() {
             <input
               type="password"
               id="password"
+              name="mot_de_passe"
+              value={formData.mot_de_passe}
+              onChange={handleChange}
               placeholder="Password"
               className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
               required
             />
           </div>
-          <div className="flex items-center justify-center pl-20 ml-20">
+          <div className="flex items-center justify-center">
+            <Link href="/forgot-password">
+              <p className="text-white text-xs font-montserrat mr-10">Mot de passe oublié ?</p>
+            </Link>
             <div className="flex items-center justyfy-center h-5">
               <input
                 id="remember"
@@ -78,8 +108,8 @@ export default function Login() {
           </button>
         </form>
       </div>
-      <footer className="py-4 text-center bg-gray-800 text-white mt-auto">
-        Copyright TuneMatch 2025
+      <footer>
+        <Footer />
       </footer>
     </main>
   );

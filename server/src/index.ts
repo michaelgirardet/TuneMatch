@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import type { DatabaseConfig } from './types';
 import { UserController } from './controllers/userController';
 import testRoutes from './routes/test.routes';
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
 
 dotenv.config();
 
@@ -24,6 +26,7 @@ const dbConfig: DatabaseConfig = {
 };
 
 const pool: Pool = mysql.createPool(dbConfig);
+app.locals.pool = pool;
 
 // Initialisation des contrôleurs
 const userController = new UserController(pool);
@@ -31,6 +34,8 @@ const userController = new UserController(pool);
 // Routes
 app.post('/api/users', userController.createUser);
 app.get('/api/users', userController.getUsers);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api', testRoutes);
 
 const PORT: number = Number.parseInt(process.env.PORT || '5000', 10);

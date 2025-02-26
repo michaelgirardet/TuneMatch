@@ -1,40 +1,32 @@
 import type { Request, Response } from 'express';
 import type { Pool } from 'mysql2/promise';
-import type { User } from '../types';
 
 export class UserController {
-  constructor(private pool: Pool) {}
+  private pool: Pool;
 
-  public createUser = async (req: Request, res: Response): Promise<void> => {
+  constructor(pool: Pool) {
+    this.pool = pool;
+  }
+
+  createUser = async (req: Request, res: Response) => {
     try {
-      const { name, email }: User = req.body;
-
-      const [result] = await this.pool.execute('INSERT INTO users (name, email) VALUES (?, ?)', [
-        name,
-        email,
-      ]);
-
-      res.status(201).json({
-        message: 'Utilisateur créé avec succès',
-        user: { name, email },
-      });
+      const { nom_utilisateur, email } = req.body;
+      const [result] = await this.pool.execute(
+        'INSERT INTO Utilisateur (nom_utilisateur, email) VALUES (?, ?)',
+        [nom_utilisateur, email]
+      );
+      res.status(201).json(result);
     } catch (error) {
-      res.status(500).json({
-        message: "Erreur lors de la création de l'utilisateur",
-        error,
-      });
+      res.status(500).json({ message: 'Erreur lors de la création de l\'utilisateur' });
     }
   };
 
-  public getUsers = async (req: Request, res: Response): Promise<void> => {
+  getUsers = async (_req: Request, res: Response) => {
     try {
-      const [users] = await this.pool.query('SELECT * FROM users');
+      const [users] = await this.pool.execute('SELECT * FROM Utilisateur');
       res.json(users);
     } catch (error) {
-      res.status(500).json({
-        message: 'Erreur lors de la récupération des utilisateurs',
-        error,
-      });
+      res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs' });
     }
   };
-}
+} 

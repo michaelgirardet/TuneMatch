@@ -1,38 +1,12 @@
 'use client';
-import Link from 'next/link';
-import WhiteLogin from '../public/login-icon-wh.svg';
-import WhiteRegister from '../public/register-icon-wh.svg';
-import Image from 'next/image';
+import Navbar from '@/components/Navbar';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen w-full">
-      <nav className="navbar">
-        <nav>
-          <ul>
-            <li>
-              <Link href="/register" className="text-white hover:text-gray-300">
-                <Image
-                  className="w-7"
-                  src={WhiteRegister}
-                  alt="utilisateur avec un plus"
-                  aria-label="icon de navigation vers la page d'
-                inscription"
-                />
-              </Link>
-            </li>
-            <li>
-              <Link href="/login" className="text-white hover:text-gray-300">
-                <Image
-                  className="w-7"
-                  src={WhiteLogin}
-                  alt="utilisateur blanc"
-                  aria-label="icon de navigation vers la page de connexion"
-                />
-              </Link>
-            </li>
-          </ul>
-        </nav>
+      <nav>
+        <Navbar />
       </nav>
       <main className="flex-1 w-full px-4 flex flex-col justify-center items-center">
         <div className="home-sct flex flex-col justify-center max-w-[500px] gap-3">
@@ -49,8 +23,8 @@ export default function Home() {
           </button>
         </div>
       </main>
-      <footer className="w-full py-4 text-center bg-gray-800 text-white">
-        Copyright TuneMatch 2025
+      <footer>
+        <Footer />
       </footer>
     </div>
   );
