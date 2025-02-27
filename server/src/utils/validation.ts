@@ -22,4 +22,13 @@ export const resetPasswordSchema = z.object({
   token: z.string(),
   email: z.string().email(),
   newPassword: z.string().min(8)
+}).strict();
+
+export const socialLinksSchema = z.object({
+  platform: z.enum(['youtube', 'instagram', 'soundcloud']),
+  link: z.string().url()
+}).strict();
+
+export const genresSchema = z.object({
+  genres: z.array(z.string()).min(1).max(5)
 }).strict(); 

@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { auth } from '../middleware/auth';
 import { JwtPayload } from 'jsonwebtoken';
+import { socialLinksSchema, genresSchema } from '../utils/validation';
+import { ZodError } from 'zod';
 
 declare global {
   namespace Express {
@@ -31,6 +33,61 @@ const updatePhoto = async (req: Request, res: Response) => {
   }
 };
 
+const updateSocialLinks = async (req: Request, res: Response) => {
+  try {
+    const { platform, link } = socialLinksSchema.parse(req.body);
+    const userId = req.user?.userId;
+
+    const columnName = `${platform}_link`;
+    const [_result] = await req.app.locals.pool.execute(
+      `UPDATE Utilisateur SET ${columnName} = ? WHERE id_utilisateur = ?`,
+      [link, userId]
+    );
+
+    res.json({ message: 'Lien social mis à jour avec succès' });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        error: 'Données invalides',
+        details: error.errors,
+      });
+    }
+    res.status(500).json({ error: 'Erreur lors de la mise à jour du lien social' });
+    console.error(error);
+  }
+};
+
+const updateGenres = async (req: Request, res: Response) => {
+  try {
+    const { genres } = genresSchema.parse(req.body);
+    const userId = req.user?.userId;
+
+    // Convertir le tableau en chaîne
+    const genresString = genres.join(',');
+
+    const [_result] = await req.app.locals.pool.execute(
+      'UPDATE Utilisateur SET genres_musicaux = ? WHERE id_utilisateur = ?',
+      [genresString, userId]
+    );
+
+    res.json({ 
+      message: 'Genres musicaux mis à jour avec succès',
+      genres: genres
+    });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        error: 'Données invalides',
+        details: error.errors,
+      });
+    }
+    res.status(500).json({ error: 'Erreur lors de la mise à jour des genres musicaux' });
+    console.error(error);
+  }
+};
+
 router.put('/photo', auth, updatePhoto);
+router.put('/social-links', auth, updateSocialLinks);
+router.put('/genres', auth, updateGenres);
 
 export default router;

@@ -19,7 +19,11 @@ CREATE TABLE Utilisateur (
     localisation VARCHAR(100),
     date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reset_token VARCHAR(255),
-    reset_token_expires TIMESTAMP NULL
+    reset_token_expires TIMESTAMP NULL,
+    youtube_link VARCHAR(255),
+    instagram_link VARCHAR(255),
+    soundcloud_link VARCHAR(255),
+    genres_musicaux VARCHAR(255)
 );
 
 -- TABLE Profil Artiste (Spécifique aux artistes)

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useRouter } from 'next/router';
 
 interface User {
   id_utilisateur?: number;
@@ -25,7 +26,9 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       token: null,
       login: (token, user) => set({ isAuthenticated: true, token, user }),
-      logout: () => set({ isAuthenticated: false, token: null, user: null }),
+      logout: () => {
+        set({ isAuthenticated: false, token: null, user: null });
+      },
       updateUser: (user) => set({ user }),
     }),
     {

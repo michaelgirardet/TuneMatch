@@ -1,80 +1,110 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
-import WhiteLogin from '@/public/login-icon-wh.svg';
-import WhiteRegister from '@/public/register-icon-wh.svg';
-import WhiteSlider from '@/public/sliders-icon-wh.svg';
-import WhiteMark from '@/public/xmark-wh.svg';
 import { useState } from 'react';
+import LogoBurger from '@/public/sliders-icon-wh.svg';
+import CloseIcon from '@/public/xmark-wh.svg';
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuthStore();
-  const [isDropdown, setIsDropdown] = useState(false);
+  const [isBurger, setIsBurger] = useState(false);
+  const router = useRouter();
 
-  const handleShowDropdown = () => {
-    setIsDropdown(!isDropdown);
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
+
+  const handleBuger = () => {
+    setIsBurger(!isBurger);
   };
 
   return (
-    <nav className="navbar">
-      <ul className="flex gap-8">
-        {isAuthenticated ? (
-          <>
-            <li>
+    <nav className="bg-[#1d1e2c] p-4">
+      <div className="container mx-auto flex justify-between items-center">
+        <Link href="/" className="flex items-center">
+          <span className="text-white text-xl font-bold ml-2 font-quicksand">TuneMatch</span>
+        </Link>
+        <div className="flex gap-4">
+          {isAuthenticated ? (
+            <>
               <Image
-                className="w-7 cursor-pointer"
-                src={WhiteSlider}
-                onClick={handleShowDropdown}
-                alt="burger menu"
-                aria-label="burger menu"
+                src={LogoBurger}
+                alt="logo du burger menu"
+                onClick={handleBuger}
+                onKeyDown={handleBuger}
+                className="w-7"
               />
-            </li>
-            {isDropdown && (
-              <div className="bg-[#261450] absolute top-0 left-0 w-[100vw] h-[100vh] rounded-[2px] flex flex-col justify-start items-start p-10 gap-2">
-                <Image
-                  src={WhiteMark}
-                  className="w-7 self-end"
-                  alt="croix pour fermer le menu"
-                  aria-label="fermer le menu"
-                  onClick={handleShowDropdown}
-                />
-                <Link href="/">
-                  <li className=" font-montserrat text-xl font-semibold">Accueil</li>
-                </Link>
-                <Link href="/profile">
-                  <li className=" font-montserrat text-xl font-semibold">Profil</li>
-                </Link>
-                <li
-                  className=" font-montserrat text-xl font-semibold"
-                  onClick={logout}
-                  onKeyDown={logout}
-                >
-                  Déconnexion
-                </li>
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            <li>
-              <Link href="/register" className="text-white hover:text-gray-300">
-                <Image
-                  className="w-7"
-                  src={WhiteRegister}
-                  alt="inscription"
-                  aria-label="Inscription"
-                />
-              </Link>
-            </li>
-            <li>
-              <Link href="/login" className="text-white hover:text-gray-300">
-                <Image className="w-7" src={WhiteLogin} alt="connexion" aria-label="Connexion" />
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
+              {isBurger && (
+                <div className="absolute top-0 right-0 w-[100vw] h-[100vh] flex flex-col justify-start items-start p-10 gap-5 bg-[#A71666] font-montserrat rounded-sm z-50">
+                  <Image
+                    src={CloseIcon}
+                    alt="fermeture du menu"
+                    onClick={handleBuger}
+                    className="w-7 self-end"
+                  />
+                  <Link
+                    href="/"
+                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                  >
+                    Accueil
+                  </Link>
+                  <Link
+                    href="/profile"
+                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                  >
+                    Profile
+                  </Link>
+                  {isAuthenticated && (
+                    <Link
+                      href="/login"
+                      className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                      onClick={handleLogout}
+                      onKeyDown={handleLogout}
+                    >
+                      Déconnexion
+                    </Link>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <Image
+                src={LogoBurger}
+                alt="logo du burger menu"
+                onClick={handleBuger}
+                onKeyDown={handleBuger}
+                className="w-7"
+              />
+              {isBurger && (
+                <div className="absolute top-0 right-0 w-[100vw] h-[100vh] flex flex-col justify-start items-start p-10 gap-5 bg-[#A71666] font-montserrat rounded-sm">
+                  <Image
+                    src={CloseIcon}
+                    alt="fermeture du menu"
+                    onClick={handleBuger}
+                    className="w-7 self-end"
+                  />
+                  <Link
+                    href="/login"
+                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                  >
+                    Connexion
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                  >
+                    Inscription
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
     </nav>
   );
 }

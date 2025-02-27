@@ -67,7 +67,7 @@ export default function Register() {
       <nav>
         <Navbar />
       </nav>
-      <div className="flex flex-col items-center justify-center h-[85vh]" id="register-form">
+      <div className="flex flex-col items-center justify-center h-[86vh]" id="register-form">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col justify-center items-center pb-7 gap-5"

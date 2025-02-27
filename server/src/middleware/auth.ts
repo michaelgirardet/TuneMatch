@@ -1,26 +1,79 @@
-import type { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'tunematch_secret_key_2024';
 
-export const auth = async (req: Request, res: Response, next: NextFunction) => {
+export const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
+    const authHeader = req.headers.authorization;
+    console.log('En-tête d\'autorisation reçu:', authHeader);
 
-    if (!token) {
+    if (!authHeader) {
+      console.log('Aucun en-tête d\'autorisation trouvé');
       return res.status(401).json({ message: 'Token manquant' });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as {
-      userId: number;
-      email: string;
-      role: string;
-    };
+    const token = authHeader.split(' ')[1];
+    console.log('Token extrait:', token?.substring(0, 20) + '...');
 
-    req.user = decoded;
-    next();
+    if (!token) {
+      console.log('Token non trouvé dans l\'en-tête');
+      return res.status(401).json({ message: 'Token invalide' });
+    }
+
+    try {
+      // Décodage du token sans vérification pour voir son contenu
+      const decodedWithoutVerification = jwt.decode(token);
+      console.log('Contenu du token sans vérification:', decodedWithoutVerification);
+      
+      console.log('Secret JWT utilisé pour la vérification:', JWT_SECRET);
+      console.log('Tentative de vérification du token avec le secret:', JWT_SECRET.substring(0, 10) + '...');
+      
+      const decoded = jwt.verify(token, JWT_SECRET) as {
+        userId: number;
+        email: string;
+        role: string;
+        exp: number;
+      };
+
+      console.log('Token décodé avec succès:', {
+        userId: decoded.userId,
+        email: decoded.email,
+        role: decoded.role,
+        exp: new Date(decoded.exp * 1000).toISOString()
+      });
+
+      // Vérification de l'expiration avec une marge de 5 minutes
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (decoded.exp - currentTime < 300) { // 300 secondes = 5 minutes
+        console.log('Token proche de l\'expiration, rafraîchissement nécessaire');
+        return res.status(401).json({ 
+          message: 'Token expiré',
+          needsRefresh: true
+        });
+      }
+
+      req.user = decoded;
+      next();
+    } catch (error) {
+      console.error('Erreur de vérification du token:', error);
+      if (error instanceof jwt.TokenExpiredError) {
+        return res.status(401).json({ 
+          message: 'Token expiré',
+          needsRefresh: true
+        });
+      }
+      if (error instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({ 
+          message: 'Token invalide',
+          error: error.message,
+          clearToken: true // Indique au client qu'il doit supprimer le token
+        });
+      }
+      throw error;
+    }
   } catch (error) {
-    res.status(401).json({ message: 'Token invalide' });
-    console.error(error);
+    console.error('Erreur dans le middleware d\'authentification:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 };

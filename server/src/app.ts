@@ -1,0 +1,32 @@
+import express from 'express';
+import cors from 'cors';
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
+
+const app = express();
+
+// Middleware pour parser le JSON
+app.use(express.json());
+
+// Configuration CORS
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+
+// Route de test
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+// Gestion des erreurs
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Une erreur est survenue sur le serveur' });
+});
+
+export default app; 

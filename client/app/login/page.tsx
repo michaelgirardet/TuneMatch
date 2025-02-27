@@ -53,7 +53,7 @@ export default function Login() {
       <nav>
         <Navbar />
       </nav>
-      <div className="flex flex-col items-center justify-center h-[85vh]">
+      <div className="flex flex-col items-center justify-center h-[86vh]">
         <h1 className="title font-quicksand pb-10 text-center">Connexion</h1>
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-5">
           <div className="p-5 flex flex-col justify-center item-center">
@@ -97,7 +97,7 @@ export default function Login() {
               />
             </div>
             <label htmlFor="remember" className="text-white text-xs ml-2 font-montserrat">
-              Remember me
+              Je ne suis pas un robot
             </label>
           </div>
           <button

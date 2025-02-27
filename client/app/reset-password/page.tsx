@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { SuccessModal, ErrModal } from '../components/Modals';
+import { SuccessModal, ErrModal } from '@/components/Modals';
 
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
@@ -60,7 +60,7 @@ export default function ResetPassword() {
   return (
     <main className="min-h-screen w-full flex flex-col">
       <Navbar />
-      <div className="flex flex-col items-center justify-center h-[85vh]">
+      <div className="flex flex-col items-center justify-center h-[86vh]">
         {email && token ? (
           <>
             <h1 className="title font-quicksand pb-10 text-center">

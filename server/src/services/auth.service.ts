@@ -7,11 +7,12 @@ import crypto from 'crypto';
 
 export class AuthService {
   private pool;
-  private readonly JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
+  private readonly JWT_SECRET = process.env.JWT_SECRET || 'tunematch_secret_key_2024';
   private readonly RESET_TOKEN_EXPIRY = 3600000; // 1 heure en millisecondes
 
   constructor(dbPool: typeof pool) {
     this.pool = dbPool;
+    console.log('AuthService initialisé avec le secret JWT:', this.JWT_SECRET.substring(0, 10) + '...');
   }
 
   async register(input: RegisterInput): Promise<User> {
@@ -49,6 +50,7 @@ export class AuthService {
     }
 
     // Création du token JWT
+    console.log('Création du token avec le secret:', this.JWT_SECRET.substring(0, 10) + '...');
     const token = jwt.sign(
       {
         userId: user.id_utilisateur,
@@ -58,6 +60,7 @@ export class AuthService {
       this.JWT_SECRET,
       { expiresIn: '24h' }
     );
+    console.log('Token créé avec succès');
 
     // On ne renvoie pas le mot de passe
     const { mot_de_passe, ...userWithoutPassword } = user;
