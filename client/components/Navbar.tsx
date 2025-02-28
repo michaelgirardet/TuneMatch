@@ -22,10 +22,12 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-[#1d1e2c] p-4 shadow-sm">
+    <nav className="bg-[#1d1e2c] p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <h1 className="text-[#F2F6FF] text-2xl font-sulphur">TuneMatch</h1>
+          <h1 className="text-[#F2F6FF] text-2xl font-sulphur">
+            Tune<span className="text-[#a71666] font-extrabold">Match</span>
+          </h1>
         </Link>
 
         {/* Navigation Desktop */}

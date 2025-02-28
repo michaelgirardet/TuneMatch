@@ -85,7 +85,9 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#1d1e2c] p-6 rounded-lg w-full max-w-md">
-        <h2 className="text-[#F2F6FF] text-xl font-sulphur mb-4">Ajouter un morceau</h2>
+        <h2 className="text-[#F2F6FF] text-xl font-montserrat mb-4 text-center">
+          Ajouter un morceau
+        </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
@@ -118,13 +120,13 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF]"
+              className="px-4 py-2 rounded-md bg-[#OAOAOA] border text-[#F2F6FF]"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-[#a71666] text-[#F2F6FF] hover:bg-[#8f1357] transition-colors"
+              className="px-4 py-2 rounded-md bg-[#a71666] text-[#F2F6FF] hover:bg-[#8f1357] transition-colors"
             >
               Ajouter
             </button>

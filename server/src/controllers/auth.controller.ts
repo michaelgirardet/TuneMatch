@@ -38,6 +38,7 @@ export class AuthController {
       );
 
       const userId = (result as any).insertId;
+      console.log('Nouvel utilisateur créé avec ID:', userId);
 
       // Générer le token JWT
       const token = jwt.sign({ userId, email, role }, JWT_SECRET, { expiresIn: TOKEN_EXPIRATION });
@@ -59,7 +60,7 @@ export class AuthController {
           details: error.errors,
         });
       }
-      console.error(error);
+      console.error('Erreur lors de l\'inscription:', error);
       res.status(500).json({ message: "Erreur lors de l'inscription" });
     }
   }
@@ -68,24 +69,29 @@ export class AuthController {
     try {
       const { email, password } = loginSchema.parse(req.body);
 
+      console.log('Tentative de connexion pour:', email);
+
       // Rechercher l'utilisateur avec toutes ses informations
       const [rows] = await req.app.locals.pool.execute(
         `SELECT id, nom_utilisateur, email, password, role, photo_profil, biography, 
-         genres_musicaux, youtube_link, instagram_link, soundcloud_link 
+         genres_musicaux, youtube_link, instagram_link, soundcloud_link, city, country 
          FROM users WHERE email = ?`,
         [email]
       );
 
       const users = rows as any[];
       if (users.length === 0) {
+        console.log('Utilisateur non trouvé:', email);
         return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
       }
 
       const user = users[0];
+      console.log('Utilisateur trouvé:', { id: user.id, email: user.email, role: user.role });
 
       // Vérifier le mot de passe
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
+        console.log('Mot de passe invalide pour:', email);
         return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
       }
 
@@ -99,6 +105,8 @@ export class AuthController {
         JWT_SECRET,
         { expiresIn: TOKEN_EXPIRATION }
       );
+
+      console.log('Token généré pour:', email);
 
       // Supprimer le mot de passe des informations renvoyées
       const { password: _, ...userWithoutPassword } = user;
@@ -114,7 +122,7 @@ export class AuthController {
           details: error.errors,
         });
       }
-      console.error(error);
+      console.error('Erreur lors de la connexion:', error);
       res.status(500).json({ message: 'Erreur lors de la connexion' });
     }
   }
@@ -157,7 +165,7 @@ export class AuthController {
           details: error.errors,
         });
       }
-      console.error(error);
+      console.error('Erreur lors de l\'envoi de l\'email de réinitialisation:', error);
       res.status(500).json({ message: "Erreur lors de l'envoi de l'email de réinitialisation" });
     }
   }
@@ -204,7 +212,7 @@ export class AuthController {
           details: error.errors,
         });
       }
-      console.error(error);
+      console.error('Erreur lors de la réinitialisation du mot de passe:', error);
       res.status(500).json({ message: 'Erreur lors de la réinitialisation du mot de passe' });
     }
   }

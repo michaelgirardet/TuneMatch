@@ -16,7 +16,8 @@ CREATE TABLE users (
     role ENUM('artiste', 'producteur') NOT NULL,
     photo_profil VARCHAR(255),
     biography TEXT,
-    localisation VARCHAR(100),
+    city VARCHAR(100),
+    country VARCHAR(100),
     youtube_link VARCHAR(255),
     instagram_link VARCHAR(255),
     soundcloud_link VARCHAR(255),
@@ -87,10 +88,10 @@ CREATE TABLE messages (
 );
 
 -- Données de test (dans l'ordre des dépendances)
-INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, localisation) VALUES
-('JohnD999', 'johndoe@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/johndoe.jpg', 'Passionné de musique électronique', 'Barcelone'),
-('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'http://photo-de-profil.fr/marie.jpg', 'Productrice de hip-hop', 'Paris'),
-('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/pierre.jpg', 'Guitariste et auteur-compositeur', 'Lyon');
+INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, city, country) VALUES
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/johndoe.jpg', 'Passionné de musique électronique', 'Paris', 'France'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'http://photo-de-profil.fr/marie.jpg', 'Productrice de hip-hop', 'Lyon', 'France'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/pierre.jpg', 'Guitariste et auteur-compositeur', 'Marseille', 'France');
 
 INSERT INTO tracks (title, artist, url, user_id) VALUES
 ('Electro Vibes', 'JohnD999', 'https://soundcloud.com/johnd999/electro-vibes', 1),

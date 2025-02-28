@@ -14,6 +14,7 @@ import GenreSelectionModal from '@/components/GenreSelectionModal';
 import Biography from '@/components/Biography';
 import AddTrackModal from '@/components/AddTrackModal';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import Location from '@/components/Location';
 
 interface Track {
   id: number;
@@ -204,7 +205,7 @@ export default function Profile() {
               ))}
             </ul>
           </div>
-          <h3 className="text-[#F2F6FF] p-5 font-bold text-2xl">Sacramento, USA</h3>
+          <Location />
           <Biography />
         </div>
         <div className="w-full max-w-2xl px-4">
