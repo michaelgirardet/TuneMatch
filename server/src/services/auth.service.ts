@@ -12,22 +12,25 @@ export class AuthService {
 
   constructor(dbPool: typeof pool) {
     this.pool = dbPool;
-    console.log('AuthService initialisé avec le secret JWT:', this.JWT_SECRET.substring(0, 10) + '...');
+    console.log(
+      'AuthService initialisé avec le secret JWT:',
+      this.JWT_SECRET.substring(0, 10) + '...'
+    );
   }
 
   async register(input: RegisterInput): Promise<User> {
     // Hash du mot de passe
-    const hashedPassword = await argon2.hash(input.mot_de_passe);
+    const hashedPassword = await argon2.hash(input.password);
 
     // Insertion dans la base de données
     const [result] = await this.pool.execute(
-      'INSERT INTO Utilisateur (nom_utilisateur, email, mot_de_passe, role) VALUES (?, ?, ?, ?)',
+      'INSERT INTO Utilisateur (nom_utilisateur, email, password, role) VALUES (?, ?, ?, ?)',
       [input.nom_utilisateur, input.email, hashedPassword, input.role]
     );
 
     return {
       ...input,
-      mot_de_passe: hashedPassword,
+      password: hashedPassword,
     };
   }
 
@@ -44,7 +47,7 @@ export class AuthService {
     const user = users[0];
 
     // Vérification du mot de passe
-    const isValid = await argon2.verify(user.mot_de_passe, password);
+    const isValid = await argon2.verify(user.password, password);
     if (!isValid) {
       throw new Error('Mot de passe incorrect');
     }
@@ -63,7 +66,7 @@ export class AuthService {
     console.log('Token créé avec succès');
 
     // On ne renvoie pas le mot de passe
-    const { mot_de_passe, ...userWithoutPassword } = user;
+    const { password, ...userWithoutPassword } = user;
 
     return {
       token,
@@ -120,7 +123,7 @@ export class AuthService {
 
     // Mettre à jour le mot de passe et supprimer le token de réinitialisation
     await this.pool.execute(
-      'UPDATE Utilisateur SET mot_de_passe = ?, reset_token = NULL, reset_token_expires = NULL WHERE email = ?',
+      'UPDATE Utilisateur SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE email = ?',
       [hashedPassword, email]
     );
   }

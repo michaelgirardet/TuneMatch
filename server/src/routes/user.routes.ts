@@ -1,47 +1,48 @@
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import express from 'express';
 import { auth } from '../middleware/auth';
-import type { JwtPayload } from 'jsonwebtoken';
 import { socialLinksSchema, genresSchema, biographySchema } from '../utils/validation';
 import { ZodError } from 'zod';
-
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload & {
-        userId: number;
-      };
-    }
-  }
-}
+import type { AuthRequest } from '../types/auth.types';
+import type { RequestHandler } from 'express';
 
 const router = express.Router();
 
-const updatePhoto = async (req: Request, res: Response) => {
+type AuthRequestHandler = RequestHandler<{}, any, any, any, { user?: AuthRequest['user'] }>;
+
+const updatePhoto: AuthRequestHandler = async (req, res) => {
   try {
     const { photo_profil } = req.body;
     const userId = req.user?.userId;
 
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
     const [_result] = await req.app.locals.pool.execute(
-      'UPDATE Utilisateur SET photo_profil = ? WHERE id_utilisateur = ?',
+      'UPDATE users SET photo_profil = ? WHERE id = ?',
       [photo_profil, userId]
     );
 
     res.json({ message: 'Photo de profil mise à jour avec succès' });
   } catch (error) {
+    console.error('Erreur lors de la mise à jour de la photo de profil:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour de la photo de profil' });
-    console.error(error);
   }
 };
 
-const updateSocialLinks = async (req: Request, res: Response) => {
+const updateSocialLinks: AuthRequestHandler = async (req, res) => {
   try {
     const { platform, link } = socialLinksSchema.parse(req.body);
     const userId = req.user?.userId;
 
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
     const columnName = `${platform}_link`;
     const [_result] = await req.app.locals.pool.execute(
-      `UPDATE Utilisateur SET ${columnName} = ? WHERE id_utilisateur = ?`,
+      `UPDATE users SET ${columnName} = ? WHERE id = ?`,
       [link, userId]
     );
 
@@ -53,21 +54,24 @@ const updateSocialLinks = async (req: Request, res: Response) => {
         details: error.errors,
       });
     }
+    console.error('Erreur lors de la mise à jour du lien social:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour du lien social' });
-    console.error(error);
   }
 };
 
-const updateGenres = async (req: Request, res: Response) => {
+const updateGenres: AuthRequestHandler = async (req, res) => {
   try {
     const { genres } = genresSchema.parse(req.body);
     const userId = req.user?.userId;
 
-    // Convertir le tableau en chaîne
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
     const genresString = genres.join(',');
 
     const [_result] = await req.app.locals.pool.execute(
-      'UPDATE Utilisateur SET genres_musicaux = ? WHERE id_utilisateur = ?',
+      'UPDATE users SET genres_musicaux = ? WHERE id = ?',
       [genresString, userId]
     );
 
@@ -82,18 +86,22 @@ const updateGenres = async (req: Request, res: Response) => {
         details: error.errors,
       });
     }
+    console.error('Erreur lors de la mise à jour des genres musicaux:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour des genres musicaux' });
-    console.error(error);
   }
 };
 
-const updateBiography = async (req: Request, res: Response) => {
+const updateBiography: AuthRequestHandler = async (req, res) => {
   try {
     const { biography } = biographySchema.parse(req.body);
     const userId = req.user?.userId;
 
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
     const [_result] = await req.app.locals.pool.execute(
-      'UPDATE Utilisateur SET biographie = ? WHERE id_utilisateur = ?',
+      'UPDATE users SET biography = ? WHERE id = ?',
       [biography, userId]
     );
 
@@ -105,8 +113,8 @@ const updateBiography = async (req: Request, res: Response) => {
         details: error.errors,
       });
     }
-    res.status(500).json({ error: 'Erreur lors de la mise à jour du lien social' });
-    console.error(error);
+    console.error('Erreur lors de la mise à jour de la biographie:', error);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de la biographie' });
   }
 };
 

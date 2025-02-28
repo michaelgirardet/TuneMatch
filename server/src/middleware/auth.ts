@@ -1,9 +1,10 @@
-import type { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction, RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
+import { AuthRequest, AuthUser } from '../types/auth.types';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tunematch_secret_key_2024';
 
-export const auth = (req: Request, res: Response, next: NextFunction) => {
+export const auth: RequestHandler = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
     console.log("En-tête d'autorisation reçu:", authHeader);
@@ -32,29 +33,34 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
         `${JWT_SECRET.substring(0, 10)}...`
       );
 
-      const decoded = jwt.verify(token, JWT_SECRET) as {
-        userId: number;
-        email: string;
-        role: string;
-        exp: number;
-      };
+      const decoded = jwt.verify(token, JWT_SECRET) as AuthUser;
+
+      // Vérifier que le userId est présent
+      if (!decoded.userId) {
+        console.log('Token invalide: userId manquant');
+        return res.status(401).json({ 
+          message: 'Token invalide: userId manquant',
+          clearToken: true 
+        });
+      }
 
       console.log('Token décodé avec succès:', {
         userId: decoded.userId,
         email: decoded.email,
         role: decoded.role,
-        exp: new Date(decoded.exp * 1000).toISOString(),
+        exp: decoded.exp ? new Date(decoded.exp * 1000).toISOString() : 'non défini',
       });
 
       // Vérification de l'expiration avec une marge de 5 minutes
-      const currentTime = Math.floor(Date.now() / 1000);
-      if (decoded.exp - currentTime < 300) {
-        // 300 secondes = 5 minutes
-        console.log("Token proche de l'expiration, rafraîchissement nécessaire");
-        return res.status(401).json({
-          message: 'Token expiré',
-          needsRefresh: true,
-        });
+      if (decoded.exp) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (decoded.exp - currentTime < 300) { // 300 secondes = 5 minutes
+          console.log("Token proche de l'expiration, rafraîchissement nécessaire");
+          return res.status(401).json({
+            message: 'Token expiré',
+            needsRefresh: true,
+          });
+        }
       }
 
       req.user = decoded;
@@ -79,5 +85,27 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
   } catch (error) {
     console.error("Erreur dans le middleware d'authentification:", error);
     res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token manquant' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if (typeof decoded === 'object' && decoded !== null && 
+        'userId' in decoded && 'email' in decoded && 'role' in decoded) {
+      req.user = decoded as AuthUser;
+      next();
+    } else {
+      return res.status(403).json({ message: 'Token invalide: données manquantes' });
+    }
+  } catch (error) {
+    return res.status(403).json({ message: 'Token invalide' });
   }
 };

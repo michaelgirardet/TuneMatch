@@ -7,104 +7,106 @@ USE tunematch;
 -- Modèle Conceptuel de Données (MCD)
 -- Entités et relations principales
 
--- TABLE Utilisateur (Artiste ou Producteur)
-CREATE TABLE Utilisateur (
-    id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
+-- TABLE Users (table principale)
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     nom_utilisateur VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    mot_de_passe VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     role ENUM('artiste', 'producteur') NOT NULL,
     photo_profil VARCHAR(255),
-    biographie TEXT,
+    biography TEXT,
     localisation VARCHAR(100),
-    date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    reset_token VARCHAR(255),
-    reset_token_expires TIMESTAMP NULL,
     youtube_link VARCHAR(255),
     instagram_link VARCHAR(255),
     soundcloud_link VARCHAR(255),
-    genres_musicaux VARCHAR(255)
+    genres_musicaux VARCHAR(255),
+    reset_token VARCHAR(255),
+    reset_token_expires TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- TABLE Profil Artiste (Spécifique aux artistes)
-CREATE TABLE ProfilArtiste (
-    id_artiste INT PRIMARY KEY,
-    id_utilisateur INT UNIQUE NOT NULL,
+-- TABLE Tracks (dépend de users)
+CREATE TABLE tracks (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    artist VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- TABLE Profil Artiste (dépend de users)
+CREATE TABLE profil_artiste (
+    id_artiste INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE NOT NULL,
     genre_musical VARCHAR(100),
     instruments_pratiques VARCHAR(255),
     reseaux_sociaux TEXT,
-    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- TABLE Profil Producteur (Spécifique aux producteurs)
-CREATE TABLE ProfilProducteur (
-    id_producteur INT PRIMARY KEY,
-    id_utilisateur INT UNIQUE NOT NULL,
+-- TABLE Profil Producteur (dépend de users)
+CREATE TABLE profil_producteur (
+    id_producteur INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE NOT NULL,
     style_recherche VARCHAR(100),
     label_studio VARCHAR(255),
     projets_en_cours TEXT,
     liens_professionnels TEXT,
-    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- TABLE Morceaux (Liens vers les musiques des artistes)
-CREATE TABLE Morceaux (
-    id_morceau INT PRIMARY KEY AUTO_INCREMENT,
-    id_artiste INT NOT NULL,
-    titre VARCHAR(255) NOT NULL,
-    lien_musique VARCHAR(255) NOT NULL,
-    FOREIGN KEY (id_artiste) REFERENCES ProfilArtiste(id_artiste) ON DELETE CASCADE
-);
-
--- TABLE Matchs (Mise en relation entre Artistes et Producteurs)
-CREATE TABLE Matchs (
+-- TABLE Matchs (dépend de profil_artiste et profil_producteur)
+CREATE TABLE matchs (
     id_match INT PRIMARY KEY AUTO_INCREMENT,
     id_artiste INT NOT NULL,
     id_producteur INT NOT NULL,
     statut ENUM('en attente', 'accepté', 'rejeté') DEFAULT 'en attente',
     date_match TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_artiste) REFERENCES ProfilArtiste(id_artiste) ON DELETE CASCADE,
-    FOREIGN KEY (id_producteur) REFERENCES ProfilProducteur(id_producteur) ON DELETE CASCADE
+    FOREIGN KEY (id_artiste) REFERENCES profil_artiste(id_artiste) ON DELETE CASCADE,
+    FOREIGN KEY (id_producteur) REFERENCES profil_producteur(id_producteur) ON DELETE CASCADE
 );
 
--- TABLE Messages (Messagerie entre utilisateurs)
-CREATE TABLE Messages (
+-- TABLE Messages (dépend de users)
+CREATE TABLE messages (
     id_message INT PRIMARY KEY AUTO_INCREMENT,
     id_expediteur INT NOT NULL,
     id_destinataire INT NOT NULL,
     contenu TEXT NOT NULL,
     date_envoi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_expediteur) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE,
-    FOREIGN KEY (id_destinataire) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE
+    FOREIGN KEY (id_expediteur) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_destinataire) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- Données de test (dans l'ordre des dépendances)
+INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, localisation) VALUES
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/johndoe.jpg', 'Passionné de musique électronique', 'Barcelone'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'http://photo-de-profil.fr/marie.jpg', 'Productrice de hip-hop', 'Paris'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/pierre.jpg', 'Guitariste et auteur-compositeur', 'Lyon');
 
--- Insertion de données d'exemple pour la table Utilisateur
-INSERT INTO Utilisateur (nom_utilisateur, email, mot_de_passe, role, photo_profil, biographie, localisation, date_inscription) VALUES
-  ('JohnD999', 'johndoe@example.com', '123456', 'artiste', 'http://photo-de-profil.fr/johndoe.jpg', 'Passionné de musique électronique', 'Barcelone', NOW()),
-  ('Marie Martin', 'marie@example.com', 'abcdef', 'producteur', 'http://photo-de-profil.fr/marie.jpg', 'Productrice de hip-hop', 'Paris', NOW()),
-  ('Pierre Durant', 'pierre@example.com', 'xyz789', 'artiste', 'http://photo-de-profil.fr/pierre.jpg', 'Guitariste et auteur-compositeur', 'Lyon', NOW());
+INSERT INTO tracks (title, artist, url, user_id) VALUES
+('Electro Vibes', 'JohnD999', 'https://soundcloud.com/johnd999/electro-vibes', 1),
+('Rock Anthem', 'Pierre Durant', 'https://youtube.com/pierredurant/rock-anthem', 3);
 
--- Insertion de données pour les artistes (associés aux utilisateurs)
-INSERT INTO ProfilArtiste (id_artiste, id_utilisateur, genre_musical, instruments_pratiques, reseaux_sociaux) VALUES
-  (1, 1, 'Électro', 'Synthétiseur, DJ', 'https://instagram.com/johnd999'),
-  (2, 3, 'Rock', 'Guitare, Chant', 'https://facebook.com/pierredurantmusic');
+INSERT INTO profil_artiste (user_id, genre_musical, instruments_pratiques, reseaux_sociaux) VALUES
+(1, 'Électro', 'Synthétiseur, DJ', 'https://instagram.com/johnd999'),
+(3, 'Rock', 'Guitare, Chant', 'https://facebook.com/pierredurantmusic');
 
--- Insertion de données pour les producteurs (associés aux utilisateurs)
-INSERT INTO ProfilProducteur (id_producteur, id_utilisateur, style_recherche, label_studio, projets_en_cours, liens_professionnels) VALUES
-  (1, 2, 'Hip-Hop, Trap', 'Paris Sound Studio', 'Recrute des talents émergents', 'https://linkedin.com/in/mariemartin');
+INSERT INTO profil_producteur (user_id, style_recherche, label_studio, projets_en_cours, liens_professionnels) VALUES
+(2, 'Hip-Hop, Trap', 'Paris Sound Studio', 'Recrute des talents émergents', 'https://linkedin.com/in/mariemartin');
 
--- Insertion de morceaux pour les artistes
-INSERT INTO Morceaux (id_artiste, titre, lien_musique) VALUES
-  (1, 'Electro Vibes', 'https://soundcloud.com/johnd999/electro-vibes'),
-  (2, 'Rock Anthem', 'https://youtube.com/pierredurant/rock-anthem');
+INSERT INTO matchs (id_artiste, id_producteur) VALUES
+(1, 1),
+(2, 1);
 
--- Insertion d'une mise en relation (Matchs)
-INSERT INTO Matchs (id_artiste, id_producteur, statut) VALUES
-  (1, 1, 'en attente'),
-  (2, 1, 'accepté');
-
--- Insertion de messages entre utilisateurs
-INSERT INTO Messages (id_expediteur, id_destinataire, contenu) VALUES
-  (1, 2, 'Salut Marie, intéressée par un featuring électro ?'),
-  (2, 1, 'Salut John, j\'aime ton style ! On peut en discuter.');
+INSERT INTO messages (id_expediteur, id_destinataire, contenu) VALUES
+(1, 2, 'Salut Marie, intéressée par un featuring électro ?'),
+(2, 1, 'Salut John, j\'aime ton style ! On peut en discuter.');

@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { ToasterError, ToasterSuccess } from './Toast';
 import { useAuthStore } from '@/store/authStore';
+import EditIcon from '@/public/pen-to-square-solid.svg';
+import Image from 'next/image';
 
 export default function Biography() {
   const [biography, setBiography] = useState('');
@@ -80,17 +82,17 @@ export default function Biography() {
 
   return (
     <div className="relative p-5">
-      <button
-        type="submit"
+      <p
+        className="font-montserrat p-7 bg-[#1d1e2c] rounded-2 text-white "
         onClick={() => {
           setBiography(user?.biography || '');
           setIsEditing(true);
         }}
-        className="absolute top-7 right-7 text-white hover:text-gray-300 transition-colors font-sulphur"
+        onKeyDown={() => {
+          setBiography(user?.biography || '');
+          setIsEditing(true);
+        }}
       >
-        Modifier
-      </button>
-      <p className="font-montserrat p-5 bg-[#1d1e2c] rounded-lg text-white">
         {biography ||
           "Aucune biographie pour l'instant. Cliquez sur Modifier pour en ajouter une !"}
       </p>

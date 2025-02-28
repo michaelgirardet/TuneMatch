@@ -24,27 +24,70 @@ export default function Navbar() {
   return (
     <nav className="bg-[#1d1e2c] p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center">
-          <span className="text-white text-xl font-bold ml-2 font-quicksand">TuneMatch</span>
+        <Link href="/" className="flex items-center gap-2">
+          <h1 className="text-white text-2xl font-sulphur">TuneMatch</h1>
         </Link>
-        <div className="flex gap-4">
+
+        {/* Navigation Desktop */}
+        <div className="hidden md:flex gap-6 items-center">
           {isAuthenticated ? (
             <>
+              <Link
+                href="/"
+                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+              >
+                Accueil
+              </Link>
+              <Link
+                href="/profile"
+                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+              >
+                Profile
+              </Link>
+              <Link
+                href="/login"
+                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+                onClick={handleLogout}
+              >
+                Déconnexion
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+              >
+                Connexion
+              </Link>
+              <Link
+                href="/register"
+                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+              >
+                Inscription
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Navigation Mobile */}
+        <div className="md:hidden">
+          <Image
+            src={LogoBurger}
+            alt="logo du burger menu"
+            onClick={handleBuger}
+            className="w-7 cursor-pointer"
+          />
+          {isBurger && (
+            <div className="fixed top-0 right-0 w-full h-full flex flex-col justify-start items-start p-10 gap-5 bg-[#A71666] font-montserrat z-50">
               <Image
-                src={LogoBurger}
-                alt="logo du burger menu"
+                src={CloseIcon}
+                alt="fermeture du menu"
                 onClick={handleBuger}
-                onKeyDown={handleBuger}
-                className="w-7"
+                className="w-7 self-end cursor-pointer"
               />
-              {isBurger && (
-                <div className="absolute top-0 right-0 w-[100vw] h-[100vh] flex flex-col justify-start items-start p-10 gap-5 bg-[#A71666] font-montserrat rounded-sm z-50">
-                  <Image
-                    src={CloseIcon}
-                    alt="fermeture du menu"
-                    onClick={handleBuger}
-                    className="w-7 self-end"
-                  />
+              {isAuthenticated ? (
+                <>
                   <Link
                     href="/"
                     className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
@@ -57,36 +100,16 @@ export default function Navbar() {
                   >
                     Profile
                   </Link>
-                  {isAuthenticated && (
-                    <Link
-                      href="/login"
-                      className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
-                      onClick={handleLogout}
-                      onKeyDown={handleLogout}
-                    >
-                      Déconnexion
-                    </Link>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              <Image
-                src={LogoBurger}
-                alt="logo du burger menu"
-                onClick={handleBuger}
-                onKeyDown={handleBuger}
-                className="w-7"
-              />
-              {isBurger && (
-                <div className="absolute top-0 right-0 w-[100vw] h-[100vh] flex flex-col justify-start items-start p-10 gap-5 bg-[#A71666] font-montserrat rounded-sm">
-                  <Image
-                    src={CloseIcon}
-                    alt="fermeture du menu"
-                    onClick={handleBuger}
-                    className="w-7 self-end"
-                  />
+                  <Link
+                    href="/login"
+                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    onClick={handleLogout}
+                  >
+                    Déconnexion
+                  </Link>
+                </>
+              ) : (
+                <>
                   <Link
                     href="/login"
                     className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
@@ -99,9 +122,9 @@ export default function Navbar() {
                   >
                     Inscription
                   </Link>
-                </div>
+                </>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

@@ -49,16 +49,17 @@ export default function GenreSelectionModal({
   };
 
   const handleGenreToggle = (genre: string) => {
-    setSelectedGenres((prev) => {
-      if (prev.includes(genre)) {
-        return prev.filter((g) => g !== genre);
-      }
-      if (prev.length >= 3) {
-        ToasterError('Vous ne pouvez sélectionner que 3 genres maximum');
-        return prev;
-      }
-      return [...prev, genre];
-    });
+    if (selectedGenres.includes(genre)) {
+      setSelectedGenres(prev => prev.filter(g => g !== genre));
+      return;
+    }
+    
+    if (selectedGenres.length >= 3) {
+      ToasterError('Vous ne pouvez sélectionner que 3 genres maximum');
+      return;
+    }
+    
+    setSelectedGenres(prev => [...prev, genre]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

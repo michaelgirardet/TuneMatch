@@ -8,10 +8,19 @@ import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
 import AudioPlayer from '@/components/AudioPlayer';
 import ProfilePhoto from '@/components/ProfilePhoto';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SocialLinksModal from '@/components/SocialLinksModal';
 import GenreSelectionModal from '@/components/GenreSelectionModal';
 import Biography from '@/components/Biography';
+import AddTrackModal from '@/components/AddTrackModal';
+import { ToasterError, ToasterSuccess } from '@/components/Toast';
+
+interface Track {
+  id: number;
+  title: string;
+  artist: string;
+  url: string;
+}
 
 interface SocialLinks {
   youtube?: string;
@@ -20,7 +29,7 @@ interface SocialLinks {
 }
 
 export default function Profile() {
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUser, token } = useAuthStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [genreModalOpen, setGenreModalOpen] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>(
@@ -32,6 +41,8 @@ export default function Profile() {
     instagram: 'https://www.instagram.com/',
     soundcloud: 'https://soundcloud.com/',
   });
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [isAddTrackModalOpen, setIsAddTrackModalOpen] = useState(false);
 
   const handlePhotoUpdate = (url: string) => {
     if (user) {
@@ -51,6 +62,83 @@ export default function Profile() {
   const handleUpdateGenres = (newGenres: string[]) => {
     setGenres(newGenres);
   };
+
+  const handleAddTrack = () => {
+    setIsAddTrackModalOpen(true);
+  };
+
+  const handleTrackSubmit = async (trackData: { title: string; artist: string; url: string }) => {
+    try {
+      const response = await fetch('http://localhost:5001/api/tracks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(trackData),
+      });
+
+      if (response.ok) {
+        const newTrack = await response.json();
+        setTracks([...tracks, newTrack]);
+        ToasterSuccess('Morceau ajouté avec succès !');
+      } else {
+        const error = await response.json();
+        ToasterError(error.message || 'Erreur lors de l\'ajout du morceau');
+      }
+    } catch (error) {
+      ToasterError('Erreur lors de la connexion au serveur');
+    }
+  };
+
+  const handleDeleteTrack = async (trackId: number) => {
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce morceau ?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5001/api/tracks/${trackId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        setTracks(tracks.filter(track => track.id !== trackId));
+        ToasterSuccess('Morceau supprimé avec succès !');
+      } else {
+        const error = await response.json();
+        ToasterError(error.message || 'Erreur lors de la suppression du morceau');
+      }
+    } catch (error) {
+      ToasterError('Erreur lors de la connexion au serveur');
+    }
+  };
+
+  // Charger les morceaux au montage du composant
+  useEffect(() => {
+    const fetchTracks = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/tracks', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setTracks(data);
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des morceaux:', error);
+      }
+    };
+
+    if (token) {
+      fetchTracks();
+    }
+  }, [token]);
 
   return (
     <main className="min-h-screen w-full flex flex-col">
@@ -117,8 +205,12 @@ export default function Profile() {
           <h3 className="text-white p-5 font-bold text-2xl">Sacramento, USA</h3>
           <Biography />
         </div>
-        <div className="player-div">
-          <AudioPlayer />
+        <div className="w-full max-w-2xl px-4">
+          <AudioPlayer 
+            tracks={tracks} 
+            onAddTrack={handleAddTrack}
+            onDeleteTrack={handleDeleteTrack}
+          />
         </div>
       </div>
       <Footer />
@@ -134,6 +226,11 @@ export default function Profile() {
         onClose={() => setGenreModalOpen(false)}
         onUpdate={handleUpdateGenres}
         currentGenres={genres}
+      />
+      <AddTrackModal
+        isOpen={isAddTrackModalOpen}
+        onClose={() => setIsAddTrackModalOpen(false)}
+        onAdd={handleTrackSubmit}
       />
     </main>
   );

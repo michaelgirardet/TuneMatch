@@ -12,7 +12,7 @@ export default function Login() {
   const login = useAuthStore((state) => state.login);
   const [formData, setFormData] = useState({
     email: '',
-    mot_de_passe: '',
+    password: '',
   });
   const [error, setError] = useState('');
 
@@ -71,8 +71,8 @@ export default function Login() {
             <input
               type="password"
               id="password"
-              name="mot_de_passe"
-              value={formData.mot_de_passe}
+              name="password"
+              value={formData.password}
               onChange={handleChange}
               placeholder="Password"
               className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"

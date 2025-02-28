@@ -12,7 +12,7 @@ export default function Register() {
     role: '',
     nom_utilisateur: '',
     email: '',
-    mot_de_passe: '',
+    password: '',
     confirm_password: '',
   });
   const [error, setError] = useState('');
@@ -23,7 +23,7 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.mot_de_passe !== formData.confirm_password) {
+    if (formData.password !== formData.confirm_password) {
       setError('Les mots de passe ne correspondent pas');
       return;
     }
@@ -32,7 +32,7 @@ export default function Register() {
       role: formData.role,
       nom_utilisateur: formData.nom_utilisateur,
       email: formData.email,
-      mot_de_passe: formData.mot_de_passe,
+      password: formData.password,
     };
 
     try {
@@ -109,8 +109,8 @@ export default function Register() {
 
           <input
             type="password"
-            name="mot_de_passe"
-            value={formData.mot_de_passe}
+            name="password"
+            value={formData.password}
             onChange={handleChange}
             placeholder="Password"
             className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
