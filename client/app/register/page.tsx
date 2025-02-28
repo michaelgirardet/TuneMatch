@@ -1,102 +1,142 @@
-import Link from 'next/link';
-import WhiteHouse from '../../public/house-icon-wh.svg';
-import WhiteLogin from '../../public/login-icon-wh.svg';
-import Image from 'next/image';
+'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Navbar from '@/components/Navbar';
+import Footer from '../../components/Footer';
+import { toast } from 'react-toastify';
+import { ToasterError } from '@/components/Toast';
 
 export default function Register() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    role: '',
+    nom_utilisateur: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirm_password) {
+      setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    const dataToSend = {
+      role: formData.role,
+      nom_utilisateur: formData.nom_utilisateur,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    try {
+      const response = await fetch('http://localhost:5001/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataToSend),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log('Erreur serveur:', errorData); // Pour débugger
+        setError(errorData.error || "Erreur lors de l'inscription");
+        ToasterError('🚨 Oups, fausse note ! Quelque chose a cloché. Réessaie !');
+      } else {
+        toast.success(
+          "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",
+          {
+            position: 'top-right',
+            autoClose: 5000,
+          }
+        );
+        router.push('/login');
+      }
+    } catch (_err) {
+      setError('Erreur de connexion au serveur');
+    }
+  };
+
   return (
     <main className="min-h-screen w-full flex flex-col">
-      <nav className="navbar">
-        <ul>
-          <li>
-            <Link href="/login" className="text-white hover:text-gray-300">
-              <Image
-                className="w-7"
-                src={WhiteLogin}
-                alt="utilisateur blanc"
-                aria-label="icon de navigation vers la page de connexion"
-              />
-            </Link>
-          </li>
-          <li>
-            <Link href="/" className="text-white hover:text-gray-300">
-              <Image
-                className="w-7"
-                src={WhiteHouse}
-                alt="maison blanche"
-                aria-label="icon de navigation vers la page d'
-              accueil"
-              />
-            </Link>
-          </li>
-        </ul>
+      <nav>
+        <Navbar />
       </nav>
-      <div className="flex flex-col items-center justify-center h-[85vh]" id="register-form">
-        <form className="flex flex-col justify-center items-center pb-7 gap-5">
+      <div className="flex flex-col items-center justify-center h-[86vh]" id="register-form">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col justify-center items-center pb-7 gap-5"
+        >
           <h1 className="title font-quicksand text-4xl pb-10 text-center">Inscription</h1>
-          <div className="p-5 flex flex-col justify-center item-center">
-            <label htmlFor="email" className="form-label font-sulphur" aria-label="email form" />
-            <select
-              name="role"
-              id="role-select"
-              className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              required
-            >
-              <option value="">Choisissez votre status</option>
-              <option value="producteur">Producteur</option>
-              <option value="artiste">Artiste</option>
-            </select>
-          </div>
-          <div className="flex flex-col justify-center item-center">
-            <label htmlFor="password" className="form-label" aria-label="password-input" />
-            <input
-              type="username"
-              id="username"
-              placeholder="Username"
-              className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              required
-            />
-          </div>
-          <div className="p-5 flex flex-col justify-center item-center">
-            <label htmlFor="email" className="form-label" aria-label="email form" />
-            <input
-              type="email"
-              id="email"
-              className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div className="p-5 flex flex-col justify-center item-center">
-            <label htmlFor="password" className="form-label" aria-label="email form" />
-            <input
-              type="password"
-              id="password"
-              className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              placeholder="Password"
-              required
-            />
-          </div>
-          <div className="p-5 flex flex-col justify-center item-center">
-            <label htmlFor="password" className="form-label" aria-label="email form" />
-            <input
-              type="password"
-              id="password"
-              className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              placeholder="Confirm Password"
-              required
-            />
-          </div>
+          {error && <p className="text-red-500">{error}</p>}
+
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            required
+          >
+            <option value="">Choisissez votre status</option>
+            <option value="producteur">Producteur</option>
+            <option value="artiste">Artiste</option>
+          </select>
+
+          <input
+            type="text"
+            name="nom_utilisateur"
+            value={formData.nom_utilisateur}
+            onChange={handleChange}
+            placeholder="Username"
+            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            required
+          />
+
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            required
+          />
+
+          <input
+            type="password"
+            name="confirm_password"
+            value={formData.confirm_password}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            required
+          />
+
           <button
             type="submit"
             className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center"
           >
-            Submit
+            S'inscrire
           </button>
         </form>
       </div>
-      <footer className="py-4 text-center bg-gray-800 text-white mt-auto">
-        Copyright TuneMatch 2025
+      <footer>
+        <Footer />
       </footer>
     </main>
   );

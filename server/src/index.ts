@@ -7,6 +7,9 @@ import dotenv from 'dotenv';
 import type { DatabaseConfig } from './types';
 import { UserController } from './controllers/userController';
 import testRoutes from './routes/test.routes';
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
+import tracksRoutes from './routes/tracks.routes';
 
 dotenv.config();
 
@@ -20,10 +23,11 @@ const dbConfig: DatabaseConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'mon_projet',
+  database: process.env.DB_NAME || 'tunematch',
 };
 
 const pool: Pool = mysql.createPool(dbConfig);
+app.locals.pool = pool;
 
 // Initialisation des contrôleurs
 const userController = new UserController(pool);
@@ -31,6 +35,9 @@ const userController = new UserController(pool);
 // Routes
 app.post('/api/users', userController.createUser);
 app.get('/api/users', userController.getUsers);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/tracks', tracksRoutes);
 app.use('/api', testRoutes);
 
 const PORT: number = Number.parseInt(process.env.PORT || '5000', 10);

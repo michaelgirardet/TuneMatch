@@ -12,5 +12,6 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
     next();
   } catch (error) {
     res.status(400).json({ error: 'Données invalides' });
+    console.error(error);
   }
 };

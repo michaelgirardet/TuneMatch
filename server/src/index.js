@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 });
 
 // Route de test
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (_req, res) => {
   res.json({ message: 'Connexion réussie avec le serveur!' });
 });
 

@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import { logger } from '@/utils/logger';
 import { CustomError } from '@/utils/errors';
 
-export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   logger.error('Erreur:', {
     error: err.message,
     stack: err.stack,

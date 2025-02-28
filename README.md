@@ -109,7 +109,7 @@ NEXT_PUBLIC_API_URL=http://localhost:5000
 PORT=5000
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=votre_mot_de_passe
+DB_PASSWORD=votre_password
 DB_NAME=mon_projet
 JWT_SECRET=votre_secret
 ```
