@@ -1,6 +1,5 @@
 import './globals.css';
 import { Montserrat, Quicksand, Sulphur_Point } from 'next/font/google';
-import { AuthProvider } from './contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
 
 const montserrat = Montserrat({
@@ -33,7 +32,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${quicksand.variable} ${sulphurPoint.variable}`}
     >
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        {children}
         <ToastContainer />
       </body>
     </html>

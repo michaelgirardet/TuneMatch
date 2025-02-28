@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { useRouter } from 'next/router';
 
 interface User {
   id_utilisateur?: number;
@@ -8,6 +7,7 @@ interface User {
   email: string;
   role: 'artiste' | 'producteur';
   photo_profil: string;
+  biography: string;
 }
 
 interface AuthStore {

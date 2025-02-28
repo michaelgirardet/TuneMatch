@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
+import type { Request, Response } from 'express';
+import express from 'express';
 import { auth } from '../middleware/auth';
-import { JwtPayload } from 'jsonwebtoken';
-import { socialLinksSchema, genresSchema } from '../utils/validation';
+import type { JwtPayload } from 'jsonwebtoken';
+import { socialLinksSchema, genresSchema, biographySchema } from '../utils/validation';
 import { ZodError } from 'zod';
 
 declare global {
@@ -70,9 +71,9 @@ const updateGenres = async (req: Request, res: Response) => {
       [genresString, userId]
     );
 
-    res.json({ 
+    res.json({
       message: 'Genres musicaux mis à jour avec succès',
-      genres: genres
+      genres: genres,
     });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -86,8 +87,32 @@ const updateGenres = async (req: Request, res: Response) => {
   }
 };
 
+const updateBiography = async (req: Request, res: Response) => {
+  try {
+    const { biography } = biographySchema.parse(req.body);
+    const userId = req.user?.userId;
+
+    const [_result] = await req.app.locals.pool.execute(
+      'UPDATE Utilisateur SET biographie = ? WHERE id_utilisateur = ?',
+      [biography, userId]
+    );
+
+    res.json({ message: 'Biographie mise à jour avec succès' });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        error: 'Données invalides',
+        details: error.errors,
+      });
+    }
+    res.status(500).json({ error: 'Erreur lors de la mise à jour du lien social' });
+    console.error(error);
+  }
+};
+
 router.put('/photo', auth, updatePhoto);
 router.put('/social-links', auth, updateSocialLinks);
 router.put('/genres', auth, updateGenres);
+router.put('/biography', auth, updateBiography);
 
 export default router;

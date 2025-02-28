@@ -66,7 +66,7 @@ export default function ProfilePhotoModal({
             >
               Annuler
             </button>
-            <button type="submit" className="px-4 py-2 rounded bg-[#d31638] text-white">
+            <button type="submit" className="px-4 py-2 rounded bg-[#a71666] text-white">
               Enregistrer
             </button>
           </div>

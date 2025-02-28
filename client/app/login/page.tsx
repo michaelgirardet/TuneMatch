@@ -2,14 +2,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
-import { useAuth } from '../contexts/AuthContext';
 import Navbar from '@/components/Navbar';
 import Footer from '../../components/Footer';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import Link from 'next/link';
 
 export default function Login() {
-  const { setIsAuthenticated } = useAuth();
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
   const [formData, setFormData] = useState({
@@ -35,7 +33,6 @@ export default function Login() {
         const data = await response.json();
         login(data.token, data.user);
         router.push('/profile');
-        () => setIsAuthenticated(true);
         ToasterSuccess('🔥 Vous êtes branché ! Prêt à faire vibrer la scène ?');
       } else {
         const errorData = await response.json();

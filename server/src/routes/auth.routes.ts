@@ -1,10 +1,7 @@
-import express, { Request, Response } from 'express';
+import type { Request, Response } from 'express';
+import express from 'express';
 import { AuthController } from '../controllers/auth.controller';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { registerSchema, loginSchema, forgotPasswordSchema, resetPasswordSchema } from '../utils/validation';
-import { ZodError } from 'zod';
-import { sendResetPasswordEmail } from '../utils/email';
 
 const router = express.Router();
 const authController = new AuthController();
@@ -49,7 +46,7 @@ const refreshToken = async (req: Request, res: Response) => {
         {
           userId: user.id_utilisateur,
           email: user.email,
-          role: user.role
+          role: user.role,
         },
         JWT_SECRET,
         { expiresIn: TOKEN_EXPIRATION }
@@ -70,4 +67,4 @@ const refreshToken = async (req: Request, res: Response) => {
 
 router.post('/refresh', refreshToken);
 
-export default router; 
+export default router;

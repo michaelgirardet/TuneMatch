@@ -12,8 +12,6 @@ import userRoutes from './routes/user.routes';
 
 dotenv.config();
 
-console.log('JWT_SECRET chargé:', process.env.JWT_SECRET);
-
 const app: Express = express();
 
 app.use(cors());

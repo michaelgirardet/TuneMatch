@@ -8,6 +8,7 @@ interface User {
   email: string;
   role: 'artiste' | 'producteur';
   photo_profil: string;
+  biography: string;
 }
 
 interface JwtPayload {
@@ -69,9 +70,9 @@ export const useAuthStore = create<AuthStore>()(
           const response = await fetch('http://localhost:5001/api/auth/refresh', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ token })
+            body: JSON.stringify({ token }),
           });
 
           if (!response.ok) {
@@ -90,10 +91,10 @@ export const useAuthStore = create<AuthStore>()(
           get().forceLogout();
           return false;
         }
-      }
+      },
     }),
     {
       name: 'auth-storage',
     }
   )
-); 
+);

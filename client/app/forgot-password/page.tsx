@@ -2,7 +2,6 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
-import { SuccessModal, ErrModal } from '@/components/Modals';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
 
 export default function ForgotPassword() {
