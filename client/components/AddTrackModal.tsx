@@ -33,7 +33,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const error = validateYoutubeUrl(youtubeUrl);
     if (error) {
       ToasterError(error);
@@ -48,20 +48,22 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
 
     // Vérifier si la vidéo existe
     try {
-      const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+      const response = await fetch(
+        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+      );
       if (!response.ok) {
         ToasterError("Cette vidéo YouTube n'existe pas ou n'est pas accessible");
         return;
       }
     } catch {
-      ToasterError("Erreur lors de la vérification de la vidéo YouTube");
+      ToasterError('Erreur lors de la vérification de la vidéo YouTube');
       return;
     }
 
     onAdd({
       title,
       artist,
-      url: videoId
+      url: videoId,
     });
 
     // Réinitialiser le formulaire
@@ -75,7 +77,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
   const extractYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return match && match[2].length === 11 ? match[2] : null;
   };
 
   if (!isOpen) return null;
@@ -83,14 +85,14 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#1d1e2c] p-6 rounded-lg w-full max-w-md">
-        <h2 className="text-white text-xl font-sulphur mb-4">Ajouter un morceau</h2>
+        <h2 className="text-[#F2F6FF] text-xl font-sulphur mb-4">Ajouter un morceau</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Titre du morceau"
-            className="p-2 rounded bg-gray-700 text-white"
+            className="p-2 rounded bg-gray-700 text-[#F2F6FF]"
             required
           />
           <input
@@ -98,7 +100,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
             placeholder="Nom de l'artiste"
-            className="p-2 rounded bg-gray-700 text-white"
+            className="p-2 rounded bg-gray-700 text-[#F2F6FF]"
             required
           />
           <div>
@@ -107,24 +109,22 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
               value={youtubeUrl}
               onChange={handleUrlChange}
               placeholder="URL YouTube"
-              className={`p-2 rounded bg-gray-700 text-white w-full ${urlError ? 'border border-red-500' : ''}`}
+              className={`p-2 rounded bg-gray-700 text-[#F2F6FF] w-full ${urlError ? 'border border-red-500' : ''}`}
               required
             />
-            {urlError && (
-              <p className="text-red-500 text-sm mt-1">{urlError}</p>
-            )}
+            {urlError && <p className="text-red-500 text-sm mt-1">{urlError}</p>}
           </div>
           <div className="flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF]"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-[#a71666] text-white hover:bg-[#8f1357] transition-colors"
+              className="px-4 py-2 rounded bg-[#a71666] text-[#F2F6FF] hover:bg-[#8f1357] transition-colors"
             >
               Ajouter
             </button>
@@ -133,4 +133,4 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
       </div>
     </div>
   );
-} 
+}

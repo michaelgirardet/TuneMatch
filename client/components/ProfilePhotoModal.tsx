@@ -62,11 +62,11 @@ export default function ProfilePhotoModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700 transition-colors text-white"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF]"
             >
               Annuler
             </button>
-            <button type="submit" className="px-4 py-2 rounded bg-[#a71666] text-white">
+            <button type="submit" className="px-4 py-2 rounded-lg bg-[#a71666] text-[#F2F6FF]">
               Enregistrer
             </button>
           </div>

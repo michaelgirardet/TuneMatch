@@ -22,10 +22,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-[#1d1e2c] p-4">
+    <nav className="bg-[#1d1e2c] p-4 shadow-sm">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <h1 className="text-white text-2xl font-sulphur">TuneMatch</h1>
+          <h1 className="text-[#F2F6FF] text-2xl font-sulphur">TuneMatch</h1>
         </Link>
 
         {/* Navigation Desktop */}
@@ -34,19 +34,19 @@ export default function Navbar() {
             <>
               <Link
                 href="/"
-                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
               >
                 Accueil
               </Link>
               <Link
                 href="/profile"
-                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
               >
                 Profile
               </Link>
               <Link
                 href="/login"
-                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
                 onClick={handleLogout}
               >
                 Déconnexion
@@ -56,13 +56,13 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
               >
                 Connexion
               </Link>
               <Link
                 href="/register"
-                className="text-white hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
               >
                 Inscription
               </Link>
@@ -79,7 +79,7 @@ export default function Navbar() {
             className="w-7 cursor-pointer"
           />
           {isBurger && (
-            <div className="fixed top-0 right-0 w-full h-full flex flex-col justify-start items-start p-10 gap-5 bg-[#A71666] font-montserrat z-50">
+            <div className="fixed top-0 right-0 w-full h-full flex flex-col justify-start items-start p-10 gap-5 bg-[#212936] font-montserrat z-50">
               <Image
                 src={CloseIcon}
                 alt="fermeture du menu"
@@ -90,19 +90,19 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/"
-                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
                   >
                     Accueil
                   </Link>
                   <Link
                     href="/profile"
-                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
                   >
                     Profile
                   </Link>
                   <Link
                     href="/login"
-                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
                     onClick={handleLogout}
                   >
                     Déconnexion
@@ -112,13 +112,13 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/login"
-                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
                   >
                     Connexion
                   </Link>
                   <Link
                     href="/register"
-                    className="text-white hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
                   >
                     Inscription
                   </Link>

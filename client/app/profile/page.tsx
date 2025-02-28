@@ -84,10 +84,11 @@ export default function Profile() {
         ToasterSuccess('Morceau ajouté avec succès !');
       } else {
         const error = await response.json();
-        ToasterError(error.message || 'Erreur lors de l\'ajout du morceau');
+        ToasterError(error.message || "Erreur lors de l'ajout du morceau");
       }
     } catch (error) {
       ToasterError('Erreur lors de la connexion au serveur');
+      console.error(error);
     }
   };
 
@@ -105,7 +106,7 @@ export default function Profile() {
       });
 
       if (response.ok) {
-        setTracks(tracks.filter(track => track.id !== trackId));
+        setTracks(tracks.filter((track) => track.id !== trackId));
         ToasterSuccess('Morceau supprimé avec succès !');
       } else {
         const error = await response.json();
@@ -113,6 +114,7 @@ export default function Profile() {
       }
     } catch (error) {
       ToasterError('Erreur lors de la connexion au serveur');
+      console.error(error);
     }
   };
 
@@ -125,7 +127,7 @@ export default function Profile() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setTracks(data);
@@ -193,7 +195,7 @@ export default function Profile() {
               {genres.map((genre) => (
                 <li
                   key={genre}
-                  className="font-sulphur text-white bg-black p-2 rounded cursor-pointer"
+                  className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded cursor-pointer"
                   onClick={() => setGenreModalOpen(true)}
                   onKeyDown={() => setGenreModalOpen(true)}
                 >
@@ -202,12 +204,12 @@ export default function Profile() {
               ))}
             </ul>
           </div>
-          <h3 className="text-white p-5 font-bold text-2xl">Sacramento, USA</h3>
+          <h3 className="text-[#F2F6FF] p-5 font-bold text-2xl">Sacramento, USA</h3>
           <Biography />
         </div>
         <div className="w-full max-w-2xl px-4">
-          <AudioPlayer 
-            tracks={tracks} 
+          <AudioPlayer
+            tracks={tracks}
             onAddTrack={handleAddTrack}
             onDeleteTrack={handleDeleteTrack}
           />

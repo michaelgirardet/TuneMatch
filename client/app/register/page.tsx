@@ -79,7 +79,7 @@ export default function Register() {
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           >
             <option value="">Choisissez votre status</option>
@@ -93,7 +93,7 @@ export default function Register() {
             value={formData.nom_utilisateur}
             onChange={handleChange}
             placeholder="Username"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -103,7 +103,7 @@ export default function Register() {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -113,7 +113,7 @@ export default function Register() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -123,7 +123,7 @@ export default function Register() {
             value={formData.confirm_password}
             onChange={handleChange}
             placeholder="Confirm Password"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 

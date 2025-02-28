@@ -1,6 +1,6 @@
 'use client';
 import Navbar from '@/components/Navbar';
-import Footer from '../components/Footer';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -10,7 +10,9 @@ export default function Home() {
       </nav>
       <main className="flex-1 w-full px-4 flex flex-col justify-center items-center">
         <div className="home-sct flex flex-col justify-center max-w-[500px] gap-3">
-          <h1 className="title font-quicksand text-5xl pb-10 text-center">TuneMatch</h1>
+          <h1 className="text-[#F2F6FF] title font-quicksand text-5xl pb-10 text-center">
+            TuneMatch
+          </h1>
           <h2 className="font-montserrat">🎶 Connecte tes talents, crée ta musique !</h2>
           <p className="font-montserrat">
             Bienvenue sur TuneMatch, la plateforme où artistes et producteurs se rencontrent pour
