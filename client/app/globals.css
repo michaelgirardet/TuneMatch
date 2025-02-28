@@ -18,6 +18,10 @@
     @apply w-full bg-[#1d1e2c] text-[#fafafa] h-[8vh] flex justify-end items-center px-4 sm:px-8;
   }
 
+  #page-accueil {
+    background-image: url(../public/bg.png);
+  }
+
   nav ul {
     @apply flex gap-8;
   }
@@ -52,14 +56,6 @@
   #register-form {
     overflow-y: auto;
     overflow-x: hidden;
-  }
-
-  .button {
-    background-color: #d31638;
-    color: white;
-    padding: 2em 1em;
-    border-radius: 8px;
-    font-family: "Sulphur Point", sans-serif;
   }
 
   .form-input {

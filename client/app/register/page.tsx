@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '../../components/Footer';
 import { toast } from 'react-toastify';
 import { ToasterError } from '@/components/Toast';
+import Link from 'next/link';
 
 export default function Register() {
   const router = useRouter();
@@ -126,10 +127,15 @@ export default function Register() {
             className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
-
+          <Link
+            href="/login"
+            className="font-montserrat text-[#f2f6ff] text-xs hover:text-[#a71666]"
+          >
+            Déjà enregistré ?
+          </Link>
           <button
             type="submit"
-            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center"
+            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
           >
             S'inscrire
           </button>

@@ -85,16 +85,14 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#1d1e2c] p-6 rounded-lg w-full max-w-md">
-        <h2 className="text-[#F2F6FF] text-xl font-montserrat mb-4 text-center">
-          Ajouter un morceau
-        </h2>
+        <h2 className="text-xl mb-4 font-montserrat text-center font-bold">Ajouter un morceau</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Titre du morceau"
-            className="p-2 rounded bg-gray-700 text-[#F2F6FF]"
+            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
             required
           />
           <input
@@ -102,7 +100,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
             placeholder="Nom de l'artiste"
-            className="p-2 rounded bg-gray-700 text-[#F2F6FF]"
+            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
             required
           />
           <div>
@@ -111,22 +109,22 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
               value={youtubeUrl}
               onChange={handleUrlChange}
               placeholder="URL YouTube"
-              className={`p-2 rounded bg-gray-700 text-[#F2F6FF] w-full ${urlError ? 'border border-red-500' : ''}`}
+              className={`form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur w-full ${urlError ? 'border border-red-500' : ''}`}
               required
             />
             {urlError && <p className="text-red-500 text-sm mt-1">{urlError}</p>}
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-center gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-md bg-[#OAOAOA] border text-[#F2F6FF]"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-md bg-[#a71666] text-[#F2F6FF] hover:bg-[#8f1357] transition-colors"
+              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
             >
               Ajouter
             </button>

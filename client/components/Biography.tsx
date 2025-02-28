@@ -56,10 +56,10 @@ export default function Biography() {
           <textarea
             value={biography}
             onChange={(e) => setBiography(e.target.value)}
-            className=" p-4 bg-[#0A0A0A] rounded-lg text-[#F2F6FF] font-montserrat font-extralight min-h-[150px] resize-none w-[70vw]"
+            className="p-4 bg-[#0A0A0A] rounded-lg text-[#F2F6FF] font-montserrat min-h-[200px] w-[65vw] resize-none"
             placeholder="Écrivez votre biographie ici..."
           />
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={() => setIsEditing(false)}

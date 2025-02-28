@@ -156,7 +156,7 @@ export default function Profile() {
           <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoYT}
-              className="w-12 cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer"
               alt="Logo Youtube"
               aria-label="Modifier le lien YouTube"
               onClick={(e) => {
@@ -168,7 +168,7 @@ export default function Profile() {
           <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoIG}
-              className="w-12 cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer"
               alt="Logo Instagram"
               aria-label="Modifier le lien Instagram"
               onClick={(e) => {
@@ -180,7 +180,7 @@ export default function Profile() {
           <a href={socialLinks.soundcloud} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoSoundClound}
-              className="w-12 cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer"
               alt="Logo Soundcloud"
               aria-label="Modifier le lien Soundcloud"
               onClick={(e) => {

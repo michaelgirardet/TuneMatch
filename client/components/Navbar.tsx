@@ -31,24 +31,24 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation Desktop */}
-        <div className="hidden md:flex gap-6 items-center">
+        <div className="hidden md:flex gap-4 items-center">
           {isAuthenticated ? (
             <>
               <Link
                 href="/"
-                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-montserrat"
               >
                 Accueil
               </Link>
               <Link
                 href="/profile"
-                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-montserrat"
               >
-                Profile
+                Profil
               </Link>
               <Link
                 href="/login"
-                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-montserrat"
                 onClick={handleLogout}
               >
                 Déconnexion
@@ -57,16 +57,16 @@ export default function Navbar() {
           ) : (
             <>
               <Link
-                href="/login"
-                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
-              >
-                Connexion
-              </Link>
-              <Link
                 href="/register"
-                className="text-[#F2F6FF] hover:text-gray-300 transition-colors font-montserrat"
+                className="text-[#F2F6FF] hover:text-[#ffffff] border border-[#f2f6ff] p-3 rounded-md transition-colors font-montserrat"
               >
                 Inscription
+              </Link>
+              <Link
+                href="/login"
+                className="text-[#F2F6FF] hover:text-[#ffffff] p-3 rounded-md transition-colors font-montserrat"
+              >
+                Connexion
               </Link>
             </>
           )}
@@ -92,19 +92,19 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/"
-                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors text-2xl font-montserrat"
                   >
                     Accueil
                   </Link>
                   <Link
                     href="/profile"
-                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors text-2xl font-montserrat"
                   >
-                    Profile
+                    Profil
                   </Link>
                   <Link
                     href="/login"
-                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors text-2xl font-montserrat"
                     onClick={handleLogout}
                   >
                     Déconnexion
@@ -114,13 +114,13 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/login"
-                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-100 hover:bg-[#a71666] p-3 rounded-md transition-colors text-2xl font-montserrat"
                   >
                     Connexion
                   </Link>
                   <Link
                     href="/register"
-                    className="text-[#F2F6FF] hover:text-gray-300 transition-colors text-2xl font-montserrat"
+                    className="text-[#F2F6FF] hover:text-gray-100 hover:bg-[#212936] p-3 rounded-md transition-colors text-2xl font-montserrat"
                   >
                     Inscription
                   </Link>

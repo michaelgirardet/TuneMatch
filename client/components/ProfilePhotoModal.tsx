@@ -48,25 +48,30 @@ export default function ProfilePhotoModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-md">
-        <h2 className="text-xl text-center mb-4 font-quicksand">Modifier la photo de profil</h2>
+        <h2 className="text-xl mb-4 font-montserrat text-center font-bold">
+          Modifier la photo de profil
+        </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="url"
             value={photoUrl}
             onChange={(e) => setPhotoUrl(e.target.value)}
             placeholder="URL de la photo"
-            className="form-input p-2 rounded bg-[#0A0A0A]"
+            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
             required
           />
           <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF]"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
             >
               Annuler
             </button>
-            <button type="submit" className="px-4 py-2 rounded-lg bg-[#a71666] text-[#F2F6FF]">
+            <button
+              type="submit"
+              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
+            >
               Enregistrer
             </button>
           </div>

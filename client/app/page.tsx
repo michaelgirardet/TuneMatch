@@ -1,6 +1,7 @@
 'use client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -8,7 +9,10 @@ export default function Home() {
       <nav>
         <Navbar />
       </nav>
-      <main className="flex-1 w-full px-4 flex flex-col justify-center items-center">
+      <main
+        className="flex-1 w-full px-4 flex flex-col justify-center items-center"
+        id="page-accueil"
+      >
         <div className="home-sct flex flex-col justify-center max-w-[500px] gap-3">
           <h1 className="text-[#F2F6FF] title font-quicksand text-5xl pb-10 text-center">
             Tune<span className="text-[#a71666]">Match</span>
@@ -20,9 +24,14 @@ export default function Home() {
             et fais vibrer l'industrie avec tes créations.
           </p>
           <h2 className="font-montserrat">Prêt à faire matcher ta musique ? 🎧</h2>
-          <button className="button mt-5 w-[200px] self-center" type="button">
-            Découvrir
-          </button>
+          <Link href="/register" className="self-center ">
+            <button
+              className="button mt-5 w-[200px] text-[#F2F6FF] py-6 px-12 rounded-lg text-lg bg-[#a71666] hover:bg-[#A23E75] tracking-wide border border-[#a71666]"
+              type="button"
+            >
+              Découvrir
+            </button>
+          </Link>
         </div>
       </main>
       <footer>

@@ -35,7 +35,7 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
             <button
               type="submit"
               onClick={onAddTrack}
-              className="bg-[#a71666] text-[#F2F6FF] px-4 py-2 rounded hover:bg-[#8f1357] transition-colors font-montserrat"
+              className="bg-[#a71666] text-[#F2F6FF] px-8 py-4 rounded hover:bg-[#a23e75] transition-colors self-center font-montserrat"
             >
               Ajouter un morceau
             </button>
@@ -87,7 +87,7 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
             <button
               type="submit"
               onClick={onAddTrack}
-              className="bg-[#a71666] text-[#F2F6FF] px-4 py-2 rounded hover:bg-[#8f1357] transition-colors self-center font-sulphur"
+              className="bg-[#a71666] text-[#F2F6FF] px-8 py-4 rounded hover:bg-[#a23e75] transition-colors self-center font-sulphur"
             >
               Ajouter un morceau
             </button>
