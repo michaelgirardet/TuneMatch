@@ -61,7 +61,7 @@ export default function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
               placeholder="Email"
               required
             />
@@ -75,13 +75,15 @@ export default function Login() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
-              className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
               required
             />
           </div>
           <div className="flex items-center justify-center">
             <Link href="/forgot-password">
-              <p className="text-white text-xs font-montserrat mr-10">Mot de passe oublié ?</p>
+              <p className="text-[#F2F6FF] text-xs font-montserrat mr-10 hover:text-[#a71666]">
+                Mot de passe oublié ?
+              </p>
             </Link>
             <div className="flex items-center justyfy-center h-5">
               <input
@@ -93,13 +95,13 @@ export default function Login() {
                 required
               />
             </div>
-            <label htmlFor="remember" className="text-white text-xs ml-2 font-montserrat">
+            <label htmlFor="remember" className="text-[#F2F6FF] text-xs ml-2 font-montserrat">
               Je ne suis pas un robot
             </label>
           </div>
           <button
             type="submit"
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center"
+            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
           >
             Submit
           </button>

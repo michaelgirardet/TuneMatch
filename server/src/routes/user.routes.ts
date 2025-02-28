@@ -1,7 +1,7 @@
 import type { Response } from 'express';
 import express from 'express';
 import { auth } from '../middleware/auth';
-import { socialLinksSchema, genresSchema, biographySchema } from '../utils/validation';
+import { socialLinksSchema, genresSchema, biographySchema, locationSchema } from '../utils/validation';
 import { ZodError } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
 import type { RequestHandler } from 'express';
@@ -118,9 +118,40 @@ const updateBiography: AuthRequestHandler = async (req, res) => {
   }
 };
 
+const updateLocation: AuthRequestHandler = async (req, res) => {
+  try {
+    const { city, country } = locationSchema.parse(req.body);
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
+    const [_result] = await req.app.locals.pool.execute(
+      'UPDATE users SET city = ?, country = ? WHERE id = ?',
+      [city, country, userId]
+    );
+
+    res.json({ 
+      message: 'Localisation mise à jour avec succès',
+      location: { city, country }
+    });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        error: 'Données invalides',
+        details: error.errors,
+      });
+    }
+    console.error('Erreur lors de la mise à jour de la localisation:', error);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de la localisation' });
+  }
+};
+
 router.put('/photo', auth, updatePhoto);
 router.put('/social-links', auth, updateSocialLinks);
 router.put('/genres', auth, updateGenres);
 router.put('/biography', auth, updateBiography);
+router.put('/location', auth, updateLocation);
 
 export default router;

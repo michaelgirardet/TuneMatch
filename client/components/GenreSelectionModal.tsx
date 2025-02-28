@@ -50,16 +50,16 @@ export default function GenreSelectionModal({
 
   const handleGenreToggle = (genre: string) => {
     if (selectedGenres.includes(genre)) {
-      setSelectedGenres(prev => prev.filter(g => g !== genre));
+      setSelectedGenres((prev) => prev.filter((g) => g !== genre));
       return;
     }
-    
+
     if (selectedGenres.length >= 3) {
       ToasterError('Vous ne pouvez sélectionner que 3 genres maximum');
       return;
     }
-    
-    setSelectedGenres(prev => [...prev, genre]);
+
+    setSelectedGenres((prev) => [...prev, genre]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,7 +116,7 @@ export default function GenreSelectionModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-2xl">
-        <h2 className="text-2xl mb-4 font-quicksand text-white">
+        <h2 className="text-xl mb-4 font-montserrat text-center font-bold">
           Sélectionnez vos genres musicaux (max. 3)
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -126,9 +126,9 @@ export default function GenreSelectionModal({
                 key={genre}
                 type="button"
                 onClick={() => handleGenreToggle(genre)}
-                className={`p-2 rounded transition-colors ${
+                className={`p-2 font-montserrat rounded transition-colors ${
                   selectedGenres.includes(genre)
-                    ? 'bg-[#a71666] text-white'
+                    ? 'bg-[#a71666] text-[#F2F6FF]'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
               >
@@ -140,14 +140,14 @@ export default function GenreSelectionModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700 transition-colors text-white"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-[#a71666] text-white disabled:opacity-50"
+              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

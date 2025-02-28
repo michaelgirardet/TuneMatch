@@ -50,3 +50,10 @@ export const biographySchema = z
     biography: z.string(),
   })
   .strict();
+
+export const locationSchema = z
+  .object({
+    city: z.string().min(1).max(100),
+    country: z.string().min(1).max(100),
+  })
+  .strict();

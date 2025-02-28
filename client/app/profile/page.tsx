@@ -14,6 +14,7 @@ import GenreSelectionModal from '@/components/GenreSelectionModal';
 import Biography from '@/components/Biography';
 import AddTrackModal from '@/components/AddTrackModal';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import Location from '@/components/Location';
 
 interface Track {
   id: number;
@@ -84,10 +85,11 @@ export default function Profile() {
         ToasterSuccess('Morceau ajouté avec succès !');
       } else {
         const error = await response.json();
-        ToasterError(error.message || 'Erreur lors de l\'ajout du morceau');
+        ToasterError(error.message || "Erreur lors de l'ajout du morceau");
       }
     } catch (error) {
       ToasterError('Erreur lors de la connexion au serveur');
+      console.error(error);
     }
   };
 
@@ -105,7 +107,7 @@ export default function Profile() {
       });
 
       if (response.ok) {
-        setTracks(tracks.filter(track => track.id !== trackId));
+        setTracks(tracks.filter((track) => track.id !== trackId));
         ToasterSuccess('Morceau supprimé avec succès !');
       } else {
         const error = await response.json();
@@ -113,6 +115,7 @@ export default function Profile() {
       }
     } catch (error) {
       ToasterError('Erreur lors de la connexion au serveur');
+      console.error(error);
     }
   };
 
@@ -125,7 +128,7 @@ export default function Profile() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setTracks(data);
@@ -153,7 +156,7 @@ export default function Profile() {
           <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoYT}
-              className="w-12 cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer"
               alt="Logo Youtube"
               aria-label="Modifier le lien YouTube"
               onClick={(e) => {
@@ -165,7 +168,7 @@ export default function Profile() {
           <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoIG}
-              className="w-12 cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer"
               alt="Logo Instagram"
               aria-label="Modifier le lien Instagram"
               onClick={(e) => {
@@ -177,7 +180,7 @@ export default function Profile() {
           <a href={socialLinks.soundcloud} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoSoundClound}
-              className="w-12 cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer"
               alt="Logo Soundcloud"
               aria-label="Modifier le lien Soundcloud"
               onClick={(e) => {
@@ -193,7 +196,7 @@ export default function Profile() {
               {genres.map((genre) => (
                 <li
                   key={genre}
-                  className="font-sulphur text-white bg-black p-2 rounded cursor-pointer"
+                  className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded cursor-pointer"
                   onClick={() => setGenreModalOpen(true)}
                   onKeyDown={() => setGenreModalOpen(true)}
                 >
@@ -202,12 +205,12 @@ export default function Profile() {
               ))}
             </ul>
           </div>
-          <h3 className="text-white p-5 font-bold text-2xl">Sacramento, USA</h3>
+          <Location />
           <Biography />
         </div>
         <div className="w-full max-w-2xl px-4">
-          <AudioPlayer 
-            tracks={tracks} 
+          <AudioPlayer
+            tracks={tracks}
             onAddTrack={handleAddTrack}
             onDeleteTrack={handleDeleteTrack}
           />

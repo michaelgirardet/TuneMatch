@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '../../components/Footer';
 import { toast } from 'react-toastify';
 import { ToasterError } from '@/components/Toast';
+import Link from 'next/link';
 
 export default function Register() {
   const router = useRouter();
@@ -79,7 +80,7 @@ export default function Register() {
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           >
             <option value="">Choisissez votre status</option>
@@ -93,7 +94,7 @@ export default function Register() {
             value={formData.nom_utilisateur}
             onChange={handleChange}
             placeholder="Username"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -103,7 +104,7 @@ export default function Register() {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -113,7 +114,7 @@ export default function Register() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -123,13 +124,18 @@ export default function Register() {
             value={formData.confirm_password}
             onChange={handleChange}
             placeholder="Confirm Password"
-            className="form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
-
+          <Link
+            href="/login"
+            className="font-montserrat text-[#f2f6ff] text-xs hover:text-[#a71666]"
+          >
+            Déjà enregistré ?
+          </Link>
           <button
             type="submit"
-            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center"
+            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
           >
             S'inscrire
           </button>

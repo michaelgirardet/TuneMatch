@@ -7,7 +7,7 @@ interface Track {
   id: number;
   title: string;
   artist: string;
-  url: string; // YouTube video ID
+  url: string;
 }
 
 interface AudioPlayerProps {
@@ -30,12 +30,12 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
   return (
     <div className="flex flex-col gap-4 w-full max-w-2xl">
       {tracks.length === 0 ? (
-        <div className="bg-[#1d1e2c] w-full p-6 rounded-lg text-center">
-          <p className="text-white mb-4">Aucun morceau ajouté</p>
+        <div className="bg-[#1D1E2C] w-full p-6 rounded-lg text-center">
           {onAddTrack && tracks.length < 3 && (
             <button
+              type="submit"
               onClick={onAddTrack}
-              className="bg-[#a71666] text-white px-4 py-2 rounded hover:bg-[#8f1357] transition-colors font-montserrat"
+              className="bg-[#a71666] text-[#F2F6FF] px-8 py-4 rounded hover:bg-[#a23e75] transition-colors self-center font-montserrat"
             >
               Ajouter un morceau
             </button>
@@ -44,19 +44,17 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
       ) : (
         <>
           {tracks.map((track) => (
-            <div
-              key={track.id}
-              className="bg-[#1d1e2c] w-full rounded-lg p-6 flex flex-col gap-4"
-            >
+            <div key={track.id} className="bg-[#1D1E2C] w-full rounded-lg p-6 flex flex-col gap-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-white font-montserrat">
+                <h3 className="text-[#F2F6FF] font-montserrat">
                   {track.artist} - {track.title}
                 </h3>
                 <div className="flex items-center gap-4">
                   {onDeleteTrack && (
                     <button
+                      type="submit"
                       onClick={() => onDeleteTrack(track.id)}
-                      className="text-white hover:text-red-500 transition-colors"
+                      className="text-[#F2F6FF] hover:text-red-500 transition-colors"
                       aria-label="Supprimer le morceau"
                     >
                       ×
@@ -65,7 +63,7 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
                   <Image
                     src={playingTrackId === track.id ? PauseRose : PlayRose}
                     className="w-8 cursor-pointer"
-                    alt={playingTrackId === track.id ? "Pause" : "Play"}
+                    alt={playingTrackId === track.id ? 'Pause' : 'Play'}
                     onClick={() => handlePlay(track.id)}
                   />
                 </div>
@@ -87,8 +85,9 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
           ))}
           {onAddTrack && tracks.length < 3 && (
             <button
+              type="submit"
               onClick={onAddTrack}
-              className="bg-[#a71666] text-white px-4 py-2 rounded hover:bg-[#8f1357] transition-colors self-center font-montserrat"
+              className="bg-[#a71666] text-[#F2F6FF] px-8 py-4 rounded hover:bg-[#a23e75] transition-colors self-center font-sulphur"
             >
               Ajouter un morceau
             </button>

@@ -1,63 +1,52 @@
 'use client';
+
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { ToasterError, ToasterSuccess } from './Toast';
 import { useAuthStore } from '@/store/authStore';
 
-interface SocialLinksModalProps {
+interface LocationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: (links: SocialLinks) => void;
-  currentLinks: SocialLinks;
-  platform: 'youtube' | 'instagram' | 'soundcloud';
+  onUpdate: (location: { city: string; country: string }) => void;
+  currentLocation: {
+    city?: string;
+    country?: string;
+  };
 }
 
-interface SocialLinks {
-  youtube?: string;
-  instagram?: string;
-  soundcloud?: string;
-}
-
-export default function SocialLinksModal({
+export default function LocationModal({
   isOpen,
   onClose,
   onUpdate,
-  currentLinks,
-  platform,
-}: SocialLinksModalProps) {
-  const [link, setLink] = useState(currentLinks[platform] || '');
+  currentLocation,
+}: LocationModalProps) {
+  const [city, setCity] = useState(currentLocation.city || '');
+  const [country, setCountry] = useState(currentLocation.country || '');
   const [loading, setLoading] = useState(false);
   const { token } = useAuthStore();
-
-  const platformLabels = {
-    youtube: 'YouTube',
-    instagram: 'Instagram',
-    soundcloud: 'SoundCloud',
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/users/social-links', {
+      const response = await fetch('http://localhost:5001/api/users/location', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          platform,
-          link,
-        }),
+        body: JSON.stringify({ city, country }),
       });
 
       if (response.ok) {
-        onUpdate({ ...currentLinks, [platform]: link });
-        ToasterSuccess('Lien mis à jour avec succès !');
+        onUpdate({ city, country });
+        ToasterSuccess('Localisation mise à jour avec succès !');
         onClose();
       } else {
         const error = await response.json();
-        ToasterError(error.message || 'Erreur lors de la mise à jour du lien');
+        ToasterError(error.message || 'Erreur lors de la mise à jour de la localisation');
       }
     } catch (error) {
       ToasterError('Erreur de connexion');
@@ -73,14 +62,22 @@ export default function SocialLinksModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-md">
         <h2 className="text-xl mb-4 font-montserrat text-center font-bold">
-          Modifier le lien {platformLabels[platform]}
+          Modifier la localisation
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
-            type="url"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            placeholder={`URL ${platformLabels[platform]}`}
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Ville"
+            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+            required
+          />
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            placeholder="Pays"
             className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
             required
           />
