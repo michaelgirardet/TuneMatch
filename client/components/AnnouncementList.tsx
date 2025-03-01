@@ -5,6 +5,9 @@ import { ToasterError, ToasterSuccess } from './Toast';
 import type { AnnouncementData } from './AnnouncementModal';
 import AnnouncementModal from './AnnouncementModal';
 import Image from 'next/image';
+import type { ApplicationData } from './ApplicationModal';
+import ApplicationModal from './ApplicationModal';
+import { useRouter } from 'next/navigation';
 
 interface Announcement extends AnnouncementData {
   id: number;
@@ -14,12 +17,22 @@ interface Announcement extends AnnouncementData {
   photo_profil?: string;
 }
 
+interface Track {
+  id: number;
+  title: string;
+  url: string;
+}
+
 export default function AnnouncementList() {
   const { user, token } = useAuthStore();
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState<AnnouncementData | undefined>();
+  const [selectedAnnouncementId, setSelectedAnnouncementId] = useState<number | null>(null);
+  const [userTracks, setUserTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const fetchAnnouncements = async () => {
     try {
@@ -43,11 +56,32 @@ export default function AnnouncementList() {
     }
   };
 
+  const fetchUserTracks = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/api/tracks', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserTracks(data);
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement des morceaux:', error);
+    }
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (token) {
       fetchAnnouncements();
+      if (user?.role === 'musicien' || user?.role === 'chanteur') {
+        fetchUserTracks();
+      }
     }
-  }, [token]);
+  }, [token, user?.role]);
 
   const handleCreateAnnouncement = async (announcementData: AnnouncementData) => {
     try {
@@ -136,6 +170,35 @@ export default function AnnouncementList() {
     }
   };
 
+  const handleApply = async (applicationData: ApplicationData) => {
+    if (!selectedAnnouncementId) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/applications/announcements/${selectedAnnouncementId}/apply`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(applicationData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'envoi de la candidature");
+      }
+
+      ToasterSuccess('Candidature envoyée avec succès');
+      setIsApplicationModalOpen(false);
+      setSelectedAnnouncementId(null);
+    } catch (error) {
+      console.error('Erreur:', error);
+      ToasterError("Erreur lors de l'envoi de la candidature");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
@@ -175,6 +238,10 @@ export default function AnnouncementList() {
                   width={40}
                   height={40}
                   className="rounded-full"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/default-avatar.jpg';
+                  }}
                 />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-[#a71666] flex items-center justify-center text-[#F2F6FF] font-bold">
@@ -183,23 +250,32 @@ export default function AnnouncementList() {
               )}
               <div>
                 <h3 className="font-montserrat text-white">{announcement.title}</h3>
-                <p className="text-sm text-gray-400">par {announcement.nom_utilisateur}</p>
+                <p className="text-sm text-gray-400">
+                  par{' '}
+                  <span
+                    onClick={() => router.push(`/profile/${announcement.user_id}`)}
+                    onKeyDown={() => router.push(`/profile/${announcement.user_id}`)}
+                    className="cursor-pointer hover:text-[#a71666] transition-colors"
+                  >
+                    {announcement.nom_utilisateur}
+                  </span>
+                </p>
               </div>
             </div>
 
-            <p className="font-sulphur text-[#F2F6FF]">{announcement.description}</p>
+            <p className="font-montserrat text-[#F2F6FF]">{announcement.description}</p>
 
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-[#f2f6ff] rounded text-sm">
+              <span className="px-2 py-1 bg-[#212936] text-[#F2F6FF] rounded text-sm">
                 {announcement.musical_style}
               </span>
               {announcement.voice_type && (
-                <span className="px-2 py-1 bg-[#f2f6ff] rounded text-sm">
+                <span className="px-2 py-1 bg-[#212936] text-[#F2F6FF] rounded text-sm">
                   Voix: {announcement.voice_type}
                 </span>
               )}
               {announcement.instrument && (
-                <span className="px-2 py-1 bg-[#f2f6ff] rounded text-sm">
+                <span className="px-2 py-1 bg-[#212936] text-[#F2F6FF] rounded text-sm">
                   Instrument: {announcement.instrument}
                 </span>
               )}
@@ -209,27 +285,49 @@ export default function AnnouncementList() {
               <p className="text-sm text-gray-400">{announcement.other_criteria}</p>
             )}
 
-            {user?.id === announcement.user_id && (
-              <div className="flex justify-end gap-2 mt-4">
-                <button
-                  type="submit"
-                  onClick={() => {
-                    setSelectedAnnouncement(announcement);
-                    setIsModalOpen(true);
-                  }}
-                  className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
-                >
-                  Modifier
-                </button>
-                <button
-                  type="submit"
-                  onClick={() => handleDeleteAnnouncement(announcement.id)}
-                  className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
-                >
-                  Supprimer
-                </button>
-              </div>
-            )}
+            <div className="flex justify-end gap-2 mt-4">
+              {user?.id === announcement.user_id ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedAnnouncement(announcement);
+                      setIsModalOpen(true);
+                    }}
+                    className="px-3 py-1 rounded bg-[#0A0A0A] text-[#F2F6FF] text-sm border-lg border font-sulphur"
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteAnnouncement(announcement.id)}
+                    className="px-3 py-1 rounded bg-[#CA2E55] text-[#F2F6FF] text-sm font-sulphur"
+                  >
+                    Supprimer
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/applications/${announcement.id}`)}
+                    className="px-3 py-1 rounded bg-[#a71666] text-[#F2F6FF] text-sm font-sulphur"
+                  >
+                    Voir les candidatures
+                  </button>
+                </>
+              ) : (
+                (user?.role === 'musicien' || user?.role === 'chanteur') && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedAnnouncementId(announcement.id);
+                      setIsApplicationModalOpen(true);
+                    }}
+                    className="px-6 py-3 rounded bg-[#a71666] text-[#F2F6FF] text-sm font-montserrat"
+                  >
+                    Postuler
+                  </button>
+                )
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -242,6 +340,16 @@ export default function AnnouncementList() {
         }}
         onSubmit={handleSubmit}
         announcement={selectedAnnouncement}
+      />
+
+      <ApplicationModal
+        isOpen={isApplicationModalOpen}
+        onClose={() => {
+          setIsApplicationModalOpen(false);
+          setSelectedAnnouncementId(null);
+        }}
+        onSubmit={handleApply}
+        userTracks={userTracks}
       />
     </div>
   );

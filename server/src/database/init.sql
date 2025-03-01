@@ -13,7 +13,7 @@ CREATE TABLE users (
     nom_utilisateur VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role ENUM('artiste', 'producteur') NOT NULL,
+    role ENUM('musicien', 'chanteur', 'producteur') NOT NULL,
     photo_profil VARCHAR(255),
     biography TEXT,
     city VARCHAR(100),
@@ -103,11 +103,26 @@ CREATE TABLE messages (
     FOREIGN KEY (id_destinataire) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- TABLE Applications (candidatures aux annonces)
+CREATE TABLE applications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    announcement_id INT NOT NULL,
+    artist_id INT NOT NULL,
+    message TEXT NOT NULL,
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    selected_tracks VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (announcement_id) REFERENCES announcements(id) ON DELETE CASCADE,
+    FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_application (announcement_id, artist_id)
+);
+
 -- Données de test (dans l'ordre des dépendances)
 INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, city, country) VALUES
-('JohnD999', 'johndoe@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/johndoe.jpg', 'Passionné de musique électronique', 'Paris', 'France'),
-('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'http://photo-de-profil.fr/marie.jpg', 'Productrice de hip-hop', 'Lyon', 'France'),
-('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'artiste', 'http://photo-de-profil.fr/pierre.jpg', 'Guitariste et auteur-compositeur', 'Marseille', 'France');
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'Passionné de musique électronique', 'Paris', 'France'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/girl', 'Productrice de hip-hop', 'Lyon', 'France'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://avatar.iran.liara.run/public/girl', 'Guitariste et auteur-compositeur', 'Marseille', 'France');
 
 INSERT INTO tracks (title, artist, url, user_id) VALUES
 ('Electro Vibes', 'JohnD999', 'https://soundcloud.com/johnd999/electro-vibes', 1),
@@ -127,3 +142,13 @@ INSERT INTO matchs (id_artiste, id_producteur) VALUES
 INSERT INTO messages (id_expediteur, id_destinataire, contenu) VALUES
 (1, 2, 'Salut Marie, intéressée par un featuring électro ?'),
 (2, 1, 'Salut John, j\'aime ton style ! On peut en discuter.');
+
+-- Ajout d'annonces de test
+INSERT INTO announcements (title, description, musical_style, voice_type, instrument, user_id) VALUES
+('Recherche guitariste rock', 'Je cherche un guitariste pour un projet rock alternatif', 'Rock', NULL, 'Guitare', 2),
+('Cherche chanteur/chanteuse', 'Projet pop en cours, recherche voix soul', 'Pop', 'Soul', NULL, 2);
+
+-- Applications de test
+INSERT INTO applications (announcement_id, artist_id, message) VALUES
+(1, 1, 'Je suis intéressé par cette annonce'),
+(1, 3, 'Je suis également intéressé par cette annonce');

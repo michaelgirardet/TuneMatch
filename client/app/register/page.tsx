@@ -85,7 +85,8 @@ export default function Register() {
           >
             <option value="">Choisissez votre status</option>
             <option value="producteur">Producteur</option>
-            <option value="artiste">Artiste</option>
+            <option value="musicien">Musicien</option>
+            <option value="chanteur">Chanteur</option>
           </select>
 
           <input

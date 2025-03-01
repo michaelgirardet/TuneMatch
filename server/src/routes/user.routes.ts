@@ -8,7 +8,7 @@ import type { RequestHandler } from 'express';
 
 const router = express.Router();
 
-type AuthRequestHandler = RequestHandler<{}, any, any, any, { user?: AuthRequest['user'] }>;
+type AuthRequestHandler = RequestHandler<{ id?: string }, any, any, any, { user?: AuthRequest['user'] }>;
 
 const updatePhoto: AuthRequestHandler = async (req, res) => {
   try {
@@ -148,6 +148,34 @@ const updateLocation: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Récupérer le profil d'un utilisateur par son ID
+const getUserProfile: AuthRequestHandler = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'ID utilisateur non spécifié' });
+    }
+
+    const [rows] = await req.app.locals.pool.execute(
+      `SELECT id, nom_utilisateur, role, photo_profil, biography, genres_musicaux,
+       youtube_link, instagram_link, soundcloud_link, city, country
+       FROM users WHERE id = ?`,
+      [userId]
+    );
+
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil:', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération du profil' });
+  }
+};
+
+router.get('/:id', auth, getUserProfile);
 router.put('/photo', auth, updatePhoto);
 router.put('/social-links', auth, updateSocialLinks);
 router.put('/genres', auth, updateGenres);

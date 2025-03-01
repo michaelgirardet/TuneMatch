@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { ToasterError, ToasterSuccess } from './Toast';
-import { useAuthStore } from '@/store/authStore';
 
 interface AnnouncementModalProps {
   isOpen: boolean;
