@@ -117,10 +117,12 @@ const updateApplicationStatus: AuthRequestHandler = async (req, res) => {
       return res.status(400).json({ error: 'Statut invalide' });
     }
 
-    // Vérifier que l'annonce appartient au producteur
+    // Vérifier que l'annonce appartient au producteur et récupérer les informations nécessaires
     const [applicationRows] = await req.app.locals.pool.execute(
-      `SELECT a.id FROM applications a 
+      `SELECT a.id, a.artist_id, an.title, u.nom_utilisateur 
+       FROM applications a 
        JOIN announcements an ON a.announcement_id = an.id 
+       JOIN users u ON an.user_id = u.id
        WHERE a.id = ? AND an.user_id = ?`,
       [applicationId, userId]
     );
@@ -129,9 +131,22 @@ const updateApplicationStatus: AuthRequestHandler = async (req, res) => {
       return res.status(403).json({ error: 'Non autorisé à modifier cette candidature' });
     }
 
+    const application = applicationRows[0];
+
+    // Mettre à jour le statut de la candidature
     await req.app.locals.pool.execute(
       'UPDATE applications SET status = ? WHERE id = ?',
       [status, applicationId]
+    );
+
+    // Créer une notification pour l'artiste
+    const notificationContent = status === 'accepted' 
+      ? `Votre candidature pour l'annonce "${application.title}" a été acceptée par ${application.nom_utilisateur}`
+      : `Votre candidature pour l'annonce "${application.title}" a été refusée par ${application.nom_utilisateur}`;
+
+    await req.app.locals.pool.execute(
+      'INSERT INTO notifications (user_id, type, content, related_id) VALUES (?, ?, ?, ?)',
+      [application.artist_id, 'application_status', notificationContent, applicationId]
     );
 
     res.json({ message: 'Statut de la candidature mis à jour avec succès' });
@@ -141,8 +156,55 @@ const updateApplicationStatus: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Récupérer les notifications d'un utilisateur
+const getUserNotifications: AuthRequestHandler = async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
+    const [notifications] = await req.app.locals.pool.execute(
+      `SELECT * FROM notifications 
+       WHERE user_id = ? 
+       ORDER BY created_at DESC`,
+      [userId]
+    );
+
+    res.json(notifications);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des notifications:', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération des notifications' });
+  }
+};
+
+// Marquer une notification comme lue
+const markNotificationAsRead: AuthRequestHandler = async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+    const notificationId = req.params.id;
+
+    if (!userId || !notificationId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié ou notification non spécifiée' });
+    }
+
+    await req.app.locals.pool.execute(
+      'UPDATE notifications SET is_read = TRUE WHERE id = ? AND user_id = ?',
+      [notificationId, userId]
+    );
+
+    res.json({ message: 'Notification marquée comme lue' });
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de la notification:', error);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour de la notification' });
+  }
+};
+
 router.post('/announcements/:id/apply', auth, applyToAnnouncement);
 router.get('/announcements/:id/applications', auth, getAnnouncementApplications);
 router.put('/:id/status', auth, updateApplicationStatus);
+router.get('/notifications', auth, getUserNotifications);
+router.put('/notifications/:id/read', auth, markNotificationAsRead);
 
 export default router; 

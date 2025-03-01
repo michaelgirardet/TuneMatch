@@ -118,6 +118,18 @@ CREATE TABLE applications (
     UNIQUE KEY unique_application (announcement_id, artist_id)
 );
 
+-- TABLE Notifications
+CREATE TABLE notifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    type ENUM('application_status', 'message', 'match') NOT NULL,
+    content TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    related_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 -- Données de test (dans l'ordre des dépendances)
 INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, city, country) VALUES
 ('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'Passionné de musique électronique', 'Paris', 'France'),

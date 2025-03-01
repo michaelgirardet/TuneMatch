@@ -6,9 +6,10 @@ import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import LogoBurger from '@/public/sliders-icon-wh.svg';
 import CloseIcon from '@/public/xmark-wh.svg';
+import NotificationsMenu from './NotificationsMenu';
 
 export default function Navbar() {
-  const { isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated, logout, user } = useAuthStore();
   const [isBurger, setIsBurger] = useState(false);
   const router = useRouter();
 
@@ -52,13 +53,47 @@ export default function Navbar() {
               >
                 Annonces
               </Link>
-              <Link
-                href="/login"
-                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
-                onClick={handleLogout}
-              >
-                Déconnexion
-              </Link>
+              <NotificationsMenu />
+              {isAuthenticated && user && (
+                <div className="relative group">
+                  <div className="flex items-center space-x-2 cursor-pointer">
+                    {user.photo_profil ? (
+                      <Image
+                        src={user.photo_profil}
+                        alt={user.nom_utilisateur}
+                        width={32}
+                        height={32}
+                        className="rounded-full"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/default-avatar.png';
+                        }}
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-[#a71666] flex items-center justify-center text-[#F2F6FF] font-bold">
+                        {user.nom_utilisateur[0].toUpperCase()}
+                      </div>
+                    )}
+                    {/* <span className="text-[#F2F6FF] font-sulphur">{user.nom_utilisateur}</span> */}
+                  </div>
+
+                  <div className="absolute right-0 mt-2 w-48 bg-[#212936] border border-[#1D1E2C] rounded-lg hidden group-hover:block z-50">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-[#F2F6FF] hover:bg-[#0A0A0A] font-sulphur rounded-t-lg"
+                    >
+                      Mon profil
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-[#F2F6FF] hover:bg-[#0A0A0A] font-sulphur rounded-b-lg"
+                    >
+                      Déconnexion
+                    </button>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -129,6 +164,7 @@ export default function Navbar() {
                         >
                           <span>Annonces</span>
                         </Link>
+                        <NotificationsMenu />
                         <div className="flex-grow" />
                         <Link
                           href="/login"
