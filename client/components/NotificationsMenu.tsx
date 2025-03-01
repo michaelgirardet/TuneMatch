@@ -69,6 +69,7 @@ export default function NotificationsMenu() {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (token) {
       fetchNotifications();

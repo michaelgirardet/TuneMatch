@@ -53,6 +53,12 @@ export default function Navbar() {
               >
                 Annonces
               </Link>
+              <Link
+                href="/messages"
+                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+              >
+                Messages
+              </Link>
               <NotificationsMenu />
               {isAuthenticated && user && (
                 <div className="relative group">
@@ -163,6 +169,12 @@ export default function Navbar() {
                           className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Annonces</span>
+                        </Link>
+                        <Link
+                          href="/messages"
+                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                        >
+                          <span>Messages</span>
                         </Link>
                         <NotificationsMenu />
                         <div className="flex-grow" />

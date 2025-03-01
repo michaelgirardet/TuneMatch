@@ -186,15 +186,26 @@ export default function ApplicationsPage() {
                         </button>
                       </>
                     ) : (
-                      <span
-                        className={`px-4 py-2 rounded text-sm ${
-                          application.status === 'accepted'
-                            ? 'bg-green-600 text-[#F2F6FF]'
-                            : 'bg-red-600 text-[#F2F6FF]'
-                        }`}
-                      >
-                        {application.status === 'accepted' ? 'Acceptée' : 'Refusée'}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`px-4 py-2 rounded text-sm ${
+                            application.status === 'accepted'
+                              ? 'bg-green-600 text-[#F2F6FF]'
+                              : 'bg-red-600 text-[#F2F6FF]'
+                          }`}
+                        >
+                          {application.status === 'accepted' ? 'Acceptée' : 'Refusée'}
+                        </span>
+                        {application.status === 'accepted' && (
+                          <button
+                            type="button"
+                            onClick={() => router.push(`/messages/${application.artist_id}`)}
+                            className="px-4 py-2 rounded bg-[#a71666] text-[#F2F6FF] text-sm hover:bg-[#8f1356] transition-colors"
+                          >
+                            Envoyer un message
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
