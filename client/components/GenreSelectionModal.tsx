@@ -96,6 +96,18 @@ export default function GenreSelectionModal({
       const data = await response.json();
       console.log('Réponse réussie:', data);
 
+      // Recharger les données utilisateur
+      const userResponse = await fetch('http://localhost:5001/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (userResponse.ok) {
+        const userData = await userResponse.json();
+        useAuthStore.getState().updateUser(userData);
+      }
+
       onUpdate(selectedGenres);
       ToasterSuccess('Genres musicaux mis à jour !');
       onClose();

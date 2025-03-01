@@ -58,7 +58,7 @@ export default function ForgotPassword() {
               Email
             </label>
             <input
-              className="font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
               type="email"
               name="email"
               id="email"
@@ -71,7 +71,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center items-center disabled:opacity-50"
+            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
           >
             {loading ? 'Envoi...' : 'Valider'}
           </button>

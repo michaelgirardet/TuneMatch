@@ -47,6 +47,12 @@ export default function Navbar() {
                 Profil
               </Link>
               <Link
+                href="/announcements"
+                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-montserrat"
+              >
+                Annonces
+              </Link>
+              <Link
                 href="/login"
                 className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-montserrat"
                 onClick={handleLogout}
@@ -101,6 +107,12 @@ export default function Navbar() {
                     className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors text-2xl font-montserrat"
                   >
                     Profil
+                  </Link>
+                  <Link
+                    href="/announcements"
+                    className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors text-2xl font-montserrat"
+                  >
+                    Annonces
                   </Link>
                   <Link
                     href="/login"

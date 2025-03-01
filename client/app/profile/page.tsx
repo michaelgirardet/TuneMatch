@@ -33,10 +33,8 @@ export default function Profile() {
   const { user, updateUser, token } = useAuthStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [genreModalOpen, setGenreModalOpen] = useState(false);
-  const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>(
-    'youtube'
-  );
-  const [genres, setGenres] = useState<string[]>(['Rock', 'Jazz', 'Soul']);
+  const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>('youtube');
+  const [genres, setGenres] = useState<string[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     youtube: 'https://www.youtube.com/',
     instagram: 'https://www.instagram.com/',
@@ -142,6 +140,13 @@ export default function Profile() {
       fetchTracks();
     }
   }, [token]);
+
+  // Mettre à jour les genres quand l'utilisateur change
+  useEffect(() => {
+    if (user?.genres_musicaux) {
+      setGenres(user.genres_musicaux.split(','));
+    }
+  }, [user?.genres_musicaux]);
 
   return (
     <main className="min-h-screen w-full flex flex-col">

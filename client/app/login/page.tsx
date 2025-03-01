@@ -86,18 +86,12 @@ export default function Login() {
               </p>
             </Link>
             <div className="flex items-center justyfy-center h-5">
-              <input
-                id="remember"
-                type="checkbox"
-                value=""
-                className=":border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                placeholder="password"
-                required
-              />
+              <Link href="/register">
+                <p className="text-[#F2F6FF] text-xs font-montserrat mr-10 hover:text-[#a71666]">
+                  Pas encore inscrit ?
+                </p>
+              </Link>
             </div>
-            <label htmlFor="remember" className="text-[#F2F6FF] text-xs ml-2 font-montserrat">
-              Je ne suis pas un robot
-            </label>
           </div>
           <button
             type="submit"
