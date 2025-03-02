@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 interface Conversation {
   id: number;
@@ -45,6 +46,9 @@ export default function MessagesPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Link href="/">
+        <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
+      </Link>
       <h1 className="text-2xl font-sulphur text-white mb-6">Mes conversations</h1>
       <div className="space-y-4">
         {conversations.length === 0 ? (
@@ -91,4 +95,4 @@ export default function MessagesPage() {
       </div>
     </div>
   );
-} 
+}

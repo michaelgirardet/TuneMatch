@@ -15,7 +15,7 @@ interface Notification {
 }
 
 export default function NotificationsMenu() {
-  const { token } = useAuthStore();
+  const { user, token } = useAuthStore();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);

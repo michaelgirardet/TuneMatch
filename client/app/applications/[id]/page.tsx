@@ -190,8 +190,8 @@ export default function ApplicationsPage() {
                         <span
                           className={`px-4 py-2 rounded text-sm ${
                             application.status === 'accepted'
-                              ? 'bg-green-600 text-[#F2F6FF]'
-                              : 'bg-red-600 text-[#F2F6FF]'
+                              ? 'bg-[#2a9d8f] text-[#F2F6FF]'
+                              : 'bg-[#ca2e55] text-[#F2F6FF]'
                           }`}
                         >
                           {application.status === 'accepted' ? 'Acceptée' : 'Refusée'}

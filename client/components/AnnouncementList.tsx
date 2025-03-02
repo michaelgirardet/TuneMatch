@@ -285,33 +285,35 @@ export default function AnnouncementList() {
               <p className="text-sm text-gray-400">{announcement.other_criteria}</p>
             )}
 
-            <div className="flex justify-end gap-2 mt-4">
+            <div className="flex justify-center gap-2 mt-4">
               {user?.id === announcement.user_id ? (
                 <>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedAnnouncement(announcement);
-                      setIsModalOpen(true);
-                    }}
-                    className="px-3 py-1 rounded bg-[#0A0A0A] text-[#F2F6FF] text-sm border-lg border font-sulphur"
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteAnnouncement(announcement.id)}
-                    className="px-3 py-1 rounded bg-[#CA2E55] text-[#F2F6FF] text-sm font-sulphur"
-                  >
-                    Supprimer
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/applications/${announcement.id}`)}
-                    className="px-3 py-1 rounded bg-[#a71666] text-[#F2F6FF] text-sm font-sulphur"
-                  >
-                    Voir les candidatures
-                  </button>
+                  <div className="flex flex-col justify-between items-center gap-2 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedAnnouncement(announcement);
+                        setIsModalOpen(true);
+                      }}
+                      className="py-3 w-44 rounded bg-[#0A0A0A] text-[#F2F6FF] text-md border-lg border font-sulphur sm:w-36 md:w-24 md:text-sm"
+                    >
+                      Modifier
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/applications/${announcement.id}`)}
+                      className="py-3 w-44 rounded bg-[#212936] text-[#F2F6FF] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
+                    >
+                      Candidatures
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteAnnouncement(announcement.id)}
+                      className="py-3 w-44 rounded bg-[#CA2E55] text-[#F2F6FF] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
+                    >
+                      Supprimer
+                    </button>
+                  </div>
                 </>
               ) : (
                 (user?.role === 'musicien' || user?.role === 'chanteur') && (
