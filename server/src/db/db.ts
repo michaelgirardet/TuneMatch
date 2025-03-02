@@ -10,7 +10,7 @@ console.log('Configuration de la base de données:', {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   database: process.env.DB_NAME,
-  hasPassword: !!process.env.DB_PASSWORD
+  hasPassword: !!process.env.DB_PASSWORD,
 });
 
 const pool = mysql.createPool({
@@ -21,13 +21,17 @@ const pool = mysql.createPool({
 });
 
 // Tester la connexion
-pool.getConnection()
-  .then(connection => {
+pool
+  .getConnection()
+  .then((connection) => {
     console.log('Connexion à la base de données établie avec succès');
     connection.release();
   })
-  .catch(err => {
-    console.error('Erreur de connexion à la base de données:', err);
+  .catch((err) => {
+    console.error(
+      '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie. à la base de données:',
+      err
+    );
   });
 
-export { pool }; 
+export { pool };

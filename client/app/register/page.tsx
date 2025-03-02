@@ -47,7 +47,7 @@ export default function Register() {
         const errorData = await response.json();
         console.log('Erreur serveur:', errorData); // Pour débugger
         setError(errorData.error || "Erreur lors de l'inscription");
-        ToasterError('🚨 Oups, fausse note ! Quelque chose a cloché. Réessaie !');
+        ToasterError('🚨 🎵 Petit couac technique ! On réessaie ?');
       } else {
         toast.success(
           "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",
@@ -59,7 +59,7 @@ export default function Register() {
         router.push('/login');
       }
     } catch (_err) {
-      setError('Erreur de connexion au serveur');
+      setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
     }
   };
 
@@ -83,7 +83,7 @@ export default function Register() {
             className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           >
-            <option value="">Choisissez votre status</option>
+            <option value="">Tu es dans quel mood ? 😎</option>
             <option value="producteur">Producteur</option>
             <option value="musicien">Musicien</option>
             <option value="chanteur">Chanteur</option>
@@ -130,7 +130,7 @@ export default function Register() {
           />
           <Link
             href="/login"
-            className="font-montserrat text-[#f2f6ff] text-xs hover:text-[#a71666]"
+            className="font-montserrat text-[#f2f6ff] text-xs hover:underline underline-offset-2"
           >
             Déjà enregistré ?
           </Link>

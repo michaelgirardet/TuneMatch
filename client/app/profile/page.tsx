@@ -33,7 +33,9 @@ export default function Profile() {
   const { user, updateUser, token } = useAuthStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [genreModalOpen, setGenreModalOpen] = useState(false);
-  const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>('youtube');
+  const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>(
+    'youtube'
+  );
   const [genres, setGenres] = useState<string[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     youtube: 'https://www.youtube.com/',
@@ -80,7 +82,7 @@ export default function Profile() {
       if (response.ok) {
         const newTrack = await response.json();
         setTracks([...tracks, newTrack]);
-        ToasterSuccess('Morceau ajouté avec succès !');
+        ToasterSuccess('🎶 Nouveau son ajouté ! Hâte de l’entendre.');
       } else {
         const error = await response.json();
         ToasterError(error.message || "Erreur lors de l'ajout du morceau");
@@ -106,7 +108,7 @@ export default function Profile() {
 
       if (response.ok) {
         setTracks(tracks.filter((track) => track.id !== trackId));
-        ToasterSuccess('Morceau supprimé avec succès !');
+        ToasterSuccess('🗑️ Morceau supprimé. À toi de jouer pour la suite !');
       } else {
         const error = await response.json();
         ToasterError(error.message || 'Erreur lors de la suppression du morceau');

@@ -30,7 +30,9 @@ app.get('/api/health', (_req, res) => {
 // Gestion des erreurs
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Une erreur est survenue sur le serveur' });
+  res
+    .status(500)
+    .json({ message: '❌ Oups ! Un problème est survenu. Essaie à nouveau. sur le serveur' });
 });
 
 export default app;

@@ -96,8 +96,8 @@ const getMessages: AuthRequestHandler = async (req, res) => {
 
     res.json(rows);
   } catch (error) {
-    console.error('Erreur lors de la récupération des messages:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des messages' });
+    console.error('📩 Impossible de récupérer les messages. Un petit bug ?:', error);
+    res.status(500).json({ error: '📩 Impossible de récupérer les messages. Un petit bug ?' });
   }
 };
 

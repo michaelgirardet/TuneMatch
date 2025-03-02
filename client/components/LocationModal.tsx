@@ -42,14 +42,14 @@ export default function LocationModal({
 
       if (response.ok) {
         onUpdate({ city, country });
-        ToasterSuccess('Localisation mise à jour avec succès !');
+        ToasterSuccess('📍 Localisation enregistrée ! Place à la connexion.');
         onClose();
       } else {
         const error = await response.json();
         ToasterError(error.message || 'Erreur lors de la mise à jour de la localisation');
       }
     } catch (error) {
-      ToasterError('Erreur de connexion');
+      ToasterError('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.');
       console.error(error);
     } finally {
       setLoading(false);

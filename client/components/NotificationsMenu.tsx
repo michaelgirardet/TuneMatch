@@ -37,7 +37,7 @@ export default function NotificationsMenu() {
       setUnreadCount(data.filter((notif: Notification) => !notif.is_read).length);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('Erreur lors du chargement des notifications');
+      ToasterError('🔔 Les notifications ne s’affichent pas. Un petit bug ?');
     }
   };
 
@@ -54,7 +54,7 @@ export default function NotificationsMenu() {
       );
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la mise à jour de la notification');
+        throw new Error('🔄 Mise à jour impossible. Essaie encore une fois.');
       }
 
       setNotifications(
@@ -65,7 +65,7 @@ export default function NotificationsMenu() {
       setUnreadCount((prev) => prev - 1);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('Erreur lors de la mise à jour de la notification');
+      ToasterError('🔄 Mise à jour impossible. Essaie encore une fois.');
     }
   };
 

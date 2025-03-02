@@ -9,7 +9,10 @@ const testConnection = async () => {
     await pool.query('SELECT 1');
     console.log('Connexion à la base de données réussie');
   } catch (error) {
-    console.error('Erreur de connexion à la base de données:', error);
+    console.error(
+      '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie. à la base de données:',
+      error
+    );
   }
 };
 
@@ -20,4 +23,4 @@ export const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-testConnection(); 
+testConnection();

@@ -46,7 +46,7 @@ export default function ApplicationsPage() {
         setApplications(data);
       } catch (error) {
         console.error('Erreur:', error);
-        ToasterError('Erreur lors du chargement des candidatures');
+        ToasterError('🚨 Impossible de charger les candidatures. Réessaie dans un instant.');
       } finally {
         setLoading(false);
       }
@@ -76,7 +76,7 @@ export default function ApplicationsPage() {
         throw new Error(errorData.error || 'Erreur lors de la mise à jour du statut');
       }
 
-      ToasterSuccess('Statut mis à jour avec succès');
+      ToasterSuccess('✅ Statut actualisé ! Tout est en place.');
       setApplications(
         applications.map((app) => (app.id === applicationId ? { ...app, status: newStatus } : app))
       );

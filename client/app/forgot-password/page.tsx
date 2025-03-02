@@ -26,16 +26,16 @@ export default function ForgotPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        ToasterSuccess('🎵 Email envoyé ! Vérifiez votre boîte de réception.');
+        ToasterSuccess('📩 Email envoyé ! Jette un œil à ta boîte de réception.');
         setResetError(null);
       } else {
         setResetError(data.error);
-        ToasterError(data.error || 'Une erreur est survenue');
+        ToasterError(data.error || '❌ Oups ! Un problème est survenu. Essaie à nouveau.');
         setResetSuccess(null);
       }
     } catch (error) {
-      setResetError('Erreur de connexion au serveur');
-      ToasterError('Erreur de connexion au serveur');
+      setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      ToasterError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
       console.error(error);
     } finally {
       setLoading(false);

@@ -44,7 +44,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des messages');
+        throw new Error('📩 Impossible de récupérer les messages. Un petit bug ?');
       }
 
       const data = await response.json();
@@ -52,7 +52,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
       setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('Erreur lors de la récupération des messages');
+      ToasterError('📩 Impossible de récupérer les messages. Un petit bug ?');
     }
   };
 
@@ -75,7 +75,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
         });
 
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des informations de l\'interlocuteur');
+          throw new Error("Erreur lors de la récupération des informations de l'interlocuteur");
         }
 
         const data = await response.json();
@@ -108,15 +108,15 @@ export default function ConversationPage({ params }: { params: { id: string } })
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de l\'envoi du message');
+        throw new Error("Erreur lors de l'envoi du message");
       }
 
       setNewMessage('');
       await fetchMessages();
-      ToasterSuccess('Message envoyé');
+      ToasterSuccess('✉️ Message bien envoyé ! Plus qu’à attendre une réponse.');
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('Erreur lors de l\'envoi du message');
+      ToasterError("Erreur lors de l'envoi du message");
     }
   };
 
@@ -210,7 +210,10 @@ export default function ConversationPage({ params }: { params: { id: string } })
       </div>
 
       {/* Formulaire d'envoi */}
-      <form onSubmit={handleSubmit} className="flex items-center space-x-2 bg-[#212936] rounded-b-lg p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center space-x-2 bg-[#212936] rounded-b-lg p-4"
+      >
         <input
           type="text"
           value={newMessage}
@@ -228,4 +231,4 @@ export default function ConversationPage({ params }: { params: { id: string } })
       </form>
     </div>
   );
-} 
+}

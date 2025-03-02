@@ -55,7 +55,7 @@ export default function GenreSelectionModal({
     }
 
     if (selectedGenres.length >= 3) {
-      ToasterError('Vous ne pouvez sélectionner que 3 genres maximum');
+      ToasterError('🎼 3 genres max ! Garde ceux qui te représentent le mieux.');
       return;
     }
 
@@ -109,13 +109,13 @@ export default function GenreSelectionModal({
       }
 
       onUpdate(selectedGenres);
-      ToasterSuccess('Genres musicaux mis à jour !');
+      ToasterSuccess('🎼 Genres actualisés ! Ta vibe est bien définie.');
       onClose();
     } catch (error) {
       if (error instanceof Error) {
         ToasterError(error.message);
       } else {
-        ToasterError('Erreur de connexion');
+        ToasterError('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.');
       }
       console.error('Erreur lors de la mise à jour des genres:', error);
     } finally {

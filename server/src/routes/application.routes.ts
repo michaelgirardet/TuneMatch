@@ -7,11 +7,17 @@ import type { RequestHandler } from 'express';
 const router = express.Router();
 
 const applicationSchema = z.object({
-  message: z.string().min(1, "Le message est requis"),
-  selected_tracks: z.string().optional()
+  message: z.string().min(1, 'Le message est requis'),
+  selected_tracks: z.string().optional(),
 });
 
-type AuthRequestHandler = RequestHandler<{ id?: string }, any, any, any, { user?: AuthRequest['user'] }>;
+type AuthRequestHandler = RequestHandler<
+  { id?: string },
+  any,
+  any,
+  any,
+  { user?: AuthRequest['user'] }
+>;
 
 // Postuler à une annonce
 const applyToAnnouncement: AuthRequestHandler = async (req, res) => {
@@ -20,18 +26,21 @@ const applyToAnnouncement: AuthRequestHandler = async (req, res) => {
     const announcementId = req.params.id;
 
     if (!userId || !announcementId) {
-      return res.status(401).json({ error: 'Utilisateur non authentifié ou annonce non spécifiée' });
+      return res
+        .status(401)
+        .json({ error: 'Utilisateur non authentifié ou annonce non spécifiée' });
     }
 
     // Vérifier si l'utilisateur est un artiste (musicien ou chanteur)
-    const [userRows] = await req.app.locals.pool.execute(
-      'SELECT role FROM users WHERE id = ?',
-      [userId]
-    );
+    const [userRows] = await req.app.locals.pool.execute('SELECT role FROM users WHERE id = ?', [
+      userId,
+    ]);
     const user = userRows[0];
 
     if (!user || (user.role !== 'musicien' && user.role !== 'chanteur')) {
-      return res.status(403).json({ error: 'Seuls les musiciens et chanteurs peuvent postuler aux annonces' });
+      return res
+        .status(403)
+        .json({ error: 'Seuls les musiciens et chanteurs peuvent postuler aux annonces' });
     }
 
     const application = applicationSchema.parse(req.body);
@@ -53,17 +62,17 @@ const applyToAnnouncement: AuthRequestHandler = async (req, res) => {
 
     res.status(201).json({
       message: 'Candidature envoyée avec succès',
-      application: { ...application, id: result.insertId }
+      application: { ...application, id: result.insertId },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         error: 'Données invalides',
-        details: error.errors
+        details: error.errors,
       });
     }
-    console.error('Erreur lors de l\'envoi de la candidature:', error);
-    res.status(500).json({ error: 'Erreur lors de l\'envoi de la candidature' });
+    console.error("Erreur lors de l'envoi de la candidature:", error);
+    res.status(500).json({ error: "Erreur lors de l'envoi de la candidature" });
   }
 };
 
@@ -74,7 +83,9 @@ const getAnnouncementApplications: AuthRequestHandler = async (req, res) => {
     const announcementId = req.params.id;
 
     if (!userId || !announcementId) {
-      return res.status(401).json({ error: 'Utilisateur non authentifié ou annonce non spécifiée' });
+      return res
+        .status(401)
+        .json({ error: 'Utilisateur non authentifié ou annonce non spécifiée' });
     }
 
     // Vérifier que l'annonce appartient au producteur
@@ -110,7 +121,9 @@ const updateApplicationStatus: AuthRequestHandler = async (req, res) => {
     const { status } = req.body;
 
     if (!userId || !applicationId) {
-      return res.status(401).json({ error: 'Utilisateur non authentifié ou candidature non spécifiée' });
+      return res
+        .status(401)
+        .json({ error: 'Utilisateur non authentifié ou candidature non spécifiée' });
     }
 
     if (!['accepted', 'rejected'].includes(status)) {
@@ -134,15 +147,16 @@ const updateApplicationStatus: AuthRequestHandler = async (req, res) => {
     const application = applicationRows[0];
 
     // Mettre à jour le statut de la candidature
-    await req.app.locals.pool.execute(
-      'UPDATE applications SET status = ? WHERE id = ?',
-      [status, applicationId]
-    );
+    await req.app.locals.pool.execute('UPDATE applications SET status = ? WHERE id = ?', [
+      status,
+      applicationId,
+    ]);
 
     // Créer une notification pour l'artiste
-    const notificationContent = status === 'accepted' 
-      ? `Votre candidature pour l'annonce "${application.title}" a été acceptée par ${application.nom_utilisateur}`
-      : `Votre candidature pour l'annonce "${application.title}" a été refusée par ${application.nom_utilisateur}`;
+    const notificationContent =
+      status === 'accepted'
+        ? `Votre candidature pour l'annonce "${application.title}" a été acceptée par ${application.nom_utilisateur}`
+        : `Votre candidature pour l'annonce "${application.title}" a été refusée par ${application.nom_utilisateur}`;
 
     await req.app.locals.pool.execute(
       'INSERT INTO notifications (user_id, type, content, related_id) VALUES (?, ?, ?, ?)',
@@ -186,7 +200,9 @@ const markNotificationAsRead: AuthRequestHandler = async (req, res) => {
     const notificationId = req.params.id;
 
     if (!userId || !notificationId) {
-      return res.status(401).json({ error: 'Utilisateur non authentifié ou notification non spécifiée' });
+      return res
+        .status(401)
+        .json({ error: 'Utilisateur non authentifié ou notification non spécifiée' });
     }
 
     await req.app.locals.pool.execute(
@@ -196,8 +212,8 @@ const markNotificationAsRead: AuthRequestHandler = async (req, res) => {
 
     res.json({ message: 'Notification marquée comme lue' });
   } catch (error) {
-    console.error('Erreur lors de la mise à jour de la notification:', error);
-    res.status(500).json({ error: 'Erreur lors de la mise à jour de la notification' });
+    console.error('🔄 Mise à jour impossible. Essaie encore une fois.:', error);
+    res.status(500).json({ error: '🔄 Mise à jour impossible. Essaie encore une fois.' });
   }
 };
 
@@ -207,4 +223,4 @@ router.put('/:id/status', auth, updateApplicationStatus);
 router.get('/notifications', auth, getUserNotifications);
 router.put('/notifications/:id/read', auth, markNotificationAsRead);
 
-export default router; 
+export default router;
