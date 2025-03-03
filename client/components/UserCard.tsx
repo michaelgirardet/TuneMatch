@@ -23,53 +23,53 @@ interface UserCardProps {
 
 export function UserCard({ user }: UserCardProps) {
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div className="card bg-base-100 shadow-xl bg-[#0A0A0A] p-5 rounded-xl">
       <figure className="relative h-48">
         {user.photo_profil ? (
-          <Image
-            src={user.photo_profil}
-            alt={user.nom_utilisateur}
-            fill
-            className="object-cover"
-          />
+          <Image src={user.photo_profil} alt={user.nom_utilisateur} fill className="object-cover" />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">
             <span className="text-4xl">👤</span>
           </div>
         )}
       </figure>
-      
+
       <div className="card-body">
-        <h2 className="card-title">
+        <h2 className="card-title capitalize font-sulphur font-bold text-3xl mt-5">
           {user.nom_utilisateur}
-          <div className="badge badge-secondary">{user.role}</div>
+          <div className="badge badge-secondary font-sulphur font-medium text-2xl">{user.role}</div>
         </h2>
-        
+
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <MapPinIcon className="w-4 h-4" />
-          <span>{user.city}, {user.country}</span>
+          <span className="font-sulphur">
+            {user.city}, {user.country}
+          </span>
         </div>
-        
+
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <MusicalNoteIcon className="w-4 h-4" />
-          <span>{user.genres_musicaux}</span>
+          <span className="font-sulphur">{user.genres_musicaux}</span>
         </div>
-        
+
         {user.instruments_pratiques && (
-          <p className="text-sm">
+          <p className="text-sm font-sulphur text-gray-600">
             <strong>Instruments:</strong> {user.instruments_pratiques}
           </p>
         )}
-        
-        <p className="text-sm text-gray-700 line-clamp-2">{user.biography}</p>
-        
+
+        <p className="text-sm text-gray-700 line-clamp-2 font-montserrat">{user.biography}</p>
+
         <div className="flex justify-between items-center mt-4">
           <div className="badge badge-outline">{user.tracks_count} morceaux</div>
-          <Link href={`/profile/${user.id}`} className="btn btn-primary btn-sm">
+          <Link
+            href={`/profile/${user.id}`}
+            className="btn btn-primary btn-sm font-montserrat text-[#F2F6FF] font-light italic"
+          >
             Voir le profil
           </Link>
         </div>
       </div>
     </div>
   );
-} 
+}

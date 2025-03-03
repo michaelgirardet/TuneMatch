@@ -156,6 +156,7 @@ export default function Navbar() {
                   <div className="flex flex-col gap-4">
                     {isAuthenticated ? (
                       <>
+                        <NotificationsMenu />
                         <Link
                           href="/"
                           className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
@@ -180,7 +181,12 @@ export default function Navbar() {
                         >
                           <span>Messages</span>
                         </Link>
-                        <NotificationsMenu />
+                        <Link
+                          href="/search"
+                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                        >
+                          <span>Recherche</span>
+                        </Link>
                         <div className="flex-grow" />
                         <Link
                           href="/login"
