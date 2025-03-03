@@ -34,7 +34,7 @@ export class AuthService {
     };
   }
 
-  async login(email: string, password: string): Promise<{ token: string; user: Partial<User> }> {
+  async login(email: string, plainPassword: string): Promise<{ token: string; user: Partial<User> }> {
     // Recherche de l'utilisateur
     const [users] = (await this.pool.execute('SELECT * FROM Utilisateur WHERE email = ?', [
       email,
@@ -47,7 +47,7 @@ export class AuthService {
     const user = users[0];
 
     // Vérification du mot de passe
-    const isValid = await argon2.verify(user.password, password);
+    const isValid = await argon2.verify(user.password, plainPassword);
     if (!isValid) {
       throw new Error('Mot de passe incorrect');
     }

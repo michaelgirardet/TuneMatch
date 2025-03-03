@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -31,11 +31,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   const [interlocutor, setInterlocutor] = useState<Interlocutor | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost:5001/api/messages/${params.id}`, {
         headers: {
@@ -44,26 +40,24 @@ export default function ConversationPage({ params }: { params: { id: string } })
       });
 
       if (!response.ok) {
-        throw new Error('📩 Impossible de récupérer les messages. Un petit bug ?');
+        throw new Error('Erreur lors de la récupération des messages');
       }
 
       const data = await response.json();
       setMessages(data);
-      setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: '📩 Impossible de récupérer les messages. Un petit bug ?' });
+      ToasterError({ message: 'Erreur lors de la récupération des messages' });
     }
-  };
+  }, [token, params.id]);
 
   useEffect(() => {
     if (token) {
       fetchMessages();
-      // Rafraîchir les messages toutes les 5 secondes
       const interval = setInterval(fetchMessages, 5000);
       return () => clearInterval(interval);
     }
-  }, [token, params.id]);
+  }, [token, fetchMessages]);
 
   useEffect(() => {
     const fetchInterlocutor = async () => {
@@ -113,10 +107,10 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
       setNewMessage('');
       await fetchMessages();
-      ToasterSuccess('✉️ Message bien envoyé ! Plus qu’à attendre une réponse.');
+      ToasterSuccess({ message: "✉️ Message bien envoyé ! Plus qu'à attendre une réponse." });
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError("Erreur lors de l'envoi du message");
+      ToasterError({ message: "Erreur lors de l'envoi du message" });
     }
   };
 

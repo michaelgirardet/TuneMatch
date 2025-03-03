@@ -12,11 +12,56 @@ const searchSchema = z.object({
   city: z.string().optional(),
   country: z.string().optional(),
   instruments: z.string().optional(),
-  page: z.number().optional(),
-  limit: z.number().optional(),
+  page: z
+    .string()
+    .transform((val) => Number.parseInt(val, 10))
+    .optional(),
+  limit: z
+    .string()
+    .transform((val) => Number.parseInt(val, 10))
+    .optional(),
 });
 
-type AuthRequestHandler = RequestHandler<any, any, any, any, { user?: AuthRequest['user'] }>;
+interface SearchParams {
+  role?: 'musicien' | 'chanteur';
+  genres?: string;
+  city?: string;
+  country?: string;
+  instruments?: string;
+  page?: string;
+  limit?: string;
+}
+
+interface SearchResponse {
+  artists: Array<{
+    id: number;
+    nom_utilisateur: string;
+    photo_profil: string | null;
+    role: string;
+    city: string;
+    country: string;
+    genres_musicaux: string;
+    biography: string;
+    instruments_pratiques: string | null;
+    tracks_count: number;
+  }>;
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+type SqlParams = (string | number)[];
+
+type AuthRequestHandler = RequestHandler<
+  Record<string, never>,
+  SearchResponse | { error: string },
+  Record<string, never>,
+  SearchParams,
+  { user?: AuthRequest['user'] }
+>;
 
 const searchArtists: AuthRequestHandler = async (req, res) => {
   try {
@@ -52,7 +97,7 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
       AND u.id != ?
     `;
 
-    const queryParams: any[] = [userId];
+    const queryParams: SqlParams = [userId];
 
     if (filters.role) {
       query += ' AND u.role = ?';
@@ -84,7 +129,7 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
       `SELECT COUNT(*) as total FROM (${query}) as subquery`,
       queryParams
     );
-    const total = (countRows as any[])[0].total;
+    const total = (countRows as { total: number }[])[0].total;
 
     // Ajouter la pagination
     query += ' LIMIT ? OFFSET ?';

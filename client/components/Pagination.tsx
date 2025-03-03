@@ -46,9 +46,9 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
         «
       </button>
 
-      {getVisiblePages().map((page, index) =>
+      {getVisiblePages().map((page) =>
         page === -1 ? (
-          <button type="button" key={`ellipsis-${index}`} className="join-item btn" disabled>
+          <button type="button" key={`ellipsis-${currentPage}-${page}`} className="join-item btn" disabled>
             ...
           </button>
         ) : (
