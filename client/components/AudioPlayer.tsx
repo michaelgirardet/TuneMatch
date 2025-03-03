@@ -2,6 +2,7 @@ import PlayRose from '@/public/circle-play-solid.svg';
 import PauseRose from '@/public/circle-pause-solid.svg';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import CloseIcon from '@/public/circle-xmark-solid.svg';
 
 interface Track {
   id: number;
@@ -44,21 +45,19 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
       ) : (
         <>
           {tracks.map((track) => (
-            <div key={track.id} className="bg-[#1D1E2C] w-full rounded-lg p-6 flex flex-col gap-4">
+            <div key={track.id} className="w-full rounded-lg p-6 flex flex-col gap-4 bg-[#0A0A0A]">
               <div className="flex justify-between items-center">
                 <h3 className="text-[#F2F6FF] font-montserrat">
                   {track.artist} - {track.title}
                 </h3>
                 <div className="flex items-center gap-4">
                   {onDeleteTrack && (
-                    <button
-                      type="submit"
+                    <Image
+                      src={CloseIcon}
+                      alt="Supprimer le morceau"
+                      className="w-8 cursor-pointer"
                       onClick={() => onDeleteTrack(track.id)}
-                      className="text-[#F2F6FF] hover:text-red-500 transition-colors"
-                      aria-label="Supprimer le morceau"
-                    >
-                      ×
-                    </button>
+                    />
                   )}
                   <Image
                     src={playingTrackId === track.id ? PauseRose : PlayRose}

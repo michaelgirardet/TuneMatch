@@ -30,7 +30,7 @@ export default function Location() {
         className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity p-5"
       >
         <FaMapMarkerAlt className="text-[#a71666]" />
-        <h3 className="text-[#F2F6FF] font-bold text-2xl">{displayLocation}</h3>
+        <h3 className="text-[#F2F6FF] font-bold text-2xl font-quicksand">{displayLocation}</h3>
       </div>
 
       <LocationModal

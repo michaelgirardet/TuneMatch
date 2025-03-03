@@ -4,6 +4,18 @@ import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
 
+const ErrModal = ({ message }: { message: string }) => (
+  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+    {message}
+  </div>
+);
+
+const SuccessModal = ({ message }: { message: string }) => (
+  <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+    {message}
+  </div>
+);
+
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,16 +38,18 @@ export default function ForgotPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        ToasterSuccess('🎵 Email envoyé ! Vérifiez votre boîte de réception.');
+        ToasterSuccess({ message: '📩 Email envoyé ! Jette un œil à ta boîte de réception.' });
         setResetError(null);
       } else {
         setResetError(data.error);
-        ToasterError(data.error || 'Une erreur est survenue');
+        ToasterError(data.error || '❌ Oups ! Un problème est survenu. Essaie à nouveau.');
         setResetSuccess(null);
       }
     } catch (error) {
-      setResetError('Erreur de connexion au serveur');
-      ToasterError('Erreur de connexion au serveur');
+      setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      ToasterError({
+        message: '🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.',
+      });
       console.error(error);
     } finally {
       setLoading(false);
@@ -58,7 +72,7 @@ export default function ForgotPassword() {
               Email
             </label>
             <input
-              className="font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
               type="email"
               name="email"
               id="email"
@@ -71,7 +85,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center items-center disabled:opacity-50"
+            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
           >
             {loading ? 'Envoi...' : 'Valider'}
           </button>

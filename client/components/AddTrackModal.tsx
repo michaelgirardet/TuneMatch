@@ -36,13 +36,13 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
 
     const error = validateYoutubeUrl(youtubeUrl);
     if (error) {
-      ToasterError(error);
+      ToasterError({ message: error });
       return;
     }
 
     const videoId = extractYoutubeId(youtubeUrl);
     if (!videoId) {
-      ToasterError("Impossible d'extraire l'ID de la vidéo YouTube");
+      ToasterError({ message: '🎬 Oups ! Cette vidéo YouTube semble invalide.' });
       return;
     }
 
@@ -52,11 +52,11 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
       );
       if (!response.ok) {
-        ToasterError("Cette vidéo YouTube n'existe pas ou n'est pas accessible");
+        ToasterError({ message: '❌ Vidéo introuvable ou restreinte. Vérifie l’URL !' });
         return;
       }
     } catch {
-      ToasterError('Erreur lors de la vérification de la vidéo YouTube');
+      ToasterError({ message: '🔍 Impossible de vérifier cette vidéo. Essaie une autre.' });
       return;
     }
 

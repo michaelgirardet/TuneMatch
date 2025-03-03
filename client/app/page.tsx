@@ -26,7 +26,7 @@ export default function Home() {
           <h2 className="font-montserrat">Prêt à faire matcher ta musique ? 🎧</h2>
           <Link href="/register" className="self-center ">
             <button
-              className="button mt-5 w-[200px] text-[#F2F6FF] py-6 px-12 rounded-lg text-lg bg-[#a71666] hover:bg-[#A23E75] tracking-wide border border-[#a71666]"
+              className="button mt-5 w-[200px] text-[#F2F6FF] py-6 px-12 rounded-lg text-lg bg-[#a71666] hover:bg-[#A23E75] tracking-wide border border-[#a71666] font-sulphur"
               type="button"
             >
               Découvrir

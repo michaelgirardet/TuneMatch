@@ -42,7 +42,7 @@ export default function GenreSelectionModal({
   const [loading, setLoading] = useState(false);
 
   const handleSessionExpired = () => {
-    ToasterError('Votre session a expiré, veuillez vous reconnecter');
+    ToasterError({ message: 'Votre session a expiré, veuillez vous reconnecter' });
     logout();
     router.push('/login');
     onClose();
@@ -55,7 +55,7 @@ export default function GenreSelectionModal({
     }
 
     if (selectedGenres.length >= 3) {
-      ToasterError('Vous ne pouvez sélectionner que 3 genres maximum');
+      ToasterError({ message: '🎼 3 genres max ! Garde ceux qui te représentent le mieux.' });
       return;
     }
 
@@ -96,14 +96,28 @@ export default function GenreSelectionModal({
       const data = await response.json();
       console.log('Réponse réussie:', data);
 
+      // Recharger les données utilisateur
+      const userResponse = await fetch('http://localhost:5001/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (userResponse.ok) {
+        const userData = await userResponse.json();
+        useAuthStore.getState().updateUser(userData);
+      }
+
       onUpdate(selectedGenres);
-      ToasterSuccess('Genres musicaux mis à jour !');
+      ToasterSuccess({ message: '🎼 Genres actualisés ! Ta vibe est bien définie.' });
       onClose();
     } catch (error) {
       if (error instanceof Error) {
-        ToasterError(error.message);
+        ToasterError({ message: 'error' });
       } else {
-        ToasterError('Erreur de connexion');
+        ToasterError({
+          message: '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.',
+        });
       }
       console.error('Erreur lors de la mise à jour des genres:', error);
     } finally {

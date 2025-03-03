@@ -10,6 +10,9 @@ import testRoutes from './routes/test.routes';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import tracksRoutes from './routes/tracks.routes';
+import announcementRoutes from './routes/announcement.routes';
+import applicationRoutes from './routes/application.routes';
+import messageRoutes from './routes/message.routes';
 
 dotenv.config();
 
@@ -38,6 +41,9 @@ app.get('/api/users', userController.getUsers);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tracks', tracksRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/applications', applicationRoutes);
+app.use('/api/messages', messageRoutes);
 app.use('/api', testRoutes);
 
 const PORT: number = Number.parseInt(process.env.PORT || '5000', 10);

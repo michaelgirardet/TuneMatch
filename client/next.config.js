@@ -5,10 +5,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'c8.alamy.com',
+        hostname: '**',
       },
       {
-        protocol: 'https',
+        protocol: 'http',
         hostname: '**',
       }
     ],

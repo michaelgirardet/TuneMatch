@@ -36,7 +36,7 @@ export default function Profile() {
   const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>(
     'youtube'
   );
-  const [genres, setGenres] = useState<string[]>(['Rock', 'Jazz', 'Soul']);
+  const [genres, setGenres] = useState<string[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({
     youtube: 'https://www.youtube.com/',
     instagram: 'https://www.instagram.com/',
@@ -82,13 +82,13 @@ export default function Profile() {
       if (response.ok) {
         const newTrack = await response.json();
         setTracks([...tracks, newTrack]);
-        ToasterSuccess('Morceau ajouté avec succès !');
+        ToasterSuccess({ message: '🎶 Nouveau son ajouté ! Hâte de l’entendre.' });
       } else {
         const error = await response.json();
         ToasterError(error.message || "Erreur lors de l'ajout du morceau");
       }
     } catch (error) {
-      ToasterError('Erreur lors de la connexion au serveur');
+      ToasterError({ message: 'Erreur lors de la connexion au serveur' });
       console.error(error);
     }
   };
@@ -108,13 +108,13 @@ export default function Profile() {
 
       if (response.ok) {
         setTracks(tracks.filter((track) => track.id !== trackId));
-        ToasterSuccess('Morceau supprimé avec succès !');
+        ToasterSuccess({ message: '🗑️ Morceau supprimé. À toi de jouer pour la suite !' });
       } else {
         const error = await response.json();
         ToasterError(error.message || 'Erreur lors de la suppression du morceau');
       }
     } catch (error) {
-      ToasterError('Erreur lors de la connexion au serveur');
+      ToasterError({ message: 'Erreur lors de la connexion au serveur' });
       console.error(error);
     }
   };
@@ -142,6 +142,13 @@ export default function Profile() {
       fetchTracks();
     }
   }, [token]);
+
+  // Mettre à jour les genres quand l'utilisateur change
+  useEffect(() => {
+    if (user?.genres_musicaux) {
+      setGenres(user.genres_musicaux.split(','));
+    }
+  }, [user?.genres_musicaux]);
 
   return (
     <main className="min-h-screen w-full flex flex-col">
