@@ -49,10 +49,26 @@ export default function SearchPage() {
     if (value) queryParams.append(key, value.toString());
   }
 
+  // Debug useEffect
+  useEffect(() => {
+    console.log("État d'authentification dans SearchPage:", {
+      token: token,
+      isAuthenticated: useAuthStore.getState().isAuthenticated,
+      timestamp: new Date().toISOString()
+    });
+  }, [token]);
+
   const fetchArtists = useCallback(async () => {
+    if (!token) {
+      setError("Vous devez être connecté pour effectuer une recherche");
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
+
+      console.log("Token utilisé pour la recherche:", token); // Debug log
 
       const queryParams = new URLSearchParams();
       for (const [key, value] of Object.entries(filters)) {
@@ -66,7 +82,8 @@ export default function SearchPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la recherche des artistes');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erreur lors de la recherche des artistes');
       }
 
       const data = await response.json();
@@ -83,8 +100,10 @@ export default function SearchPage() {
   }, [filters, token]);
 
   useEffect(() => {
-    fetchArtists();
-  }, [fetchArtists]);
+    if (token) {
+      fetchArtists();
+    }
+  }, [fetchArtists, token]);
 
   const handleFilterChange = (name: keyof SearchFilters, value: string) => {
     setFilters((prev) => ({
@@ -106,8 +125,10 @@ export default function SearchPage() {
       <nav>
         <Navbar />
       </nav>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Rechercher des artistes</h1>
+      <div className="container min-h-screen w-full mx-auto px-4 py-8 flex flex-col justify-start items-center">
+        <h1 className="text-3xl font-bold mb-8 font-quicksand text-center">
+          Rechercher des artistes
+        </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           <div className="form-control">
@@ -118,8 +139,8 @@ export default function SearchPage() {
               value={filters.role || ''}
             >
               <option value="">Tous</option>
-              <option value="musicien">Musicien</option>
-              <option value="chanteur">Chanteur</option>
+              <option value="artiste">Artiste</option>
+              <option value="producteur">Producteur</option>
             </select>
           </div>
 
@@ -128,7 +149,7 @@ export default function SearchPage() {
             <input
               type="text"
               placeholder="Rock, Jazz, Hip-hop..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded italic"
               onChange={(e) => handleFilterChange('genres', e.target.value)}
               value={filters.genres || ''}
             />
@@ -139,7 +160,7 @@ export default function SearchPage() {
             <input
               type="text"
               placeholder="Paris, Lyon..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded italic"
               onChange={(e) => handleFilterChange('city', e.target.value)}
               value={filters.city || ''}
             />
@@ -150,7 +171,7 @@ export default function SearchPage() {
             <input
               type="text"
               placeholder="France, Belgique..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded italic"
               onChange={(e) => handleFilterChange('country', e.target.value)}
               value={filters.country || ''}
             />
@@ -161,7 +182,7 @@ export default function SearchPage() {
             <input
               type="text"
               placeholder="Guitare, Piano..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded italic"
               onChange={(e) => handleFilterChange('instruments', e.target.value)}
               value={filters.instruments || ''}
             />

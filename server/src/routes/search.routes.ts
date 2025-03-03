@@ -3,11 +3,14 @@ import { auth } from '../middleware/auth';
 import { z } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
 import type { RequestHandler } from 'express';
+import { DatabaseService } from '../services/database';
+import { pool } from '../database/connection';
 
 const router = express.Router();
+const db = new DatabaseService(pool);
 
 const searchSchema = z.object({
-  role: z.enum(['musicien', 'chanteur']).optional(),
+  role: z.enum(['artiste', 'producteur']).optional(),
   genres: z.string().optional(),
   city: z.string().optional(),
   country: z.string().optional(),
@@ -23,13 +26,26 @@ const searchSchema = z.object({
 });
 
 interface SearchParams {
-  role?: 'musicien' | 'chanteur';
+  role?: 'artiste' | 'producteur';
   genres?: string;
   city?: string;
   country?: string;
   instruments?: string;
   page?: string;
   limit?: string;
+}
+
+interface Artist {
+  id: number;
+  nom_utilisateur: string;
+  photo_profil: string | null;
+  role: string;
+  city: string;
+  country: string;
+  genres_musicaux: string;
+  biography: string;
+  instruments_pratiques: string | null;
+  tracks_count: number;
 }
 
 interface SearchResponse {
@@ -53,11 +69,16 @@ interface SearchResponse {
   };
 }
 
+interface ErrorResponse {
+  error: string;
+  details?: string;
+}
+
 type SqlParams = (string | number)[];
 
 type AuthRequestHandler = RequestHandler<
   Record<string, never>,
-  SearchResponse | { error: string },
+  SearchResponse | ErrorResponse,
   Record<string, never>,
   SearchParams,
   { user?: AuthRequest['user'] }
@@ -66,18 +87,23 @@ type AuthRequestHandler = RequestHandler<
 const searchArtists: AuthRequestHandler = async (req, res) => {
   try {
     const userId = req.user?.userId;
+    console.log('Recherche pour userId:', userId);
+    
     if (!userId) {
       return res.status(401).json({ error: 'Utilisateur non authentifié' });
     }
 
+    console.log('Query params reçus:', req.query);
     const filters = searchSchema.parse(req.query);
-    const page = filters.page || 1;
-    const limit = filters.limit || 10;
-    const offset = (page - 1) * limit;
+    console.log('Filtres validés:', filters);
+    
+    const page = Number(filters.page) || 1;
+    const limit = Number(filters.limit) || 10;
+    const offset = Number((page - 1) * limit);
 
-    let query = `
+    let baseQuery = `
       SELECT 
-        u.id,
+        u.id as id,
         u.nom_utilisateur,
         u.photo_profil,
         u.role,
@@ -86,56 +112,63 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
         u.genres_musicaux,
         u.biography,
         pa.instruments_pratiques,
-        (
-          SELECT COUNT(*) 
-          FROM tracks t 
-          WHERE t.user_id = u.id
+        COALESCE(
+          (
+            SELECT COUNT(*) 
+            FROM tracks t 
+            WHERE t.user_id = u.id
+          ), 0
         ) as tracks_count
       FROM users u
       LEFT JOIN profil_artiste pa ON u.id = pa.user_id
-      WHERE u.role IN ('musicien', 'chanteur')
-      AND u.id != ?
+      WHERE u.id != ?
     `;
 
-    const queryParams: SqlParams = [userId];
+    const baseParams: SqlParams = [userId];
 
     if (filters.role) {
-      query += ' AND u.role = ?';
-      queryParams.push(filters.role);
+      baseQuery += ' AND u.role = ?';
+      baseParams.push(filters.role);
     }
 
     if (filters.genres) {
-      query += ' AND u.genres_musicaux LIKE ?';
-      queryParams.push(`%${filters.genres}%`);
+      baseQuery += ' AND u.genres_musicaux LIKE ?';
+      baseParams.push(`%${filters.genres}%`);
     }
 
     if (filters.city) {
-      query += ' AND u.city LIKE ?';
-      queryParams.push(`%${filters.city}%`);
+      baseQuery += ' AND u.city LIKE ?';
+      baseParams.push(`%${filters.city}%`);
     }
 
     if (filters.country) {
-      query += ' AND u.country LIKE ?';
-      queryParams.push(`%${filters.country}%`);
+      baseQuery += ' AND u.country LIKE ?';
+      baseParams.push(`%${filters.country}%`);
     }
 
     if (filters.instruments) {
-      query += ' AND pa.instruments_pratiques LIKE ?';
-      queryParams.push(`%${filters.instruments}%`);
+      baseQuery += ' AND pa.instruments_pratiques LIKE ?';
+      baseParams.push(`%${filters.instruments}%`);
     }
 
-    // Ajouter le comptage total
-    const [countRows] = await req.app.locals.pool.execute(
-      `SELECT COUNT(*) as total FROM (${query}) as subquery`,
-      queryParams
-    );
-    const total = (countRows as { total: number }[])[0].total;
+    console.log('Requête SQL de base:', baseQuery);
+    console.log('Paramètres de base:', baseParams);
 
-    // Ajouter la pagination
-    query += ' LIMIT ? OFFSET ?';
-    queryParams.push(limit, offset);
+    // Faire la requête de comptage
+    const countQuery = `SELECT COUNT(*) as total FROM (${baseQuery}) as subquery`;
+    console.log('Requête de comptage:', countQuery);
+    
+    const countRows = await db.query<{ total: number }>(countQuery, baseParams);
+    const total = countRows[0]?.total || 0;
+    console.log('Total trouvé:', total);
 
-    const [rows] = await req.app.locals.pool.execute(query, queryParams);
+    // Requête principale avec pagination
+    const mainQuery = `${baseQuery} ORDER BY u.id LIMIT ${limit} OFFSET ${offset}`;
+    console.log('Requête SQL finale:', mainQuery);
+    console.log('Paramètres finaux:', baseParams);
+
+    const rows = await db.query<Artist>(mainQuery, baseParams);
+    console.log('Résultats trouvés:', rows.length);
 
     res.json({
       artists: rows,
@@ -147,11 +180,18 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Erreur lors de la recherche:', error);
-    res.status(500).json({ error: 'Erreur lors de la recherche des artistes' });
+    console.error('Erreur détaillée lors de la recherche:', error);
+    if (error instanceof Error) {
+      console.error('Stack trace:', error.stack);
+    }
+    res.status(500).json({ 
+      error: 'Erreur lors de la recherche des artistes',
+      details: error instanceof Error ? error.message : String(error)
+    });
   }
 };
 
 router.get('/', auth, searchArtists);
+console.log('Route de recherche enregistrée');
 
 export default router;
