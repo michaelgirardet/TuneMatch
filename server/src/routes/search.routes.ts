@@ -152,6 +152,6 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
   }
 };
 
-router.get('/', auth, searchArtists);
+router.get('/', searchArtists);
 
 export default router;

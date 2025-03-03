@@ -153,7 +153,7 @@ INSERT INTO matchs (id_artiste, id_producteur) VALUES
 
 INSERT INTO messages (id_expediteur, id_destinataire, contenu) VALUES
 (1, 2, 'Salut Marie, intéressée par un featuring électro ?'),
-(2, 1, 'Salut John, j\'aime ton style ! On peut en discuter.');
+(2, 1, "Salut John, j\'aime ton style ! On peut en discuter.");
 
 -- Ajout d'annonces de test
 INSERT INTO announcements (title, description, musical_style, voice_type, instrument, user_id) VALUES

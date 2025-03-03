@@ -2,12 +2,12 @@ import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587'),
+  port: Number.parseInt(process.env.SMTP_PORT || '587'),
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
+    pass: process.env.SMTP_PASS,
+  },
 });
 
 export const sendResetPasswordEmail = async (email: string, token: string) => {
@@ -24,13 +24,13 @@ export const sendResetPasswordEmail = async (email: string, token: string) => {
       <a href="${resetLink}">Réinitialiser mon mot de passe</a>
       <p>Ce lien est valable pendant 1 heure.</p>
       <p>Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.</p>
-    `
+    `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'email:', error);
-    throw new Error('Erreur lors de l\'envoi de l\'email de réinitialisation');
+    console.error("Erreur lors de l'envoi de l'email:", error);
+    throw new Error("Erreur lors de l'envoi de l'email de réinitialisation");
   }
-}; 
+};

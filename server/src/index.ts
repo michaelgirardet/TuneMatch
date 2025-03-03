@@ -13,6 +13,7 @@ import tracksRoutes from './routes/tracks.routes';
 import announcementRoutes from './routes/announcement.routes';
 import applicationRoutes from './routes/application.routes';
 import messageRoutes from './routes/message.routes';
+import searchRoutes from './routes/search.routes';
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.get('/api/users', userController.getUsers);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tracks', tracksRoutes);
+app.use('/api/search', searchRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);

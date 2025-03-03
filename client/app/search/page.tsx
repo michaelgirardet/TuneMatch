@@ -32,7 +32,7 @@ interface SearchFilters {
 }
 
 export default function SearchPage() {
-  const { token } = useAuthStore();
+  const { user, token } = useAuthStore();
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
