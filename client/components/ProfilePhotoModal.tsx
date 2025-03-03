@@ -31,14 +31,14 @@ export default function ProfilePhotoModal({
 
       if (response.ok) {
         onPhotoUpdate(photoUrl);
-        ToasterSuccess('📸 Nouvelle photo enregistrée ! T’es au top.');
+        ToasterSuccess({ message: '📸 Nouvelle photo enregistrée ! T’es au top.' });
         onClose();
       } else {
         const errorData = await response.json();
         ToasterError(errorData.message || 'Erreur lors de la mise à jour de la photo');
       }
     } catch (error) {
-      ToasterError('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.');
+      ToasterError({ message: '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.' });
       console.error(error);
     }
   };

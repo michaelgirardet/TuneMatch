@@ -50,7 +50,7 @@ export default function AnnouncementList() {
       setAnnouncements(data);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('📢 Les annonces ne s’affichent pas. On regarde ça !');
+      ToasterError({ message: '📢 Les annonces ne s’affichent pas. On regarde ça !' });
     } finally {
       setLoading(false);
     }
@@ -98,12 +98,12 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de la création de l'annonce");
       }
 
-      ToasterSuccess('📢 Annonce en ligne ! Que le show commence.');
+      ToasterSuccess({ message: '📢 Annonce en ligne ! Que le show commence.' });
       setIsModalOpen(false);
       fetchAnnouncements();
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError("Erreur lors de la création de l'annonce");
+      ToasterError({ message: "Erreur lors de la création de l'annonce" });
     }
   };
 
@@ -127,13 +127,13 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de la mise à jour de l'annonce");
       }
 
-      ToasterSuccess('✏️ Annonce actualisée ! Toujours au top.');
+      ToasterSuccess({ message: '✏️ Annonce actualisée ! Toujours au top.' });
       setIsModalOpen(false);
       setSelectedAnnouncement(undefined);
       fetchAnnouncements();
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError("Erreur lors de la mise à jour de l'annonce");
+      ToasterError({ message: "Erreur lors de la mise à jour de l'annonce" });
     }
   };
 
@@ -154,11 +154,11 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de la suppression de l'annonce");
       }
 
-      ToasterSuccess('❌ Annonce supprimée. Prêt pour la prochaine ?');
+      ToasterSuccess({ message: '❌ Annonce supprimée. Prêt pour la prochaine ?' });
       fetchAnnouncements();
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError("Erreur lors de la suppression de l'annonce");
+      ToasterError({ message: "Erreur lors de la suppression de l'annonce" });
     }
   };
 
@@ -190,12 +190,12 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de l'envoi de la candidature");
       }
 
-      ToasterSuccess('🚀 Candidature envoyée ! On croise les doigts.');
+      ToasterSuccess({ message: '🚀 Candidature envoyée ! On croise les doigts.' });
       setIsApplicationModalOpen(false);
       setSelectedAnnouncementId(null);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError("Erreur lors de l'envoi de la candidature");
+      ToasterError({ message: "Erreur lors de l'envoi de la candidature" });
     }
   };
 

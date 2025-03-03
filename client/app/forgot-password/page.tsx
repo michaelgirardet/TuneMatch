@@ -26,7 +26,7 @@ export default function ForgotPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        ToasterSuccess('📩 Email envoyé ! Jette un œil à ta boîte de réception.');
+        ToasterSuccess({ message: '📩 Email envoyé ! Jette un œil à ta boîte de réception.' });
         setResetError(null);
       } else {
         setResetError(data.error);
@@ -35,7 +35,9 @@ export default function ForgotPassword() {
       }
     } catch (error) {
       setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
-      ToasterError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      ToasterError({
+        message: '🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.',
+      });
       console.error(error);
     } finally {
       setLoading(false);

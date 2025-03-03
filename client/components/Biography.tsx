@@ -35,14 +35,14 @@ export default function Biography() {
         if (user) {
           updateUser({ ...user, biography });
         }
-        ToasterSuccess('📖 Bio mise à jour ! Ton histoire est prête à être lue.');
+        ToasterSuccess({ message: '📖 Bio mise à jour ! Ton histoire est prête à être lue.' });
         setIsEditing(false);
       } else {
         const error = await response.json();
         ToasterError(error.message || 'Erreur lors de la mise à jour de la biographie');
       }
     } catch (error) {
-      ToasterError('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.');
+      ToasterError({ message: '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.' });
       console.error(error);
     } finally {
       setLoading(false);

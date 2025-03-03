@@ -31,7 +31,7 @@ export default function ApplicationModal({
     e.preventDefault();
 
     if (!formData.message) {
-      ToasterError('✍️ Un petit message, ça aide ! Écris quelque chose.');
+      ToasterError({ message: '✍️ Un petit message, ça aide ! Écris quelque chose.' });
       return;
     }
 

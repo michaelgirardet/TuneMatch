@@ -46,7 +46,9 @@ export default function ApplicationsPage() {
         setApplications(data);
       } catch (error) {
         console.error('Erreur:', error);
-        ToasterError('🚨 Impossible de charger les candidatures. Réessaie dans un instant.');
+        ToasterError({
+          message: '🚨 Impossible de charger les candidatures. Réessaie dans un instant.',
+        });
       } finally {
         setLoading(false);
       }
@@ -76,15 +78,12 @@ export default function ApplicationsPage() {
         throw new Error(errorData.error || 'Erreur lors de la mise à jour du statut');
       }
 
-      ToasterSuccess('✅ Statut actualisé ! Tout est en place.');
+      ToasterSuccess({ message: '✅ Statut actualisé ! Tout est en place.' });
       setApplications(
         applications.map((app) => (app.id === applicationId ? { ...app, status: newStatus } : app))
       );
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError(
-        error instanceof Error ? error.message : 'Erreur lors de la mise à jour du statut'
-      );
     }
   };
 

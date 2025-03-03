@@ -15,7 +15,7 @@ interface Notification {
 }
 
 export default function NotificationsMenu() {
-  const { user, token } = useAuthStore();
+  const { token } = useAuthStore();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -37,7 +37,7 @@ export default function NotificationsMenu() {
       setUnreadCount(data.filter((notif: Notification) => !notif.is_read).length);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('🔔 Les notifications ne s’affichent pas. Un petit bug ?');
+      ToasterError({ message: "🔔 Les notifications ne s'affichent pas. Un petit bug ?" });
     }
   };
 
@@ -65,7 +65,7 @@ export default function NotificationsMenu() {
       setUnreadCount((prev) => prev - 1);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('🔄 Mise à jour impossible. Essaie encore une fois.');
+      ToasterError({ message: '🔄 Mise à jour impossible. Essaie encore une fois.' });
     }
   };
 
@@ -81,14 +81,16 @@ export default function NotificationsMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-400 hover:text-white focus:outline-none"
+        className="relative p-2 text-gray-400 hover:text-white focus:outline-none flex items-center gap-2"
       >
-        <BellIcon className="h-6 w-6" />
-        {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-[#a71666] rounded-full">
-            {unreadCount}
-          </span>
-        )}
+        <>
+          <BellIcon className="h-6 w-6 stroke-gray-400" />
+          {unreadCount > 0 && (
+            <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-[#a71666] rounded-full">
+              {unreadCount}
+            </span>
+          )}
+        </>
       </button>
 
       {isOpen && (

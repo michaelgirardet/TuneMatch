@@ -3,6 +3,7 @@ import cors from 'cors';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import tracksRoutes from './routes/tracks.routes';
+import searchRoutes from './routes/search.routes';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tracks', tracksRoutes);
+app.use('/api/search', searchRoutes);
 
 // Route de test
 app.get('/api/health', (_req, res) => {

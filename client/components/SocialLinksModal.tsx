@@ -53,14 +53,14 @@ export default function SocialLinksModal({
 
       if (response.ok) {
         onUpdate({ ...currentLinks, [platform]: link });
-        ToasterSuccess('🔗 Lien actualisé ! Tout est bien connecté.');
+        ToasterSuccess({ message: '🔗 Lien actualisé ! Tout est bien connecté.' });
         onClose();
       } else {
         const error = await response.json();
         ToasterError(error.message || 'Erreur lors de la mise à jour du lien');
       }
     } catch (error) {
-      ToasterError('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.');
+      ToasterError({ message: '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.' });
       console.error(error);
     } finally {
       setLoading(false);

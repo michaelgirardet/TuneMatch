@@ -7,6 +7,7 @@ import { useState } from 'react';
 import LogoBurger from '@/public/sliders-icon-wh.svg';
 import CloseIcon from '@/public/xmark-wh.svg';
 import NotificationsMenu from './NotificationsMenu';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuthStore();
@@ -58,6 +59,9 @@ export default function Navbar() {
                 className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
               >
                 Messages
+              </Link>
+              <Link href="/search">
+                <MagnifyingGlassIcon className="h-6 w-6 stroke-gray-400 cursor-pointer" />
               </Link>
               <NotificationsMenu />
               {isAuthenticated && user && (

@@ -33,11 +33,11 @@ export default function Login() {
         const data = await response.json();
         login(data.token, data.user);
         router.push('/profile');
-        ToasterSuccess('🎸 Connexion réussie ! Prêt à faire du bruit ?');
+        ToasterSuccess({ message: '🎸 Connexion réussie ! Prêt à faire du bruit ?' });
       } else {
         const errorData = await response.json();
         setError(errorData.error || 'Erreur lors de la connexion');
-        ToasterError('🚨 🎵 Petit couac technique ! On réessaie ?');
+        ToasterError({ message: '🚨 🎵 Petit couac technique ! On réessaie ?' });
         console.error(error);
       }
     } catch (_err) {

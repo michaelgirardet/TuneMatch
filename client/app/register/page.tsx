@@ -47,7 +47,7 @@ export default function Register() {
         const errorData = await response.json();
         console.log('Erreur serveur:', errorData); // Pour débugger
         setError(errorData.error || "Erreur lors de l'inscription");
-        ToasterError('🚨 🎵 Petit couac technique ! On réessaie ?');
+        ToasterError({ message: '🚨 🎵 Petit couac technique ! On réessaie ?' });
       } else {
         toast.success(
           "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",

@@ -41,7 +41,7 @@ export default function ResetPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        ToasterSuccess('🔑 Mot de passe mis à jour ! Tu peux te reconnecter.');
+        ToasterSuccess({ message: '🔑 Mot de passe mis à jour ! Tu peux te reconnecter.' });
         setResetError(null);
       } else {
         setResetError(data.error);
@@ -50,7 +50,9 @@ export default function ResetPassword() {
       }
     } catch (error) {
       setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
-      ToasterError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      ToasterError({
+        message: '🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.',
+      });
       console.error(error);
     } finally {
       setLoading(false);

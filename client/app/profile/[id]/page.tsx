@@ -56,7 +56,7 @@ export default function PublicProfile() {
         setProfile(data);
       } catch (error) {
         console.error('Erreur:', error);
-        ToasterError('Erreur lors du chargement du profil');
+        ToasterError({ message: 'Erreur lors du chargement du profil' });
       }
     };
 
@@ -128,29 +128,17 @@ export default function PublicProfile() {
           <div className="flex flex-row gap-2">
             {profile.youtube_link && (
               <a href={profile.youtube_link} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={LogoYT}
-                  className="w-[60px] h-[auto]"
-                  alt="Logo Youtube"
-                />
+                <Image src={LogoYT} className="w-[60px] h-[auto]" alt="Logo Youtube" />
               </a>
             )}
             {profile.instagram_link && (
               <a href={profile.instagram_link} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={LogoIG}
-                  className="w-[60px] h-[auto]"
-                  alt="Logo Instagram"
-                />
+                <Image src={LogoIG} className="w-[60px] h-[auto]" alt="Logo Instagram" />
               </a>
             )}
             {profile.soundcloud_link && (
               <a href={profile.soundcloud_link} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={LogoSoundClound}
-                  className="w-[60px] h-[auto]"
-                  alt="Logo Soundcloud"
-                />
+                <Image src={LogoSoundClound} className="w-[60px] h-[auto]" alt="Logo Soundcloud" />
               </a>
             )}
           </div>
@@ -160,10 +148,7 @@ export default function PublicProfile() {
           {profile.genres_musicaux && (
             <div className="flex flex-wrap gap-2 justify-center">
               {profile.genres_musicaux.split(',').map((genre) => (
-                <span
-                  key={genre}
-                  className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded"
-                >
+                <span key={genre} className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded">
                   {genre.trim()}
                 </span>
               ))}
@@ -184,9 +169,7 @@ export default function PublicProfile() {
 
           {tracks.length > 0 && (
             <div className="w-full max-w-2xl mt-8">
-              <h2 className="text-2xl font-quicksand font-bold mb-4 text-center">
-                Morceaux
-              </h2>
+              <h2 className="text-2xl font-quicksand font-bold mb-4 text-center">Morceaux</h2>
               <AudioPlayer tracks={tracks} />
             </div>
           )}
@@ -195,4 +178,4 @@ export default function PublicProfile() {
       <Footer />
     </main>
   );
-} 
+}

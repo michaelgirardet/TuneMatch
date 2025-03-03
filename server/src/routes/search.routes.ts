@@ -1,0 +1,112 @@
+import express from 'express';
+import { auth } from '../middleware/auth';
+import { z } from 'zod';
+import type { AuthRequest } from '../types/auth.types';
+import type { RequestHandler } from 'express';
+
+const router = express.Router();
+
+const searchSchema = z.object({
+  role: z.enum(['musicien', 'chanteur']).optional(),
+  genres: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+  instruments: z.string().optional(),
+  page: z.number().optional(),
+  limit: z.number().optional(),
+});
+
+type AuthRequestHandler = RequestHandler<any, any, any, any, { user?: AuthRequest['user'] }>;
+
+const searchArtists: AuthRequestHandler = async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
+    const filters = searchSchema.parse(req.query);
+    const page = filters.page || 1;
+    const limit = filters.limit || 10;
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT 
+        u.id,
+        u.nom_utilisateur,
+        u.photo_profil,
+        u.role,
+        u.city,
+        u.country,
+        u.genres_musicaux,
+        u.biography,
+        pa.instruments_pratiques,
+        (
+          SELECT COUNT(*) 
+          FROM tracks t 
+          WHERE t.user_id = u.id
+        ) as tracks_count
+      FROM users u
+      LEFT JOIN profil_artiste pa ON u.id = pa.user_id
+      WHERE u.role IN ('musicien', 'chanteur')
+      AND u.id != ?
+    `;
+
+    const queryParams: any[] = [userId];
+
+    if (filters.role) {
+      query += ' AND u.role = ?';
+      queryParams.push(filters.role);
+    }
+
+    if (filters.genres) {
+      query += ' AND u.genres_musicaux LIKE ?';
+      queryParams.push(`%${filters.genres}%`);
+    }
+
+    if (filters.city) {
+      query += ' AND u.city LIKE ?';
+      queryParams.push(`%${filters.city}%`);
+    }
+
+    if (filters.country) {
+      query += ' AND u.country LIKE ?';
+      queryParams.push(`%${filters.country}%`);
+    }
+
+    if (filters.instruments) {
+      query += ' AND pa.instruments_pratiques LIKE ?';
+      queryParams.push(`%${filters.instruments}%`);
+    }
+
+    // Ajouter le comptage total
+    const [countRows] = await req.app.locals.pool.execute(
+      `SELECT COUNT(*) as total FROM (${query}) as subquery`,
+      queryParams
+    );
+    const total = (countRows as any[])[0].total;
+
+    // Ajouter la pagination
+    query += ' LIMIT ? OFFSET ?';
+    queryParams.push(limit, offset);
+
+    const [rows] = await req.app.locals.pool.execute(query, queryParams);
+
+    res.json({
+      artists: rows,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error('Erreur lors de la recherche:', error);
+    res.status(500).json({ error: 'Erreur lors de la recherche des artistes' });
+  }
+};
+
+router.get('/', auth, searchArtists);
+
+export default router;

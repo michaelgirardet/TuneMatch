@@ -52,7 +52,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
       setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError('📩 Impossible de récupérer les messages. Un petit bug ?');
+      ToasterError({ message: '📩 Impossible de récupérer les messages. Un petit bug ?' });
     }
   };
 
@@ -103,7 +103,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
         },
         body: JSON.stringify({
           content: newMessage,
-          recipientId: parseInt(params.id),
+          recipientId: Number.parseInt(params.id),
         }),
       });
 

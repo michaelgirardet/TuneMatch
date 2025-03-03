@@ -82,13 +82,13 @@ export default function Profile() {
       if (response.ok) {
         const newTrack = await response.json();
         setTracks([...tracks, newTrack]);
-        ToasterSuccess('🎶 Nouveau son ajouté ! Hâte de l’entendre.');
+        ToasterSuccess({ message: '🎶 Nouveau son ajouté ! Hâte de l’entendre.' });
       } else {
         const error = await response.json();
         ToasterError(error.message || "Erreur lors de l'ajout du morceau");
       }
     } catch (error) {
-      ToasterError('Erreur lors de la connexion au serveur');
+      ToasterError({ message: 'Erreur lors de la connexion au serveur' });
       console.error(error);
     }
   };
@@ -108,13 +108,13 @@ export default function Profile() {
 
       if (response.ok) {
         setTracks(tracks.filter((track) => track.id !== trackId));
-        ToasterSuccess('🗑️ Morceau supprimé. À toi de jouer pour la suite !');
+        ToasterSuccess({ message: '🗑️ Morceau supprimé. À toi de jouer pour la suite !' });
       } else {
         const error = await response.json();
         ToasterError(error.message || 'Erreur lors de la suppression du morceau');
       }
     } catch (error) {
-      ToasterError('Erreur lors de la connexion au serveur');
+      ToasterError({ message: 'Erreur lors de la connexion au serveur' });
       console.error(error);
     }
   };
