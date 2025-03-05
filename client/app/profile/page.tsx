@@ -82,13 +82,13 @@ export default function Profile() {
       if (response.ok) {
         const newTrack = await response.json();
         setTracks([...tracks, newTrack]);
-        ToasterSuccess({ message: '🎶 Nouveau son ajouté ! Hâte de l’entendre.' });
+        <ToasterSuccess message="🎶 Nouveau son ajouté ! Hâte de l’entendre." />;
       } else {
         const error = await response.json();
-        ToasterError(error.message || "Erreur lors de l'ajout du morceau");
+        <ToasterError message={error} />;
       }
     } catch (error) {
-      ToasterError({ message: 'Erreur lors de la connexion au serveur' });
+      <ToasterError message="Erreur lors de la connexion au serveur" />;
       console.error(error);
     }
   };
@@ -108,13 +108,12 @@ export default function Profile() {
 
       if (response.ok) {
         setTracks(tracks.filter((track) => track.id !== trackId));
-        ToasterSuccess({ message: '🗑️ Morceau supprimé. À toi de jouer pour la suite !' });
+        <ToasterSuccess message="🗑️ Morceau supprimé. À toi de jouer pour la suite !" />;
       } else {
-        const error = await response.json();
-        ToasterError(error.message || 'Erreur lors de la suppression du morceau');
+        <ToasterError message="Erreur lors de la suppression du morceau" />;
       }
     } catch (error) {
-      ToasterError({ message: 'Erreur lors de la connexion au serveur' });
+      <ToasterError message="Erreur lors de la connexion au serveur" />;
       console.error(error);
     }
   };
@@ -163,7 +162,7 @@ export default function Profile() {
           <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoYT}
-              className="w-[60px] h-[auto] cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer hover:bg-[#212936] rounded-md"
               alt="Logo Youtube"
               aria-label="Modifier le lien YouTube"
               onClick={(e) => {
@@ -175,7 +174,7 @@ export default function Profile() {
           <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoIG}
-              className="w-[60px] h-[auto] cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer hover:bg-[#212936] rounded-md"
               alt="Logo Instagram"
               aria-label="Modifier le lien Instagram"
               onClick={(e) => {
@@ -187,7 +186,7 @@ export default function Profile() {
           <a href={socialLinks.soundcloud} target="_blank" rel="noopener noreferrer">
             <Image
               src={LogoSoundClound}
-              className="w-[60px] h-[auto] cursor-pointer"
+              className="w-[60px] h-[auto] cursor-pointer hover:bg-[#212936] rounded-md"
               alt="Logo Soundcloud"
               aria-label="Modifier le lien Soundcloud"
               onClick={(e) => {

@@ -2,8 +2,6 @@
 import { useState, useEffect } from 'react';
 import { ToasterError, ToasterSuccess } from './Toast';
 import { useAuthStore } from '@/store/authStore';
-import EditIcon from '@/public/pen-to-square-solid.svg';
-import Image from 'next/image';
 
 export default function Biography() {
   const [biography, setBiography] = useState('');
@@ -35,14 +33,15 @@ export default function Biography() {
         if (user) {
           updateUser({ ...user, biography });
         }
-        ToasterSuccess({ message: '📖 Bio mise à jour ! Ton histoire est prête à être lue.' });
+        <ToasterSuccess message="📖 Bio mise à jour ! Ton histoire est prête à être lue." />;
         setIsEditing(false);
       } else {
         const error = await response.json();
-        ToasterError(error.message || 'Erreur lors de la mise à jour de la biographie');
+        <ToasterError message="Erreur lors de la mise à jour de la biographie" />;
+        console.error(error);
       }
     } catch (error) {
-      ToasterError({ message: '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.' });
+      <ToasterError message="🔐 Connexion impossible ! Vérifie tes identifiants et réessaie." />;
       console.error(error);
     } finally {
       setLoading(false);

@@ -54,7 +54,6 @@ const applyToAnnouncement: AuthRequestHandler = async (req, res) => {
     if (existingRows.length > 0) {
       return res.status(400).json({ error: 'Vous avez déjà postulé à cette annonce' });
     }
-
     const [result] = await req.app.locals.pool.execute(
       'INSERT INTO applications (announcement_id, artist_id, message, selected_tracks) VALUES (?, ?, ?, ?)',
       [announcementId, userId, application.message, application.selected_tracks || null]

@@ -46,9 +46,7 @@ export default function ApplicationsPage() {
         setApplications(data);
       } catch (error) {
         console.error('Erreur:', error);
-        ToasterError({
-          message: '🚨 Impossible de charger les candidatures. Réessaie dans un instant.',
-        });
+        <ToasterError message="🚨 Impossible de charger les candidatures. Réessaie dans un instant." />;
       } finally {
         setLoading(false);
       }

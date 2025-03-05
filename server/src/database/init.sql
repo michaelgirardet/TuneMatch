@@ -132,9 +132,21 @@ CREATE TABLE notifications (
 
 -- Données de test (dans l'ordre des dépendances)
 INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, city, country) VALUES
-('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'Passionné de musique électronique', 'Paris', 'France'),
-('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/girl', 'Productrice de hip-hop', 'Lyon', 'France'),
-('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://avatar.iran.liara.run/public/girl', 'Guitariste et auteur-compositeur', 'Marseille', 'France');
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833554.jpg?ga=GA1.1.1458521712.1740386979', 'Passionné de musique électronique', 'Paris', 'France'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg?ga=GA1.1.1458521712.1740386979', 'Productrice de hip-hop', 'Lyon', 'France'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833546.jpg?ga=GA1.1.1458521712.1740386979', 'Guitariste et auteur-compositeur', 'Marseille', 'France'),
+('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869153.jpg?ga=GA1.1.1458521712.1740386979', 'Violoniste classique', 'Bordeaux', 'France'),
+('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303093.jpg?ga=GA1.1.1458521712.1740386979', 'Beatmaker spécialisé trap et drill', 'Berlin', 'Allemagne'),
+('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteur de reggaeton', 'Madrid', 'Espagne'),
+('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869129.jpg?ga=GA1.1.1458521712.1740386979', 'Pianiste jazz', 'Lille', 'France'),
+('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611710.jpg?ga=GA1.1.1458521712.1740386979', 'Producteur indépendant pop', 'New York', 'USA'),
+('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833584.jpg?ga=GA1.1.1458521712.1740386979', 'Batteur métal', 'Bruxelles', 'Belgique'),
+('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteuse pop K-pop', 'Séoul', 'Corée du Sud'),
+('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436200.jpg?ga=GA1.1.1458521712.1740386979', 'Basse funk', 'Los Angeles', 'USA'),
+('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869157.jpg?ga=GA1.1.1458521712.1740386979', 'Spécialisée en house music', 'Milan', 'Italie'),
+('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671126.jpg?ga=GA1.1.1458521712.1740386979', 'DJ techno', 'Amsterdam', 'Pays-Bas'),
+('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303065.jpg?ga=GA1.1.1458521712.1740386979', 'Mezzo-soprano classique', 'Varsovie', 'Pologne'),
+('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833548.jpg?ga=GA1.1.1458521712.1740386979', 'Ingé son spécialisé en rock alternatif', 'Dublin', 'Irlande');
 
 INSERT INTO tracks (title, artist, url, user_id) VALUES
 ('Electro Vibes', 'JohnD999', 'https://soundcloud.com/johnd999/electro-vibes', 1),
@@ -157,8 +169,23 @@ INSERT INTO messages (id_expediteur, id_destinataire, contenu) VALUES
 
 -- Ajout d'annonces de test
 INSERT INTO announcements (title, description, musical_style, voice_type, instrument, user_id) VALUES
-('Recherche guitariste rock', 'Je cherche un guitariste pour un projet rock alternatif', 'Rock', NULL, 'Guitare', 2),
-('Cherche chanteur/chanteuse', 'Projet pop en cours, recherche voix soul', 'Pop', 'Soul', NULL, 2);
+("Cherche beatmaker trap", "Besoin d'un beatmaker pour un projet de mixtape", "Trap", NULL, NULL, 5),
+("Violoniste pour orchestre", "Recherche violoniste classique pour concerts", "Classique", NULL, "Violon", 4),
+("Batteur métal recherché", "Projet métal en cours, besoin d'un batteur expérimenté", "Métal", NULL, "Batterie", 9),
+("Chanteur reggae", "Besoin d'un chanteur pour un album reggae", "Reggae", "Ténor", NULL, 6),
+("DJ pour collaboration house", "Je cherche un DJ pour mixer mes tracks house", "House", NULL, "DJ", 12),
+("Pianiste jazz", "Cherche pianiste pour trio jazz", "Jazz", NULL, "Piano", 7),
+("Guitariste pour projet indie", "Projet indie-pop en préparation, besoin d'un guitariste", "Indie", NULL, "Guitare", 2),
+("Chanteuse pop urbaine", "Besoin d'une chanteuse avec une voix RnB", "Pop", "Alto", NULL, 10),
+("Basse funk groove", "Je cherche un bassiste funky pour un band", "Funk", NULL, "Basse", 11),
+("Artiste hip-hop pour feat", "Besoin d'un rappeur pour un feat sur mon EP", "Hip-Hop", NULL, NULL, 8),
+("Orchestre symphonique cherche voix", "Orchestre cherchant une voix soprano", "Classique", "Soprano", NULL, 14),
+("Chanteur/Chanteuse rock alternatif", "Besoin d'une voix puissante pour projet rock", "Rock", "Baryton", NULL, 15),
+("Batteur jazz fusion", "Recherche batteur pour projet jazz fusion", "Jazz", NULL, "Batterie", 7),
+("Choriste gospel", "Chœur gospel cherche choriste alto", "Gospel", "Alto", NULL, 13),
+("Saxophoniste funk", "Projet funk en recherche d'un saxophoniste", "Funk", NULL, "Saxophone", 11);
+
+
 
 -- Applications de test
 INSERT INTO applications (announcement_id, artist_id, message) VALUES

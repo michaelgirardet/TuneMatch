@@ -5,11 +5,13 @@ import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ToasterError } from '@/components/Toast';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import LogoYT from '@/public/yt-icon-wh.png';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
 import AudioPlayer from '@/components/AudioPlayer';
+import Link from 'next/link';
 
 interface UserProfile {
   id: number;
@@ -56,7 +58,7 @@ export default function PublicProfile() {
         setProfile(data);
       } catch (error) {
         console.error('Erreur:', error);
-        ToasterError({ message: 'Erreur lors du chargement du profil' });
+        <ToasterError message="Erreur lors du chargement du profil" />;
       }
     };
 
@@ -100,6 +102,11 @@ export default function PublicProfile() {
   return (
     <main className="min-h-screen w-full flex flex-col">
       <Navbar />
+      <div>
+        <Link href="/search">
+          <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
+        </Link>
+      </div>
       <div className="flex flex-col items-center justify-center py-10 gap-5">
         {profile.photo_profil ? (
           <Image

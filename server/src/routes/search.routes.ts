@@ -10,7 +10,7 @@ const router = express.Router();
 const db = new DatabaseService(pool);
 
 const searchSchema = z.object({
-  role: z.enum(['artiste', 'producteur']).optional(),
+  role: z.enum(['musicien', 'chanteur', 'producteur']).optional(),
   genres: z.string().optional(),
   city: z.string().optional(),
   country: z.string().optional(),
@@ -87,16 +87,13 @@ type AuthRequestHandler = RequestHandler<
 const searchArtists: AuthRequestHandler = async (req, res) => {
   try {
     const userId = req.user?.userId;
-    console.log('Recherche pour userId:', userId);
-    
+
     if (!userId) {
       return res.status(401).json({ error: 'Utilisateur non authentifié' });
     }
 
-    console.log('Query params reçus:', req.query);
     const filters = searchSchema.parse(req.query);
-    console.log('Filtres validés:', filters);
-    
+
     const page = Number(filters.page) || 1;
     const limit = Number(filters.limit) || 10;
     const offset = Number((page - 1) * limit);
@@ -151,24 +148,16 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
       baseParams.push(`%${filters.instruments}%`);
     }
 
-    console.log('Requête SQL de base:', baseQuery);
-    console.log('Paramètres de base:', baseParams);
-
     // Faire la requête de comptage
     const countQuery = `SELECT COUNT(*) as total FROM (${baseQuery}) as subquery`;
-    console.log('Requête de comptage:', countQuery);
-    
+
     const countRows = await db.query<{ total: number }>(countQuery, baseParams);
     const total = countRows[0]?.total || 0;
-    console.log('Total trouvé:', total);
 
     // Requête principale avec pagination
     const mainQuery = `${baseQuery} ORDER BY u.id LIMIT ${limit} OFFSET ${offset}`;
-    console.log('Requête SQL finale:', mainQuery);
-    console.log('Paramètres finaux:', baseParams);
 
     const rows = await db.query<Artist>(mainQuery, baseParams);
-    console.log('Résultats trouvés:', rows.length);
 
     res.json({
       artists: rows,
@@ -184,9 +173,9 @@ const searchArtists: AuthRequestHandler = async (req, res) => {
     if (error instanceof Error) {
       console.error('Stack trace:', error.stack);
     }
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Erreur lors de la recherche des artistes',
-      details: error instanceof Error ? error.message : String(error)
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 };

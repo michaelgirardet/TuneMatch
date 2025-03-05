@@ -68,8 +68,6 @@ export default function SearchPage() {
       setLoading(true);
       setError(null);
 
-      console.log('Token utilisé pour la recherche:', token); // Debug log
-
       const queryParams = new URLSearchParams();
       for (const [key, value] of Object.entries(filters)) {
         if (value) queryParams.append(key, value.toString());
@@ -125,63 +123,69 @@ export default function SearchPage() {
       <nav>
         <Navbar />
       </nav>
-      <div className="container min-h-screen w-full mx-auto px-4 py-8 flex flex-col justify-start items-center">
-        <h1 className="text-3xl font-bold mb-16 font-quicksand text-center">
-          Rechercher des artistes
-        </h1>
+      <div className="container min-h-screen w-full mx-auto px-4 py-8 flex flex-col justify-center">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-3xl font-bold mb-16 font-quicksand text-center">
+            Rechercher des artistes
+          </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
-          <div className="form-control">
-            <select
-              className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('role', e.target.value)}
-              value={filters.role || ''}
-            >
-              <option value="">Tous</option>
-              <option value="artiste">Artiste</option>
-              <option value="producteur">Producteur</option>
-            </select>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16 h-[55vh] md:h-[auto]">
+            <div className="form-control">
+              <select
+                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('role', e.target.value)}
+                value={filters.role || ''}
+              >
+                <option value="">Tous</option>
+                <option value="chanteur">Chanteur</option>
+                <option value="musicien">Musicien</option>
+                <option value="producteur">Producteur</option>
+              </select>
+            </div>
 
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Genre Musical"
-              className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('genres', e.target.value)}
-              value={filters.genres || ''}
-            />
-          </div>
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Genre Musical"
+                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('genres', e.target.value)}
+                value={filters.genres || ''}
+              />
+            </div>
 
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Ville"
-              className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('city', e.target.value)}
-              value={filters.city || ''}
-            />
-          </div>
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Ville"
+                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('city', e.target.value)}
+                value={filters.city || ''}
+              />
+            </div>
 
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Pays"
-              className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('country', e.target.value)}
-              value={filters.country || ''}
-            />
-          </div>
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Pays"
+                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('country', e.target.value)}
+                value={filters.country || ''}
+              />
+            </div>
 
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Instrument"
-              className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('instruments', e.target.value)}
-              value={filters.instruments || ''}
-            />
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Instrument"
+                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('instruments', e.target.value)}
+                value={filters.instruments || ''}
+              />
+            </div>
           </div>
+        </div>
+        <div>
+          <hr className="text-[#0A0A0A] w-[50vw] justify-self-center mb-10" />
         </div>
 
         {error && <ToasterError message={error} />}

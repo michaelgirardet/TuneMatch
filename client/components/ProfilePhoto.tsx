@@ -12,14 +12,16 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
 
   return (
     <>
-      <Image
-        src={currentPhotoUrl || '/avatar.png'}
-        alt="photo de profil"
-        width={160}
-        height={160}
-        className="w-[10em] h-[10em] rounded-[50%] bg-white cursor-pointer object-cover"
-        onClick={() => setIsModalOpen(true)}
-      />
+      <div className="bg-[#f6f2ff] rounded-[50%]">
+        <Image
+          src={currentPhotoUrl || '/avatar.png'}
+          alt="photo de profil"
+          width={160}
+          height={160}
+          className="w-[10em] h-[10em] rounded-[50%] bg-white cursor-pointer object-cover hover:opacity-75"
+          onClick={() => setIsModalOpen(true)}
+        />
+      </div>
       <ProfilePhotoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -27,4 +29,4 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
       />
     </>
   );
-} 
+}

@@ -47,7 +47,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
       setMessages(data);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: 'Erreur lors de la récupération des messages' });
+      <ToasterError message="Erreur lors de la récupération des messages" />;
     }
   }, [token, params.id]);
 
@@ -107,10 +107,10 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
       setNewMessage('');
       await fetchMessages();
-      ToasterSuccess({ message: "✉️ Message bien envoyé ! Plus qu'à attendre une réponse." });
+      <ToasterSuccess message="✉️ Message bien envoyé ! Plus qu'à attendre une réponse." />;
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: "Erreur lors de l'envoi du message" });
+      <ToasterError message="Erreur lors de l'envoi du message" />;
     }
   };
 

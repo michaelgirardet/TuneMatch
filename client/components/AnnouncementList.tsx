@@ -50,7 +50,7 @@ export default function AnnouncementList() {
       setAnnouncements(data);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: '📢 Les annonces ne s’affichent pas. On regarde ça !' });
+      <ToasterError message="📢 Les annonces ne s’affichent pas. On regarde ça !" />;
     } finally {
       setLoading(false);
     }
@@ -97,13 +97,12 @@ export default function AnnouncementList() {
       if (!response.ok) {
         throw new Error("Erreur lors de la création de l'annonce");
       }
-
-      ToasterSuccess({ message: '📢 Annonce en ligne ! Que le show commence.' });
+      <ToasterSuccess message="📢 Annonce en ligne ! Que le show commence." />;
       setIsModalOpen(false);
       fetchAnnouncements();
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: "Erreur lors de la création de l'annonce" });
+      <ToasterError message="Erreur lors de la création de l'annonce" />;
     }
   };
 
@@ -127,13 +126,13 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de la mise à jour de l'annonce");
       }
 
-      ToasterSuccess({ message: '✏️ Annonce actualisée ! Toujours au top.' });
+      <ToasterSuccess message="✏️ Annonce actualisée ! Toujours au top." />;
       setIsModalOpen(false);
       setSelectedAnnouncement(undefined);
       fetchAnnouncements();
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: "Erreur lors de la mise à jour de l'annonce" });
+      <ToasterError message="Erreur lors de la mise à jour de l'annonce" />;
     }
   };
 
@@ -154,11 +153,11 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de la suppression de l'annonce");
       }
 
-      ToasterSuccess({ message: '❌ Annonce supprimée. Prêt pour la prochaine ?' });
+      <ToasterSuccess message="❌ Annonce supprimée. Prêt pour la prochaine ?" />;
       fetchAnnouncements();
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: "Erreur lors de la suppression de l'annonce" });
+      <ToasterError message="Erreur lors de la suppression de l'annonce" />;
     }
   };
 
@@ -190,12 +189,12 @@ export default function AnnouncementList() {
         throw new Error("Erreur lors de l'envoi de la candidature");
       }
 
-      ToasterSuccess({ message: '🚀 Candidature envoyée ! On croise les doigts.' });
+      <ToasterSuccess message="🚀 Candidature envoyée ! On croise les doigts." />;
       setIsApplicationModalOpen(false);
       setSelectedAnnouncementId(null);
     } catch (error) {
       console.error('Erreur:', error);
-      ToasterError({ message: "Erreur lors de l'envoi de la candidature" });
+      <ToasterError message="Erreur lors de l'envoi de la candidature" />;
     }
   };
 
@@ -224,11 +223,14 @@ export default function AnnouncementList() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div>
+        <hr className="text-[#F2F6FF] w-[50vw] justify-self-center mt-16" />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="bg-[#0A0A0A] rounded-lg p-6 shadow-lg flex flex-col gap-4"
+            className="bg-[#212936] rounded-lg p-6 shadow-lg flex flex-col gap-4"
           >
             <div className="flex items-center gap-4">
               {announcement.photo_profil ? (
@@ -265,17 +267,17 @@ export default function AnnouncementList() {
 
             <p className="font-montserrat text-[#F2F6FF]">{announcement.description}</p>
 
-            <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-[#212936] text-[#F2F6FF] rounded text-sm">
+            <div className="flex flex-wrap gap-2 font-montserrat font-light">
+              <span className="px-2 py-1 bg-[#F2F6FF] text-[#OAOAOA] rounded text-sm">
                 {announcement.musical_style}
               </span>
               {announcement.voice_type && (
-                <span className="px-2 py-1 bg-[#212936] text-[#F2F6FF] rounded text-sm">
+                <span className="px-2 py-1 bg-[#F2F6FF] text-[#OAOAOA] rounded text-sm">
                   Voix: {announcement.voice_type}
                 </span>
               )}
               {announcement.instrument && (
-                <span className="px-2 py-1 bg-[#212936] text-[#F2F6FF] rounded text-sm">
+                <span className="px-2 py-1 bg-[#F2F6FF] text-[#OAOAOA] rounded text-sm">
                   Instrument: {announcement.instrument}
                 </span>
               )}
@@ -295,14 +297,14 @@ export default function AnnouncementList() {
                         setSelectedAnnouncement(announcement);
                         setIsModalOpen(true);
                       }}
-                      className="py-3 w-44 rounded bg-[#0A0A0A] text-[#F2F6FF] text-md border-lg border font-sulphur sm:w-36 md:w-24 md:text-sm"
+                      className="py-3 w-44 rounded bg-[#212936] text-[#F2F6FF] text-md border-lg border font-sulphur sm:w-36 md:w-24 md:text-sm"
                     >
                       Modifier
                     </button>
                     <button
                       type="button"
                       onClick={() => router.push(`/applications/${announcement.id}`)}
-                      className="py-3 w-44 rounded bg-[#212936] text-[#F2F6FF] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
+                      className="py-3 w-44 rounded bg-[#1d1e2c] border border-lg border-[#1d1e2c] text-[#F2F6FF] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
                     >
                       Candidatures
                     </button>

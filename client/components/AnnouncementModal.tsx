@@ -59,7 +59,7 @@ export default function AnnouncementModal({
     e.preventDefault();
 
     if (!formData.title || !formData.description || !formData.musical_style) {
-      ToasterError({ message: '📝 Il manque des infos ! Complète tous les champs requis.' });
+      <ToasterError message="📝 Il manque des infos ! Complète tous les champs requis." />;
       return;
     }
 
