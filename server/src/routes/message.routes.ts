@@ -131,7 +131,7 @@ const sendMessage: AuthRequestHandler = async (req, res) => {
       [
         message.recipientId,
         'message',
-        `Nouveau message de ${req.user?.username}`,
+        `Nouveau message de ${req.user?.nom_utilisateur}`,
         (result as any).insertId,
       ]
     );

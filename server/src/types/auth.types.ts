@@ -5,6 +5,7 @@ export interface AuthUser extends JwtPayload {
   userId: number;
   email: string;
   role: string;
+  nom_utilisateur: string;
 }
 
 declare global {

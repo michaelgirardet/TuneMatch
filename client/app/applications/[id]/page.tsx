@@ -75,8 +75,7 @@ export default function ApplicationsPage() {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Erreur lors de la mise à jour du statut');
       }
-
-      ToasterSuccess({ message: '✅ Statut actualisé ! Tout est en place.' });
+      <ToasterSuccess message="✅ Statut actualisé ! Tout est en place." />;
       setApplications(
         applications.map((app) => (app.id === applicationId ? { ...app, status: newStatus } : app))
       );
