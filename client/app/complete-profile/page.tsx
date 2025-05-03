@@ -23,7 +23,7 @@ export default function CompleteProfile() {
 
     try {
       const response = await fetch('http://localhost:5001/api/users/profile', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`, // Ou selon ton auth store

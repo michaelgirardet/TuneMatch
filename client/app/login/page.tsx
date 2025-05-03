@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
+import { toast } from 'react-toastify';
 import Navbar from '@/components/Navbar';
 import Footer from '../../components/Footer';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import Link from 'next/link';
 
 export default function Login() {
@@ -15,6 +15,7 @@ export default function Login() {
     password: '',
   });
   const [error, setError] = useState('');
+  console.error(error);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,16 +30,22 @@ export default function Login() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        login(data.token, data.user);
+        login(data.token, data.user); // stocke le token et l'utilisateur dans Zustand/localStorage
+        toast.success('🎸 Connexion réussie ! Prêt à faire du bruit ?', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
         router.push('/profile');
-        <ToasterSuccess message="🎸 Connexion réussie ! Prêt à faire du bruit ?" />;
       } else {
-        const errorData = await response.json();
-        setError(errorData.error || 'Erreur lors de la connexion');
-        <ToasterError message="🚨 🎵 Petit couac technique ! On réessaie ?" />;
-        console.error(error);
+        setError(data.error || 'Erreur lors de la connexion');
+        toast.error('🚨 🎵 Petit couac technique ! On réessaie ?', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+        console.error(data.error);
       }
     } catch (_err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
@@ -50,8 +57,10 @@ export default function Login() {
       <nav>
         <Navbar />
       </nav>
-      <div className="flex flex-col items-center justify-center h-[86vh]">
-        <h1 className="title font-quicksand pb-10 text-center">Connexion</h1>
+      <div className="flex flex-col items-center justify-center h-[86vh] bg-oxford">
+        <h1 className="font-quicksand text-4xl font-semibold mb-20 text-center text-white">
+          Connexion
+        </h1>
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-5">
           <div className="p-5 flex flex-col justify-center item-center">
             <label htmlFor="email" className="form-label" aria-label="email form" />
@@ -61,7 +70,7 @@ export default function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="bg-[#101119] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
               placeholder="Email"
               required
             />
@@ -75,19 +84,19 @@ export default function Login() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
-              className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
               required
             />
           </div>
-          <div className="flex items-center justify-center">
+          <div className="w-full flex items-center justify-between">
             <Link href="/forgot-password">
-              <p className="text-[#f3f3f7] text-xs font-montserrat mr-10 hover:underline underline-offset-2">
+              <p className="text-white text-xs font-quicksand hover:underline underline-offset-2">
                 Mot de passe oublié ?
               </p>
             </Link>
             <div className="flex items-center justyfy-center h-5">
               <Link href="/register">
-                <p className="text-[#f3f3f7] text-xs font-montserrat mr-10 hover:underline underline-offset-2">
+                <p className="text-white text-xs font-quicksand hover:underline underline-offset-2">
                   Pas encore inscrit ?
                 </p>
               </Link>
@@ -95,9 +104,9 @@ export default function Login() {
           </div>
           <button
             type="submit"
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#51537B] hover:bg-[#595B88]"
+            className="bg-electric hover:bg-electrichover text-white button p-5 w-[200px] rounded flex justify-center self-center item-center"
           >
-            Submit
+            Connexion
           </button>
         </form>
       </div>
