@@ -1,41 +1,34 @@
-import Redis from 'ioredis';
 import { logger } from '../utils/logger';
 
-class CacheService {
-  private client: Redis;
+export class CacheService {
+  private cache: Map<string, any>;
 
   constructor() {
-    this.client = new Redis({
-      host: process.env.REDIS_HOST || 'localhost',
-      port: Number.parseInt(process.env.REDIS_PORT || '6379'),
-      password: process.env.REDIS_PASSWORD,
-    });
-
-    this.client.on('error', (err) => logger.error('Redis Error:', err));
+    this.cache = new Map();
   }
 
-  async get<T>(key: string): Promise<T | null> {
+  async get(key: string): Promise<any | null> {
     try {
-      const data = await this.client.get(key);
-      return data ? JSON.parse(data) : null;
+      return this.cache.get(key) || null;
     } catch (error) {
-      logger.error('Cache get error:', error);
+      logger.error('Cache get error:', { error: error instanceof Error ? error.message : 'Unknown error' });
       return null;
     }
   }
 
-  async set(key: string, value: undefined, expireInSeconds?: number): Promise<void> {
+  async set(key: string, value: any): Promise<void> {
     try {
-      const stringValue = JSON.stringify(value);
-      if (expireInSeconds) {
-        await this.client.setex(key, expireInSeconds, stringValue);
-      } else {
-        await this.client.set(key, stringValue);
-      }
+      this.cache.set(key, value);
     } catch (error) {
-      logger.error('Cache set error:', error);
+      logger.error('Cache set error:', { error: error instanceof Error ? error.message : 'Unknown error' });
     }
   }
-}
 
-export const cacheService = new CacheService();
+  async delete(key: string): Promise<void> {
+    this.cache.delete(key);
+  }
+
+  async clear(): Promise<void> {
+    this.cache.clear();
+  }
+}

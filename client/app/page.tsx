@@ -1,31 +1,45 @@
 'use client';
-import { useState, useEffect } from 'react';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import Link from 'next/link';
 
 export default function Home() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/test`)
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((error) => console.error('Erreur:', error));
-  }, []);
-
   return (
-    <main className="min-h-screen w-full">
-      <nav className="navbar">
-        <Link href="/contact" className="button">
-          Contact
-        </Link>
+    <div className="flex flex-col min-h-screen w-full bg-primary-dark">
+      <nav>
+        <Navbar />
       </nav>
-      <div className="home-sct flex flex-col items-center justify-center w-3xs">
-        <h1>Mon Template de Projet Fullstack</h1>
-        <h2>Avec Next.js Express & MySQL</h2>
-        <p>
-          Message du serveur : <span className="api-message">{message}</span>
-        </p>
-      </div>
-    </main>
+
+      <main
+        className="bg-oxford text-white flex-1 w-full px-4 flex flex-col justify-center items-center"
+        id="page-accueil"
+      >
+        <div className="flex flex-col justify-center max-w-[500px] gap-3">
+          <h1 className="font-bold font-quicksand text-5xl pb-10 text-center">
+            Tune
+            <span className="text-accent-violet text-air">Match</span>
+          </h1>
+          <h2 className="text-2xl">🎶 Connecte tes talents, crée ta musique !</h2>
+          <p>
+            Bienvenue sur TuneMatch, la plateforme où artistes et producteurs se rencontrent pour
+            donner vie à de nouveaux projets musicaux. Trouve le bon collaborateur, partage tes sons
+            et fais vibrer l'industrie avec tes créations.
+          </p>
+          <h2>Prêt à faire matcher ta musique ? 🎧</h2>
+          <Link href="/register" className="self-center">
+            <button
+              className="bg-electric hover:bg-electrichover mt-5 w-[200px] py-6 px-12 rounded-lg text-lg font-medium tracking-wide shadow-lg transition"
+              type="button"
+            >
+              Découvrir
+            </button>
+          </Link>
+        </div>
+      </main>
+
+      <footer>
+        <Footer />
+      </footer>
+    </div>
   );
 }
