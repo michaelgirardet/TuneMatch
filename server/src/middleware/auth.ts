@@ -1,6 +1,6 @@
-import { Response, NextFunction, RequestHandler } from 'express';
+import type { Response, NextFunction, RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
-import { AuthRequest, AuthUser } from '../types/auth.types';
+import type { AuthRequest, AuthUser } from '../types/auth.types';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tunematch_secret_key_2024';
 
@@ -38,9 +38,9 @@ export const auth: RequestHandler = async (req: AuthRequest, res: Response, next
       // Vérifier que le userId est présent
       if (!decoded.userId) {
         console.log('Token invalide: userId manquant');
-        return res.status(401).json({ 
+        return res.status(401).json({
           message: 'Token invalide: userId manquant',
-          clearToken: true 
+          clearToken: true,
         });
       }
 
@@ -54,7 +54,8 @@ export const auth: RequestHandler = async (req: AuthRequest, res: Response, next
       // Vérification de l'expiration avec une marge de 5 minutes
       if (decoded.exp) {
         const currentTime = Math.floor(Date.now() / 1000);
-        if (decoded.exp - currentTime < 300) { // 300 secondes = 5 minutes
+        if (decoded.exp - currentTime < 300) {
+          // 300 secondes = 5 minutes
           console.log("Token proche de l'expiration, rafraîchissement nécessaire");
           return res.status(401).json({
             message: 'Token expiré',
@@ -89,8 +90,8 @@ export const auth: RequestHandler = async (req: AuthRequest, res: Response, next
 };
 
 export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: 'Token manquant' });
@@ -98,14 +99,20 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    if (typeof decoded === 'object' && decoded !== null && 
-        'userId' in decoded && 'email' in decoded && 'role' in decoded) {
+    if (
+      typeof decoded === 'object' &&
+      decoded !== null &&
+      'userId' in decoded &&
+      'email' in decoded &&
+      'role' in decoded
+    ) {
       req.user = decoded as AuthUser;
       next();
     } else {
       return res.status(403).json({ message: 'Token invalide: données manquantes' });
     }
   } catch (error) {
+    console.error(error);
     return res.status(403).json({ message: 'Token invalide' });
   }
 };
