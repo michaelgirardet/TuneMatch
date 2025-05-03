@@ -27,40 +27,39 @@ export default function Navbar() {
     <nav className="bg-[#1d1e2c] p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <h1 className="text-[#F2F6FF] text-2xl font-sulphur">
-            Tune<span className="text-[#a71666] font-extrabold">Match</span>
+          <h1 className="text-[#f3f3f7] text-2xl font-sulphur">
+            Tune<span className="text-[#51537B] font-extrabold">Match</span>
           </h1>
         </Link>
-
         {/* Navigation Desktop */}
         <div className="hidden md:flex gap-4 items-center">
           {isAuthenticated ? (
             <>
               <Link
                 href="/"
-                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
               >
                 Accueil
               </Link>
               <Link
                 href="/profile"
-                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
               >
                 Profil
               </Link>
               <Link
                 href="/announcements"
-                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
               >
                 Annonces
               </Link>
               <Link
                 href="/messages"
-                className="text-[#F2F6FF] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
               >
                 Messages
               </Link>
-              <Link href="/search">
+              <Link href="/search" aria-label="search an artist">
                 <MagnifyingGlassIcon className="h-6 w-6 stroke-gray-400 cursor-pointer" />
               </Link>
               <NotificationsMenu />
@@ -80,24 +79,24 @@ export default function Navbar() {
                         }}
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-[#a71666] flex items-center justify-center text-[#F2F6FF] font-bold">
+                      <div className="w-8 h-8 rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] font-bold">
                         {user.nom_utilisateur[0].toUpperCase()}
                       </div>
                     )}
-                    {/* <span className="text-[#F2F6FF] font-sulphur">{user.nom_utilisateur}</span> */}
+                    {/* <span className="text-[#f3f3f7] font-sulphur">{user.nom_utilisateur}</span> */}
                   </div>
 
                   <div className="absolute right-0 mt-2 w-48 bg-[#212936] border border-[#1D1E2C] rounded-lg hidden group-hover:block z-50">
                     <Link
                       href="/profile"
-                      className="block px-4 py-2 text-[#F2F6FF] hover:bg-[#0A0A0A] font-sulphur rounded-t-lg"
+                      className="block px-4 py-2 text-[#f3f3f7] hover:bg-[#101119] font-sulphur rounded-t-lg"
                     >
                       Mon profil
                     </Link>
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-[#F2F6FF] hover:bg-[#0A0A0A] font-sulphur rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-[#f3f3f7] hover:bg-[#101119] font-sulphur rounded-b-lg"
                     >
                       Déconnexion
                     </button>
@@ -109,13 +108,13 @@ export default function Navbar() {
             <>
               <Link
                 href="/register"
-                className="text-[#F2F6FF] hover:text-[#ffffff] border border-[#f2f6ff] p-3 rounded-md transition-colors font-quicksand"
+                className="text-[#f3f3f7] hover:text-[#ffffff] border border-[#f3f3f7] p-3 rounded-md transition-colors font-quicksand"
               >
                 Inscription
               </Link>
               <Link
                 href="/login"
-                className="text-[#F2F6FF] hover:text-[#ffffff] p-3 rounded-md transition-colors font-quicksand"
+                className="text-[#f3f3f7] hover:text-[#ffffff] p-3 rounded-md transition-colors font-quicksand"
               >
                 Connexion
               </Link>
@@ -156,31 +155,37 @@ export default function Navbar() {
                   <div className="flex flex-col gap-4">
                     {isAuthenticated ? (
                       <>
+                        <NotificationsMenu />
                         <Link
                           href="/"
-                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Accueil</span>
                         </Link>
                         <Link
                           href="/profile"
-                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Profil</span>
                         </Link>
                         <Link
                           href="/announcements"
-                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Annonces</span>
                         </Link>
                         <Link
                           href="/messages"
-                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Messages</span>
                         </Link>
-                        <NotificationsMenu />
+                        <Link
+                          href="/search"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                        >
+                          <span>Recherche</span>
+                        </Link>
                         <div className="flex-grow" />
                         <Link
                           href="/login"
@@ -194,13 +199,13 @@ export default function Navbar() {
                       <>
                         <Link
                           href="/login"
-                          className="flex items-center px-4 py-3 text-[#F2F6FF] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Connexion</span>
                         </Link>
                         <Link
                           href="/register"
-                          className="flex items-center px-4 py-3 text-[#F2F6FF] bg-[#a71666] hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-[#f3f3f7] bg-[#51537B] hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                         >
                           <span>Inscription</span>
                         </Link>

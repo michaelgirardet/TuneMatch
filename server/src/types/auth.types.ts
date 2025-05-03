@@ -1,10 +1,11 @@
-import { Request } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
+import type { Request } from 'express';
+import type { JwtPayload } from 'jsonwebtoken';
 
 export interface AuthUser extends JwtPayload {
   userId: number;
   email: string;
   role: string;
+  nom_utilisateur: string;
 }
 
 declare global {
@@ -15,4 +16,4 @@ declare global {
   }
 }
 
-export type AuthRequest = Request; 
+export type AuthRequest = Request;

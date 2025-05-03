@@ -11,11 +11,11 @@ const applicationSchema = z.object({
   selected_tracks: z.string().optional(),
 });
 
-type AuthRequestHandler = RequestHandler<
+type AuthRequestHandler<Body = unknown> = RequestHandler<
   { id?: string },
-  any,
-  any,
-  any,
+  unknown,
+  Body,
+  unknown,
   { user?: AuthRequest['user'] }
 >;
 
@@ -54,7 +54,6 @@ const applyToAnnouncement: AuthRequestHandler = async (req, res) => {
     if (existingRows.length > 0) {
       return res.status(400).json({ error: 'Vous avez déjà postulé à cette annonce' });
     }
-
     const [result] = await req.app.locals.pool.execute(
       'INSERT INTO applications (announcement_id, artist_id, message, selected_tracks) VALUES (?, ?, ?, ?)',
       [announcementId, userId, application.message, application.selected_tracks || null]
@@ -76,7 +75,7 @@ const applyToAnnouncement: AuthRequestHandler = async (req, res) => {
   }
 };
 
-// Obtenir les candidatures pour une annonce (pour le producteur)
+// Obtenir les Collabs pour une annonce (pour le producteur)
 const getAnnouncementApplications: AuthRequestHandler = async (req, res) => {
   try {
     const userId = req.user?.userId;
@@ -95,7 +94,7 @@ const getAnnouncementApplications: AuthRequestHandler = async (req, res) => {
     );
 
     if (!announcementRows[0] || announcementRows[0].user_id !== userId) {
-      return res.status(403).json({ error: 'Non autorisé à voir ces candidatures' });
+      return res.status(403).json({ error: 'Non autorisé à voir ces Collabs' });
     }
 
     const [applications] = await req.app.locals.pool.execute(
@@ -108,13 +107,13 @@ const getAnnouncementApplications: AuthRequestHandler = async (req, res) => {
 
     res.json(applications);
   } catch (error) {
-    console.error('Erreur lors de la récupération des candidatures:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des candidatures' });
+    console.error('Erreur lors de la récupération des Collabs:', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération des Collabs' });
   }
 };
 
 // Mettre à jour le statut d'une candidature
-const updateApplicationStatus: AuthRequestHandler = async (req, res) => {
+const updateApplicationStatus: AuthRequestHandler<{ status: string }> = async (req, res) => {
   try {
     const userId = req.user?.userId;
     const applicationId = req.params.id;

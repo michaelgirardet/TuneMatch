@@ -42,7 +42,7 @@ export default function GenreSelectionModal({
   const [loading, setLoading] = useState(false);
 
   const handleSessionExpired = () => {
-    ToasterError({ message: 'Votre session a expiré, veuillez vous reconnecter' });
+    <ToasterError message="Votre session a expiré, veuillez vous reconnecter" />;
     logout();
     router.push('/login');
     onClose();
@@ -55,7 +55,7 @@ export default function GenreSelectionModal({
     }
 
     if (selectedGenres.length >= 3) {
-      ToasterError({ message: '🎼 3 genres max ! Garde ceux qui te représentent le mieux.' });
+      <ToasterError message="🎼 3 genres max ! Garde ceux qui te représentent le mieux." />;
       return;
     }
 
@@ -109,15 +109,13 @@ export default function GenreSelectionModal({
       }
 
       onUpdate(selectedGenres);
-      ToasterSuccess({ message: '🎼 Genres actualisés ! Ta vibe est bien définie.' });
+      <ToasterSuccess message="🎼 Genres actualisés ! Ta vibe est bien définie." />;
       onClose();
     } catch (error) {
       if (error instanceof Error) {
-        ToasterError({ message: 'error' });
+        <ToasterError message="error" />;
       } else {
-        ToasterError({
-          message: '🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.',
-        });
+        <ToasterError message="🔐 Connexion impossible ! Vérifie tes identifiants et réessaie." />;
       }
       console.error('Erreur lors de la mise à jour des genres:', error);
     } finally {
@@ -142,7 +140,7 @@ export default function GenreSelectionModal({
                 onClick={() => handleGenreToggle(genre)}
                 className={`p-2 font-montserrat rounded transition-colors ${
                   selectedGenres.includes(genre)
-                    ? 'bg-[#a71666] text-[#F2F6FF]'
+                    ? 'bg-[#51537B] text-[#f3f3f7]'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
               >
@@ -154,14 +152,14 @@ export default function GenreSelectionModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded bg-[#51537B] disabled:opacity-50 text-[#f3f3f7] font-sulphur"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

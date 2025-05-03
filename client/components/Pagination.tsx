@@ -36,10 +36,10 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
   };
 
   return (
-    <div className="join flex justify-center">
+    <div className="join flex justify-center gap-3 font-montserrat font-semibold text-md">
       <button
         type="button"
-        className="join-item btn"
+        className="join-item text-2xl btn text-white"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -48,14 +48,19 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
 
       {getVisiblePages().map((page) =>
         page === -1 ? (
-          <button type="button" key={`ellipsis-${currentPage}-${page}`} className="join-item btn" disabled>
+          <button
+            type="button"
+            key={`ellipsis-${currentPage}-${page}`}
+            className="join-item btn"
+            disabled
+          >
             ...
           </button>
         ) : (
           <button
             type="button"
             key={page}
-            className={`join-item btn ${currentPage === page ? 'btn-active' : ''}`}
+            className={`join-item text-white btn ${currentPage === page ? 'btn-active' : ''}`}
             onClick={() => onPageChange(page)}
           >
             {page}
@@ -65,7 +70,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
 
       <button
         type="button"
-        className="join-item btn"
+        className="join-item btn text-2xl text-white"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >

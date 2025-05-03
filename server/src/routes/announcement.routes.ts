@@ -17,9 +17,9 @@ const announcementSchema = z.object({
 
 type AuthRequestHandler = RequestHandler<
   { id: string },
-  any,
-  any,
-  any,
+  unknown,
+  unknown,
+  Record<string, unknown>,
   { user?: AuthRequest['user'] }
 >;
 

@@ -81,21 +81,21 @@ export default function SocialLinksModal({
             value={link}
             onChange={(e) => setLink(e.target.value)}
             placeholder={`URL ${platformLabels[platform]}`}
-            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+            className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
             required
           />
           <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded bg-[#51537B] disabled:opacity-50 text-[#f3f3f7] font-sulphur"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

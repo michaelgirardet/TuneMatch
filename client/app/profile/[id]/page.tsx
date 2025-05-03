@@ -5,11 +5,13 @@ import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ToasterError } from '@/components/Toast';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import LogoYT from '@/public/yt-icon-wh.png';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
 import AudioPlayer from '@/components/AudioPlayer';
+import Link from 'next/link';
 
 interface UserProfile {
   id: number;
@@ -56,7 +58,7 @@ export default function PublicProfile() {
         setProfile(data);
       } catch (error) {
         console.error('Erreur:', error);
-        ToasterError({ message: 'Erreur lors du chargement du profil' });
+        <ToasterError message="Erreur lors du chargement du profil" />;
       }
     };
 
@@ -90,7 +92,7 @@ export default function PublicProfile() {
       <main className="min-h-screen w-full flex flex-col">
         <Navbar />
         <div className="flex justify-center items-center flex-grow">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#a71666]" />
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#51537B]" />
         </div>
         <Footer />
       </main>
@@ -100,6 +102,11 @@ export default function PublicProfile() {
   return (
     <main className="min-h-screen w-full flex flex-col">
       <Navbar />
+      <div>
+        <Link href="/search">
+          <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
+        </Link>
+      </div>
       <div className="flex flex-col items-center justify-center py-10 gap-5">
         {profile.photo_profil ? (
           <Image
@@ -114,7 +121,7 @@ export default function PublicProfile() {
             }}
           />
         ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-[#a71666] flex items-center justify-center text-[#F2F6FF] text-4xl font-bold">
+          <div className="w-[120px] h-[120px] rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] text-4xl font-bold">
             {profile.nom_utilisateur[0].toUpperCase()}
           </div>
         )}
@@ -148,7 +155,7 @@ export default function PublicProfile() {
           {profile.genres_musicaux && (
             <div className="flex flex-wrap gap-2 justify-center">
               {profile.genres_musicaux.split(',').map((genre) => (
-                <span key={genre} className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded">
+                <span key={genre} className="font-sulphur text-[#f3f3f7] bg-[#101119] p-2 rounded">
                   {genre.trim()}
                 </span>
               ))}
@@ -162,7 +169,7 @@ export default function PublicProfile() {
           )}
 
           {profile.biography && (
-            <p className="text-[#F2F6FF] font-montserrat text-center whitespace-pre-wrap">
+            <p className="text-[#f3f3f7] font-montserrat text-center whitespace-pre-wrap">
               {profile.biography}
             </p>
           )}

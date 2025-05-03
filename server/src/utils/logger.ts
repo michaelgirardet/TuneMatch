@@ -1,6 +1,18 @@
-export const logger = {
-  info: (message: string, data?: object) => console.log(message, data || ''),
-  error: (message: string, data?: object) => console.error(message, data || ''),
-  warn: (message: string, data?: object) => console.warn(message, data || ''),
-  debug: (message: string, data?: object) => console.debug(message, data || ''),
-}; 
+import winston from 'winston';
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+    new winston.transports.Console({
+      format: winston.format.simple()
+    })
+  ]
+});
+
+export { logger }; 

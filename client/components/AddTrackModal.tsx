@@ -36,13 +36,13 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
 
     const error = validateYoutubeUrl(youtubeUrl);
     if (error) {
-      ToasterError({ message: error });
+      <ToasterError message={error} />;
       return;
     }
 
     const videoId = extractYoutubeId(youtubeUrl);
     if (!videoId) {
-      ToasterError({ message: '🎬 Oups ! Cette vidéo YouTube semble invalide.' });
+      <ToasterError message="🎬 Oups ! Cette vidéo YouTube semble invalide." />;
       return;
     }
 
@@ -52,11 +52,11 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
       );
       if (!response.ok) {
-        ToasterError({ message: '❌ Vidéo introuvable ou restreinte. Vérifie l’URL !' });
+        <ToasterError message="❌ Vidéo introuvable ou restreinte. Vérifie l’URL !" />;
         return;
       }
     } catch {
-      ToasterError({ message: '🔍 Impossible de vérifier cette vidéo. Essaie une autre.' });
+      <ToasterError message="🔍 Impossible de vérifier cette vidéo. Essaie une autre." />;
       return;
     }
 
@@ -92,7 +92,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Titre du morceau"
-            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+            className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
             required
           />
           <input
@@ -100,7 +100,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
             placeholder="Nom de l'artiste"
-            className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+            className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
             required
           />
           <div>
@@ -109,7 +109,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
               value={youtubeUrl}
               onChange={handleUrlChange}
               placeholder="URL YouTube"
-              className={`form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur w-full ${urlError ? 'border border-red-500' : ''}`}
+              className={`form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur w-full ${urlError ? 'border border-red-500' : ''}`}
               required
             />
             {urlError && <p className="text-red-500 text-sm mt-1">{urlError}</p>}
@@ -118,13 +118,13 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded bg-[#51537B] disabled:opacity-50 text-[#f3f3f7] font-sulphur"
             >
               Ajouter
             </button>

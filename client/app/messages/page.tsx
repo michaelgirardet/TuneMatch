@@ -51,7 +51,7 @@ export default function MessagesPage() {
       <nav>
         <Navbar />
       </nav>
-      <div className="container h-screen mx-auto px-4 py-8">
+      <div className="container min-h-screen w-full mx-auto px-4 py-8">
         <Link href="/">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
         </Link>
@@ -80,7 +80,7 @@ export default function MessagesPage() {
                       }}
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-[#a71666] flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-[#51537B] flex items-center justify-center text-white font-bold">
                       {conversation.nom_utilisateur[0].toUpperCase()}
                     </div>
                   )}

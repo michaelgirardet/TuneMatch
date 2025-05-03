@@ -49,7 +49,21 @@ export default function SearchPage() {
     if (value) queryParams.append(key, value.toString());
   }
 
+  // Debug useEffect
+  useEffect(() => {
+    console.log("État d'authentification dans SearchPage:", {
+      token: token,
+      isAuthenticated: useAuthStore.getState().isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+  }, [token]);
+
   const fetchArtists = useCallback(async () => {
+    if (!token) {
+      setError('Vous devez être connecté pour effectuer une recherche');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -66,7 +80,8 @@ export default function SearchPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la recherche des artistes');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erreur lors de la recherche des artistes');
       }
 
       const data = await response.json();
@@ -83,8 +98,10 @@ export default function SearchPage() {
   }, [filters, token]);
 
   useEffect(() => {
-    fetchArtists();
-  }, [fetchArtists]);
+    if (token) {
+      fetchArtists();
+    }
+  }, [fetchArtists, token]);
 
   const handleFilterChange = (name: keyof SearchFilters, value: string) => {
     setFilters((prev) => ({
@@ -106,66 +123,69 @@ export default function SearchPage() {
       <nav>
         <Navbar />
       </nav>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Rechercher des artistes</h1>
+      <div className="container min-h-screen w-full mx-auto px-4 py-8 flex flex-col justify-center">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-3xl font-bold mb-16 font-quicksand text-center">
+            Rechercher des artistes
+          </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          <div className="form-control">
-            <span className="label-text">Type d'artiste</span>
-            <select
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('role', e.target.value)}
-              value={filters.role || ''}
-            >
-              <option value="">Tous</option>
-              <option value="musicien">Musicien</option>
-              <option value="chanteur">Chanteur</option>
-            </select>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16 h-[55vh] md:h-[auto]">
+            <div className="form-control">
+              <select
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('role', e.target.value)}
+                value={filters.role || ''}
+              >
+                <option value="">Tous</option>
+                <option value="chanteur">Chanteur</option>
+                <option value="musicien">Musicien</option>
+                <option value="producteur">Producteur</option>
+              </select>
+            </div>
 
-          <div className="form-control">
-            <span className="label-text">Genre musical</span>
-            <input
-              type="text"
-              placeholder="Rock, Jazz, Hip-hop..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('genres', e.target.value)}
-              value={filters.genres || ''}
-            />
-          </div>
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Genre Musical"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('genres', e.target.value)}
+                value={filters.genres || ''}
+              />
+            </div>
 
-          <div className="form-control">
-            <span className="label-text">Ville</span>
-            <input
-              type="text"
-              placeholder="Paris, Lyon..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('city', e.target.value)}
-              value={filters.city || ''}
-            />
-          </div>
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Ville"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('city', e.target.value)}
+                value={filters.city || ''}
+              />
+            </div>
 
-          <div className="form-control">
-            <span className="label-text">Pays</span>
-            <input
-              type="text"
-              placeholder="France, Belgique..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('country', e.target.value)}
-              value={filters.country || ''}
-            />
-          </div>
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Pays"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('country', e.target.value)}
+                value={filters.country || ''}
+              />
+            </div>
 
-          <div className="form-control">
-            <span className="label-text">Instruments</span>
-            <input
-              type="text"
-              placeholder="Guitare, Piano..."
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
-              onChange={(e) => handleFilterChange('instruments', e.target.value)}
-              value={filters.instruments || ''}
-            />
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Instrument"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                onChange={(e) => handleFilterChange('instruments', e.target.value)}
+                value={filters.instruments || ''}
+              />
+            </div>
           </div>
+        </div>
+        <div>
+          <hr className="text-[#101119] w-[50vw] justify-self-center mb-10" />
         </div>
 
         {error && <ToasterError message={error} />}

@@ -1,4 +1,3 @@
-import type { Response } from 'express';
 import express from 'express';
 import { auth } from '../middleware/auth';
 import {
@@ -15,9 +14,9 @@ const router = express.Router();
 
 type AuthRequestHandler = RequestHandler<
   { id?: string },
-  any,
-  any,
-  any,
+  Record<string, unknown>,
+  Record<string, unknown>,
+  Record<string, string>,
   { user?: AuthRequest['user'] }
 >;
 

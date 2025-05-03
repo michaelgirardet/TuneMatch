@@ -5,7 +5,7 @@ export const registerSchema = z
     nom_utilisateur: z.string().min(3).max(100),
     email: z.string().email(),
     password: z.string().min(8),
-    role: z.enum(['artiste', 'producteur']),
+    role: z.enum(['producteur', 'musicien', 'chanteur']),
   })
   .strict(); // .strict() rejette les propriétés supplémentaires
 

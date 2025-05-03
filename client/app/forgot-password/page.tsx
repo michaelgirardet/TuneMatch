@@ -38,18 +38,16 @@ export default function ForgotPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        ToasterSuccess({ message: '📩 Email envoyé ! Jette un œil à ta boîte de réception.' });
+        <ToasterSuccess message="📩 Email envoyé ! Jette un œil à ta boîte de réception." />;
         setResetError(null);
       } else {
         setResetError(data.error);
-        ToasterError(data.error || '❌ Oups ! Un problème est survenu. Essaie à nouveau.');
+        <ToasterError message="❌ Oups ! Un problème est survenu. Essaie à nouveau." />;
         setResetSuccess(null);
       }
     } catch (error) {
       setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
-      ToasterError({
-        message: '🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.',
-      });
+      <ToasterError message="🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie." />;
       console.error(error);
     } finally {
       setLoading(false);
@@ -72,7 +70,7 @@ export default function ForgotPassword() {
               Email
             </label>
             <input
-              className="bg-[#0A0A0A] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-[#101119] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
               type="email"
               name="email"
               id="email"
@@ -85,7 +83,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
+            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#51537B] hover:bg-[#595B88]"
           >
             {loading ? 'Envoi...' : 'Valider'}
           </button>
