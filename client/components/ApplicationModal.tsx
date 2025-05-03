@@ -55,14 +55,14 @@ export default function ApplicationModal({
         <h2 className="text-xl mb-4 font-quicksand text-center font-bold">Postuler à l'annonce</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="message" className="font-sulphur text-[#f2f6ff]">
+            <label htmlFor="message" className="font-sulphur text-[#f3f3f7]">
               Votre message
             </label>
             <textarea
               id="message"
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="p-2 rounded bg-[#0A0A0A] text-[#F2F6FF] font-sulphur min-h-[100px] italic"
+              className="p-2 rounded bg-[#101119] text-[#f3f3f7] font-sulphur min-h-[100px] italic"
               placeholder="Présentez-vous et expliquez pourquoi vous êtes intéressé par cette annonce..."
               required
             />
@@ -76,8 +76,8 @@ export default function ApplicationModal({
                     key={track.id}
                     className={`p-2 rounded cursor-pointer transition-colors ${
                       selectedTrackIds.includes(track.id)
-                        ? 'bg-[#a71666] text-[#F2F6FF]'
-                        : 'bg-[#0A0A0A] text-gray-300 hover:bg-gray-800'
+                        ? 'bg-[#51537B] text-[#f3f3f7]'
+                        : 'bg-[#101119] text-gray-300 hover:bg-gray-800'
                     }`}
                     onClick={() => handleTrackToggle(track.id)}
                     onKeyDown={() => handleTrackToggle(track.id)}
@@ -93,13 +93,13 @@ export default function ApplicationModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded bg-[#51537B] disabled:opacity-50 text-[#f3f3f7] font-sulphur"
             >
               Envoyer
             </button>

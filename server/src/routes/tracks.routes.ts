@@ -7,11 +7,17 @@ import type { RequestHandler } from 'express';
 const router = express.Router();
 
 const trackSchema = z.object({
-  title: z.string().min(1, "Le titre est requis"),
-  url: z.string().min(1, "L'URL est requise")
+  title: z.string().min(1, 'Le titre est requis'),
+  url: z.string().min(1, "L'URL est requise"),
 });
 
-type AuthRequestHandler = RequestHandler<{ id?: string }, any, any, any, { user?: AuthRequest['user'] }>;
+type AuthRequestHandler = RequestHandler<
+  { id?: string },
+  Record<string, unknown>,
+  Record<string, unknown>,
+  Record<string, string | undefined>,
+  { user?: AuthRequest['user'] }
+>;
 
 // Récupérer les morceaux d'un utilisateur spécifique
 const getUserTracks: AuthRequestHandler = async (req, res) => {
@@ -68,7 +74,10 @@ const addTrack: AuthRequestHandler = async (req, res) => {
       'SELECT nom_utilisateur FROM users WHERE id = ?',
       [userId]
     );
-    const user = (userRows as any[])[0];
+    interface UserRow {
+      nom_utilisateur: string;
+    }
+    const user = (userRows as UserRow[])[0];
 
     const [result] = await req.app.locals.pool.execute(
       'INSERT INTO tracks (title, url, artist, user_id) VALUES (?, ?, ?, ?)',
@@ -77,17 +86,17 @@ const addTrack: AuthRequestHandler = async (req, res) => {
 
     res.status(201).json({
       message: 'Morceau ajouté avec succès',
-      track: { ...track, id: (result as any).insertId }
+      track: { ...track, id: (result as { insertId: number }).insertId },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         error: 'Données invalides',
-        details: error.errors
+        details: error.errors,
       });
     }
-    console.error('Erreur lors de l\'ajout du morceau:', error);
-    res.status(500).json({ error: 'Erreur lors de l\'ajout du morceau' });
+    console.error("Erreur lors de l'ajout du morceau:", error);
+    res.status(500).json({ error: "Erreur lors de l'ajout du morceau" });
   }
 };
 
@@ -111,10 +120,7 @@ const deleteTrack: AuthRequestHandler = async (req, res) => {
       return res.status(403).json({ error: 'Non autorisé à supprimer ce morceau' });
     }
 
-    await req.app.locals.pool.execute(
-      'DELETE FROM tracks WHERE id = ?',
-      [trackId]
-    );
+    await req.app.locals.pool.execute('DELETE FROM tracks WHERE id = ?', [trackId]);
 
     res.json({ message: 'Morceau supprimé avec succès' });
   } catch (error) {

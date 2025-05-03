@@ -140,7 +140,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
                 }}
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-[#a71666] flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 rounded-full bg-[#51537B] flex items-center justify-center text-white font-bold">
                 {interlocutor.nom_utilisateur[0].toUpperCase()}
               </div>
             )}
@@ -178,14 +178,14 @@ export default function ConversationPage({ params }: { params: { id: string } })
                   }}
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-[#a71666] flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-8 h-8 rounded-full bg-[#51537B] flex items-center justify-center text-white text-sm font-bold">
                   {message.expediteur_nom[0].toUpperCase()}
                 </div>
               )}
               <div
                 className={`rounded-lg p-3 ${
                   message.id_expediteur === user?.id
-                    ? 'bg-[#a71666] text-white'
+                    ? 'bg-[#51537B] text-white'
                     : 'bg-[#212936] text-gray-200'
                 }`}
               >
@@ -213,11 +213,11 @@ export default function ConversationPage({ params }: { params: { id: string } })
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Écrivez votre message..."
-          className="flex-1 bg-[#2a344a] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#a71666]"
+          className="flex-1 bg-[#2a344a] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#51537B]"
         />
         <button
           type="submit"
-          className="bg-[#a71666] text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#51537B] text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!newMessage.trim()}
         >
           <PaperAirplaneIcon className="h-6 w-6" />

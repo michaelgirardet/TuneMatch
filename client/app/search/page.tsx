@@ -132,7 +132,7 @@ export default function SearchPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16 h-[55vh] md:h-[auto]">
             <div className="form-control">
               <select
-                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
                 onChange={(e) => handleFilterChange('role', e.target.value)}
                 value={filters.role || ''}
               >
@@ -147,7 +147,7 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Genre Musical"
-                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
                 onChange={(e) => handleFilterChange('genres', e.target.value)}
                 value={filters.genres || ''}
               />
@@ -157,7 +157,7 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Ville"
-                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
                 onChange={(e) => handleFilterChange('city', e.target.value)}
                 value={filters.city || ''}
               />
@@ -167,7 +167,7 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Pays"
-                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
                 onChange={(e) => handleFilterChange('country', e.target.value)}
                 value={filters.country || ''}
               />
@@ -177,7 +177,7 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Instrument"
-                className="bg-[#0A0A0A] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
+                className="bg-[#101119] form-input font-montserrat font-extralight italic flex w-[280px] self-center p-2 rounded"
                 onChange={(e) => handleFilterChange('instruments', e.target.value)}
                 value={filters.instruments || ''}
               />
@@ -185,7 +185,7 @@ export default function SearchPage() {
           </div>
         </div>
         <div>
-          <hr className="text-[#0A0A0A] w-[50vw] justify-self-center mb-10" />
+          <hr className="text-[#101119] w-[50vw] justify-self-center mb-10" />
         </div>
 
         {error && <ToasterError message={error} />}

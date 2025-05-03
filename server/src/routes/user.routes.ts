@@ -1,14 +1,24 @@
-import type { Response } from 'express';
 import express from 'express';
 import { auth } from '../middleware/auth';
-import { socialLinksSchema, genresSchema, biographySchema, locationSchema } from '../utils/validation';
+import {
+  socialLinksSchema,
+  genresSchema,
+  biographySchema,
+  locationSchema,
+} from '../utils/validation';
 import { ZodError } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
 import type { RequestHandler } from 'express';
 
 const router = express.Router();
 
-type AuthRequestHandler = RequestHandler<{ id?: string }, any, any, any, { user?: AuthRequest['user'] }>;
+type AuthRequestHandler = RequestHandler<
+  { id?: string },
+  Record<string, unknown>,
+  Record<string, unknown>,
+  Record<string, string>,
+  { user?: AuthRequest['user'] }
+>;
 
 const updatePhoto: AuthRequestHandler = async (req, res) => {
   try {
@@ -132,9 +142,9 @@ const updateLocation: AuthRequestHandler = async (req, res) => {
       [city, country, userId]
     );
 
-    res.json({ 
+    res.json({
       message: 'Localisation mise à jour avec succès',
-      location: { city, country }
+      location: { city, country },
     });
   } catch (error) {
     if (error instanceof ZodError) {

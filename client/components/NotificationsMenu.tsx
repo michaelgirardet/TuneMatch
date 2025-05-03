@@ -89,7 +89,7 @@ export default function NotificationsMenu() {
           <>
             <BellIcon className="h-6 w-6 stroke-gray-400" />
             {unreadCount > 0 && (
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-[#a71666] rounded-full">
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-[#51537B] rounded-full">
                 {unreadCount}
               </span>
             )}
@@ -109,8 +109,8 @@ export default function NotificationsMenu() {
                       key={notification.id}
                       className={`p-3 rounded-lg ${
                         notification.is_read
-                          ? 'bg-[#0A0A0A]'
-                          : 'bg-[#0A0A0A] border-l-4 border-[#a71666]'
+                          ? 'bg-[#101119]'
+                          : 'bg-[#101119] border-l-4 border-[#51537B]'
                       }`}
                       onClick={() => !notification.is_read && markAsRead(notification.id)}
                       onKeyDown={() => !notification.is_read && markAsRead(notification.id)}

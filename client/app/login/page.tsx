@@ -61,7 +61,7 @@ export default function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="bg-[#0A0A0A] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-[#101119] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
               placeholder="Email"
               required
             />
@@ -75,19 +75,19 @@ export default function Login() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
-              className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+              className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
               required
             />
           </div>
           <div className="flex items-center justify-center">
             <Link href="/forgot-password">
-              <p className="text-[#F2F6FF] text-xs font-montserrat mr-10 hover:underline underline-offset-2">
+              <p className="text-[#f3f3f7] text-xs font-montserrat mr-10 hover:underline underline-offset-2">
                 Mot de passe oublié ?
               </p>
             </Link>
             <div className="flex items-center justyfy-center h-5">
               <Link href="/register">
-                <p className="text-[#F2F6FF] text-xs font-montserrat mr-10 hover:underline underline-offset-2">
+                <p className="text-[#f3f3f7] text-xs font-montserrat mr-10 hover:underline underline-offset-2">
                   Pas encore inscrit ?
                 </p>
               </Link>
@@ -95,7 +95,7 @@ export default function Login() {
           </div>
           <button
             type="submit"
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
+            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#51537B] hover:bg-[#595B88]"
           >
             Submit
           </button>

@@ -82,7 +82,7 @@ export default function AnnouncementModal({
               value={formData.title}
               placeholder="Titre"
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
               required
             />
           </div>
@@ -93,7 +93,7 @@ export default function AnnouncementModal({
               value={formData.description}
               placeholder="Description"
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur flex flex-row justify-center items-center"
+              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur flex flex-row justify-center items-center"
               required
             />
           </div>
@@ -103,7 +103,7 @@ export default function AnnouncementModal({
               id="musical_style"
               value={formData.musical_style}
               onChange={(e) => setFormData({ ...formData, musical_style: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
               required
             >
               <option value="">Sélectionnez un style</option>
@@ -122,7 +122,7 @@ export default function AnnouncementModal({
               placeholder="Type de voix"
               value={formData.voice_type}
               onChange={(e) => setFormData({ ...formData, voice_type: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
             />
           </div>
 
@@ -133,7 +133,7 @@ export default function AnnouncementModal({
               placeholder="Intrument (optionnel)"
               value={formData.instrument}
               onChange={(e) => setFormData({ ...formData, instrument: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
             />
           </div>
 
@@ -143,7 +143,7 @@ export default function AnnouncementModal({
               value={formData.other_criteria}
               placeholder="Autres critères (optionnel)"
               onChange={(e) => setFormData({ ...formData, other_criteria: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#0A0A0A] font-thin italic font-sulphur"
+              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-sulphur"
             />
           </div>
 
@@ -151,13 +151,13 @@ export default function AnnouncementModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-[#a71666] disabled:opacity-50 text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded bg-[#51537B] disabled:opacity-50 text-[#f3f3f7] font-sulphur"
             >
               {announcement ? 'Modifier' : 'Créer'}
             </button>

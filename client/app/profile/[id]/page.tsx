@@ -92,7 +92,7 @@ export default function PublicProfile() {
       <main className="min-h-screen w-full flex flex-col">
         <Navbar />
         <div className="flex justify-center items-center flex-grow">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#a71666]" />
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#51537B]" />
         </div>
         <Footer />
       </main>
@@ -121,7 +121,7 @@ export default function PublicProfile() {
             }}
           />
         ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-[#a71666] flex items-center justify-center text-[#F2F6FF] text-4xl font-bold">
+          <div className="w-[120px] h-[120px] rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] text-4xl font-bold">
             {profile.nom_utilisateur[0].toUpperCase()}
           </div>
         )}
@@ -155,7 +155,7 @@ export default function PublicProfile() {
           {profile.genres_musicaux && (
             <div className="flex flex-wrap gap-2 justify-center">
               {profile.genres_musicaux.split(',').map((genre) => (
-                <span key={genre} className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded">
+                <span key={genre} className="font-sulphur text-[#f3f3f7] bg-[#101119] p-2 rounded">
                   {genre.trim()}
                 </span>
               ))}
@@ -169,7 +169,7 @@ export default function PublicProfile() {
           )}
 
           {profile.biography && (
-            <p className="text-[#F2F6FF] font-montserrat text-center whitespace-pre-wrap">
+            <p className="text-[#f3f3f7] font-montserrat text-center whitespace-pre-wrap">
               {profile.biography}
             </p>
           )}

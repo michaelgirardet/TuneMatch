@@ -201,7 +201,7 @@ export default function AnnouncementList() {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#a71666]" />
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#51537B]" />
       </div>
     );
   }
@@ -216,7 +216,7 @@ export default function AnnouncementList() {
               setSelectedAnnouncement(undefined);
               setIsModalOpen(true);
             }}
-            className="px-4 py-2 rounded bg-[#a71666] text-[#F2F6FF] font-sulphur"
+            className="px-4 py-2 rounded bg-[#51537B] hover:bg-[#595B88] text-[#f3f3f7] font-sulphur"
           >
             Créer une annonce
           </button>
@@ -224,7 +224,7 @@ export default function AnnouncementList() {
       )}
 
       <div>
-        <hr className="text-[#F2F6FF] w-[50vw] justify-self-center mt-16" />
+        <hr className="text-[#f3f3f7] w-[50vw] justify-self-center mt-16" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
         {announcements.map((announcement) => (
@@ -246,7 +246,7 @@ export default function AnnouncementList() {
                   }}
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-[#a71666] flex items-center justify-center text-[#F2F6FF] font-bold">
+                <div className="w-10 h-10 rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] font-bold">
                   {announcement.nom_utilisateur[0].toUpperCase()}
                 </div>
               )}
@@ -257,7 +257,7 @@ export default function AnnouncementList() {
                   <span
                     onClick={() => router.push(`/profile/${announcement.user_id}`)}
                     onKeyDown={() => router.push(`/profile/${announcement.user_id}`)}
-                    className="cursor-pointer hover:text-[#a71666] transition-colors"
+                    className="cursor-pointer hover:text-[#51537B] transition-colors"
                   >
                     {announcement.nom_utilisateur}
                   </span>
@@ -265,19 +265,19 @@ export default function AnnouncementList() {
               </div>
             </div>
 
-            <p className="font-montserrat text-[#F2F6FF]">{announcement.description}</p>
+            <p className="font-montserrat text-[#f3f3f7]">{announcement.description}</p>
 
             <div className="flex flex-wrap gap-2 font-montserrat font-light">
-              <span className="px-2 py-1 bg-[#F2F6FF] text-[#OAOAOA] rounded text-sm">
+              <span className="px-2 py-1 bg-[#f3f3f7] text-[#OAOAOA] rounded text-sm">
                 {announcement.musical_style}
               </span>
               {announcement.voice_type && (
-                <span className="px-2 py-1 bg-[#F2F6FF] text-[#OAOAOA] rounded text-sm">
+                <span className="px-2 py-1 bg-[#f3f3f7] text-[#OAOAOA] rounded text-sm">
                   Voix: {announcement.voice_type}
                 </span>
               )}
               {announcement.instrument && (
-                <span className="px-2 py-1 bg-[#F2F6FF] text-[#OAOAOA] rounded text-sm">
+                <span className="px-2 py-1 bg-[#f3f3f7] text-[#OAOAOA] rounded text-sm">
                   Instrument: {announcement.instrument}
                 </span>
               )}
@@ -297,21 +297,21 @@ export default function AnnouncementList() {
                         setSelectedAnnouncement(announcement);
                         setIsModalOpen(true);
                       }}
-                      className="py-3 w-44 rounded bg-[#212936] text-[#F2F6FF] text-md border-lg border font-sulphur sm:w-36 md:w-24 md:text-sm"
+                      className="py-3 w-44 rounded bg-[#212936] text-[#f3f3f7] text-md border-lg border font-sulphur sm:w-36 md:w-24 md:text-sm"
                     >
                       Modifier
                     </button>
                     <button
                       type="button"
                       onClick={() => router.push(`/applications/${announcement.id}`)}
-                      className="py-3 w-44 rounded bg-[#1d1e2c] border border-lg border-[#1d1e2c] text-[#F2F6FF] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
+                      className="py-3 w-44 rounded bg-[#1d1e2c] border border-lg border-[#1d1e2c] text-[#f3f3f7] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
                     >
-                      Candidatures
+                      Collabs
                     </button>
                     <button
                       type="button"
                       onClick={() => handleDeleteAnnouncement(announcement.id)}
-                      className="py-3 w-44 rounded bg-[#CA2E55] text-[#F2F6FF] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
+                      className="py-3 w-44 rounded bg-[#CA2E55] text-[#f3f3f7] text-md font-sulphur sm:w-36 md:w-24 md:text-sm"
                     >
                       Supprimer
                     </button>
@@ -325,7 +325,7 @@ export default function AnnouncementList() {
                       setSelectedAnnouncementId(announcement.id);
                       setIsApplicationModalOpen(true);
                     }}
-                    className="px-6 py-3 rounded bg-[#a71666] text-[#F2F6FF] text-sm font-montserrat"
+                    className="px-6 py-3 rounded bg-[#51537B] text-[#f3f3f7] text-sm font-montserrat"
                   >
                     Postuler
                   </button>

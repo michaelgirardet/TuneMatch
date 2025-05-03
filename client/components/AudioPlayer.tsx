@@ -36,7 +36,7 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
             <button
               type="submit"
               onClick={onAddTrack}
-              className="bg-[#a71666] text-[#F2F6FF] px-8 py-4 rounded hover:bg-[#a23e75] transition-colors self-center font-montserrat"
+              className="bg-[#51537B] text-[#f3f3f7] px-8 py-4 rounded hover:bg-[#595B88] transition-colors self-center font-montserrat"
             >
               Ajouter un morceau
             </button>
@@ -45,9 +45,9 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
       ) : (
         <>
           {tracks.map((track) => (
-            <div key={track.id} className="w-full rounded-lg p-6 flex flex-col gap-4 bg-[#0A0A0A]">
+            <div key={track.id} className="w-full rounded-lg p-6 flex flex-col gap-4 bg-[#101119]">
               <div className="flex justify-between items-center">
-                <h3 className="text-[#F2F6FF] font-montserrat">
+                <h3 className="text-[#f3f3f7] font-montserrat">
                   {track.artist} - {track.title}
                 </h3>
                 <div className="flex items-center gap-4">
@@ -86,7 +86,7 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
             <button
               type="submit"
               onClick={onAddTrack}
-              className="bg-[#a71666] text-[#F2F6FF] px-8 py-4 rounded hover:bg-[#a23e75] transition-colors self-center font-sulphur"
+              className="bg-[#51537B] text-[#f3f3f7] px-8 py-4 rounded hover:bg-[#595B88] transition-colors self-center font-sulphur"
             >
               Ajouter un morceau
             </button>

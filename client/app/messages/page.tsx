@@ -80,7 +80,7 @@ export default function MessagesPage() {
                       }}
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-[#a71666] flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-[#51537B] flex items-center justify-center text-white font-bold">
                       {conversation.nom_utilisateur[0].toUpperCase()}
                     </div>
                   )}

@@ -29,8 +29,8 @@ export default function Location() {
         onClick={() => setIsModalOpen(true)}
         className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity p-5"
       >
-        <FaMapMarkerAlt className="text-[#a71666]" />
-        <h3 className="text-[#F2F6FF] font-bold text-2xl font-quicksand">{displayLocation}</h3>
+        <FaMapMarkerAlt className="text-[#51537B]" />
+        <h3 className="text-[#f3f3f7] font-bold text-2xl font-quicksand">{displayLocation}</h3>
       </div>
 
       <LocationModal

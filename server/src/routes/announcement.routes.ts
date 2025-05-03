@@ -7,15 +7,21 @@ import type { RequestHandler } from 'express';
 const router = express.Router();
 
 const announcementSchema = z.object({
-  title: z.string().min(1, "Le titre est requis"),
-  description: z.string().min(1, "La description est requise"),
-  musical_style: z.string().min(1, "Le style musical est requis"),
+  title: z.string().min(1, 'Le titre est requis'),
+  description: z.string().min(1, 'La description est requise'),
+  musical_style: z.string().min(1, 'Le style musical est requis'),
   voice_type: z.string().optional(),
   instrument: z.string().optional(),
-  other_criteria: z.string().optional()
+  other_criteria: z.string().optional(),
 });
 
-type AuthRequestHandler = RequestHandler<{ id: string }, any, any, any, { user?: AuthRequest['user'] }>;
+type AuthRequestHandler = RequestHandler<
+  { id: string },
+  unknown,
+  unknown,
+  Record<string, unknown>,
+  { user?: AuthRequest['user'] }
+>;
 
 // Créer une nouvelle annonce
 const createAnnouncement: AuthRequestHandler = async (req, res) => {
@@ -26,10 +32,9 @@ const createAnnouncement: AuthRequestHandler = async (req, res) => {
     }
 
     // Vérifier si l'utilisateur est un producteur
-    const [userRows] = await req.app.locals.pool.execute(
-      'SELECT role FROM users WHERE id = ?',
-      [userId]
-    );
+    const [userRows] = await req.app.locals.pool.execute('SELECT role FROM users WHERE id = ?', [
+      userId,
+    ]);
     const user = userRows[0];
 
     if (!user || user.role !== 'producteur') {
@@ -47,23 +52,23 @@ const createAnnouncement: AuthRequestHandler = async (req, res) => {
         announcement.voice_type || null,
         announcement.instrument || null,
         announcement.other_criteria || null,
-        userId
+        userId,
       ]
     );
 
     res.status(201).json({
       message: 'Annonce créée avec succès',
-      announcement: { ...announcement, id: result.insertId }
+      announcement: { ...announcement, id: result.insertId },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         error: 'Données invalides',
-        details: error.errors
+        details: error.errors,
       });
     }
-    console.error('Erreur lors de la création de l\'annonce:', error);
-    res.status(500).json({ error: 'Erreur lors de la création de l\'annonce' });
+    console.error("Erreur lors de la création de l'annonce:", error);
+    res.status(500).json({ error: "Erreur lors de la création de l'annonce" });
   }
 };
 
@@ -133,7 +138,7 @@ const updateAnnouncement: AuthRequestHandler = async (req, res) => {
         announcement.voice_type || null,
         announcement.instrument || null,
         announcement.other_criteria || null,
-        announcementId
+        announcementId,
       ]
     );
 
@@ -142,11 +147,11 @@ const updateAnnouncement: AuthRequestHandler = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         error: 'Données invalides',
-        details: error.errors
+        details: error.errors,
       });
     }
-    console.error('Erreur lors de la mise à jour de l\'annonce:', error);
-    res.status(500).json({ error: 'Erreur lors de la mise à jour de l\'annonce' });
+    console.error("Erreur lors de la mise à jour de l'annonce:", error);
+    res.status(500).json({ error: "Erreur lors de la mise à jour de l'annonce" });
   }
 };
 
@@ -169,15 +174,12 @@ const deleteAnnouncement: AuthRequestHandler = async (req, res) => {
       return res.status(403).json({ error: 'Non autorisé à supprimer cette annonce' });
     }
 
-    await req.app.locals.pool.execute(
-      'DELETE FROM announcements WHERE id = ?',
-      [announcementId]
-    );
+    await req.app.locals.pool.execute('DELETE FROM announcements WHERE id = ?', [announcementId]);
 
     res.json({ message: 'Annonce supprimée avec succès' });
   } catch (error) {
-    console.error('Erreur lors de la suppression de l\'annonce:', error);
-    res.status(500).json({ error: 'Erreur lors de la suppression de l\'annonce' });
+    console.error("Erreur lors de la suppression de l'annonce:", error);
+    res.status(500).json({ error: "Erreur lors de la suppression de l'annonce" });
   }
 };
 
@@ -187,4 +189,4 @@ router.get('/user', auth, getUserAnnouncements);
 router.put('/:id', auth, updateAnnouncement);
 router.delete('/:id', auth, deleteAnnouncement);
 
-export default router; 
+export default router;

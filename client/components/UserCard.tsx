@@ -42,9 +42,9 @@ export function UserCard({ user }: UserCardProps) {
       </figure>
 
       <div className="card-body">
-        <h2 className="card-title capitalize font-sulphur font-bold text-3xl mt-5 text-[#F2F6FF]">
+        <h2 className="card-title capitalize font-sulphur font-bold text-3xl mt-5 text-[#f3f3f7]">
           {user.nom_utilisateur}
-          <div className="badge badge-secondary font-sulphur font-light text-2xl text-[#F2F6FF] tracking-wide">
+          <div className="badge badge-secondary font-sulphur font-light text-2xl text-[#f3f3f7] tracking-wide">
             {user.role}
           </div>
         </h2>
@@ -75,7 +75,7 @@ export function UserCard({ user }: UserCardProps) {
           </div>
           <Link
             href={`/profile/${user.id}`}
-            className="btn btn-primary btn-sm font-quicksand text-[#F2F6FF] font-light underline cursor-pointer"
+            className="btn btn-primary btn-sm font-quicksand text-[#f3f3f7] font-light underline cursor-pointer"
           >
             Voir le profil
           </Link>

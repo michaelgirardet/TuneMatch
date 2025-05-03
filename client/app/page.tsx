@@ -14,8 +14,8 @@ export default function Home() {
         id="page-accueil"
       >
         <div className="home-sct flex flex-col justify-center max-w-[500px] gap-3">
-          <h1 className="text-[#F2F6FF] title font-quicksand text-5xl pb-10 text-center">
-            Tune<span className="text-[#a71666]">Match</span>
+          <h1 className="text-[#f3f3f7] title font-quicksand text-5xl pb-10 text-center">
+            Tune<span className="text-[#CA2E55]">Match</span>
           </h1>
           <h2 className="font-montserrat">🎶 Connecte tes talents, crée ta musique !</h2>
           <p className="font-montserrat">
@@ -26,7 +26,7 @@ export default function Home() {
           <h2 className="font-montserrat">Prêt à faire matcher ta musique ? 🎧</h2>
           <Link href="/register" className="self-center ">
             <button
-              className="button mt-5 w-[200px] text-[#F2F6FF] py-6 px-12 rounded-lg text-lg bg-[#a71666] hover:bg-[#A23E75] tracking-wide border border-[#a71666] font-sulphur"
+              className="button mt-5 w-[200px] text-[#f3f3f7] py-6 px-12 rounded-lg text-lg font-medium bg-[#D81E5B] hover:bg-[#595B88] tracking-wide border border-[#51537B] font-sulphur"
               type="button"
             >
               Découvrir

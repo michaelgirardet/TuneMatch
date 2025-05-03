@@ -55,21 +55,21 @@ export default function Biography() {
           <textarea
             value={biography}
             onChange={(e) => setBiography(e.target.value)}
-            className="p-4 bg-[#0A0A0A] rounded-lg text-[#F2F6FF] font-montserrat min-h-[200px] w-[65vw] resize-none"
+            className="p-4 bg-[#101119] rounded-lg text-[#f3f3f7] font-montserrat min-h-[200px] w-[65vw] resize-none"
             placeholder="Écrivez votre biographie ici..."
           />
           <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#F2F6FF] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-[#a71666] text-[#F2F6FF] disabled:opacity-50 font-sulphur"
+              className="px-4 py-2 rounded bg-[#51537B] text-[#f3f3f7] disabled:opacity-50 font-sulphur"
             >
               {loading ? 'Sauvegarde...' : 'Sauvegarder'}
             </button>
@@ -82,7 +82,7 @@ export default function Biography() {
   return (
     <div className="relative p-5 ">
       <p
-        className="font-montserrat p-7 bg-[#0A0A0A] text-[#F2F6FF] w-[80vw] md:w-[60vw] "
+        className="font-montserrat p-7 bg-[#101119] text-[#f3f3f7] w-[80vw] md:w-[60vw] "
         onClick={() => {
           setBiography(user?.biography || '');
           setIsEditing(true);

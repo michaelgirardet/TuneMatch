@@ -81,15 +81,29 @@ CREATE TABLE profil_producteur (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- TABLE Matchs (dépend de profil_artiste et profil_producteur)
-CREATE TABLE matchs (
-    id_match INT PRIMARY KEY AUTO_INCREMENT,
-    id_artiste INT NOT NULL,
-    id_producteur INT NOT NULL,
-    statut ENUM('en attente', 'accepté', 'rejeté') DEFAULT 'en attente',
-    date_match TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_artiste) REFERENCES profil_artiste(id_artiste) ON DELETE CASCADE,
-    FOREIGN KEY (id_producteur) REFERENCES profil_producteur(id_producteur) ON DELETE CASCADE
+-- TABLE Likes (registre tous les likes, en attente ou réciproques)
+CREATE TABLE likes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    liker_id INT NOT NULL,
+    liked_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_match BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (liker_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (liked_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_like (liker_id, liked_id)
+);
+
+
+-- Table swipe en fil d'attente
+CREATE TABLE swipe_queue (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    viewer_id INT NOT NULL,
+    viewed_id INT NOT NULL,
+    seen BOOLEAN DEFAULT FALSE,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (viewer_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (viewed_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_swipe (viewer_id, viewed_id)
 );
 
 -- TABLE Messages (dépend de users)
@@ -103,7 +117,7 @@ CREATE TABLE messages (
     FOREIGN KEY (id_destinataire) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- TABLE Applications (candidatures aux annonces)
+-- TABLE Applications (Collabs aux annonces)
 CREATE TABLE applications (
     id INT PRIMARY KEY AUTO_INCREMENT,
     announcement_id INT NOT NULL,
@@ -159,9 +173,29 @@ INSERT INTO profil_artiste (user_id, genre_musical, instruments_pratiques, resea
 INSERT INTO profil_producteur (user_id, style_recherche, label_studio, projets_en_cours, liens_professionnels) VALUES
 (2, 'Hip-Hop, Trap', 'Paris Sound Studio', 'Recrute des talents émergents', 'https://linkedin.com/in/mariemartin');
 
-INSERT INTO matchs (id_artiste, id_producteur) VALUES
-(1, 1),
-(2, 1);
+-- Likes simulés entre utilisateurs (certains deviennent un match si les deux se likent)
+INSERT INTO likes (liker_id, liked_id, is_match) VALUES
+(1, 2, FALSE),  -- John aime Marie, pas encore réciproque
+(2, 1, TRUE),   -- Marie aime aussi John ⇒ match activé
+(3, 4, FALSE),  -- Pierre aime Sophie, pas encore réciproque
+(5, 1, FALSE),  -- Alex aime John
+(1, 5, TRUE),   -- John aime Alex aussi ⇒ match activé
+(6, 3, FALSE),  -- Carlos aime Pierre
+(7, 10, FALSE), -- Emma aime Hana
+(10, 7, TRUE);  -- Hana aime aussi Emma ⇒ match
+
+-- Simule les profils que chaque utilisateur a vus
+INSERT INTO swipe_queue (viewer_id, viewed_id, seen) VALUES
+(1, 2, TRUE),  -- John a vu Marie
+(1, 3, TRUE),  -- John a vu Pierre
+(1, 5, TRUE),  -- John a vu Alex
+(2, 1, TRUE),  -- Marie a vu John
+(3, 4, TRUE),  -- Pierre a vu Sophie
+(4, 3, TRUE),  -- Sophie a vu Pierre
+(7, 10, TRUE), -- Emma a vu Hana
+(10, 7, TRUE), -- Hana a vu Emma
+(5, 6, FALSE), -- Alex n’a pas encore swipé Carlos
+(6, 5, FALSE); -- Carlos n’a pas encore swipé Alex
 
 INSERT INTO messages (id_expediteur, id_destinataire, contenu) VALUES
 (1, 2, 'Salut Marie, intéressée par un featuring électro ?'),

@@ -202,7 +202,7 @@ export default function Profile() {
               {genres.map((genre) => (
                 <li
                   key={genre}
-                  className="font-sulphur text-[#F2F6FF] bg-[#0A0A0A] p-2 rounded cursor-pointer"
+                  className="font-sulphur text-[#f3f3f7] bg-[#101119] p-2 rounded cursor-pointer"
                   onClick={() => setGenreModalOpen(true)}
                   onKeyDown={() => setGenreModalOpen(true)}
                 >

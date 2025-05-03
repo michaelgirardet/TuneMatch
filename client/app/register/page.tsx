@@ -56,7 +56,7 @@ export default function Register() {
             autoClose: 5000,
           }
         );
-        router.push('/login');
+        router.push('/complete-profile');
       }
     } catch (_err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
@@ -80,7 +80,7 @@ export default function Register() {
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           >
             <option value="">Tu es dans quel mood ? 😎</option>
@@ -95,7 +95,7 @@ export default function Register() {
             value={formData.nom_utilisateur}
             onChange={handleChange}
             placeholder="Username"
-            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -105,7 +105,7 @@ export default function Register() {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
-            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -115,7 +115,7 @@ export default function Register() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
 
@@ -125,18 +125,18 @@ export default function Register() {
             value={formData.confirm_password}
             onChange={handleChange}
             placeholder="Confirm Password"
-            className="bg-[#0A0A0A] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
             required
           />
           <Link
             href="/login"
-            className="font-montserrat text-[#f2f6ff] text-xs hover:underline underline-offset-2"
+            className="font-montserrat text-[#f3f3f7] text-xs hover:underline underline-offset-2"
           >
             Déjà enregistré ?
           </Link>
           <button
             type="submit"
-            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#a71666] hover:bg-[#a23e75]"
+            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#51537B] hover:bg-[#595B88]"
           >
             S'inscrire
           </button>
