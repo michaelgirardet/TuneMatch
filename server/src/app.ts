@@ -7,6 +7,7 @@ import searchRoutes from './routes/search.routes';
 import applicationRoutes from './routes/application.routes';
 import messageRoutes from './routes/message.routes';
 import announcementRoutes from './routes/announcement.routes';
+import completeProfileRoutes from './routes/completeProfile.routes';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/search', searchRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/announcements', announcementRoutes);
+app.use('/api/com', completeProfileRoutes);
 
 console.log('Routes enregistrées');
 
@@ -40,7 +42,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 // Middleware pour logger les requêtes
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
