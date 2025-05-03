@@ -3,22 +3,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          dark: '#0b132b',
-          DEFAULT: '#1c2541',
-          light: '#75a5b8',
-        },
-        surface: {
-          light: '#dbe1f0',
-          white: '#ffffff',
-        },
-        accent: {
-          violet: '#8F13FF',
-          pink: '#D81E5B',
-        },
-        gray: {
-          dark: '#212936',
-        },
+        air: '#75a5b8',
+        electric: '#8f13ff',
+        electrichover: '#A033FF',
+        lavender: '#dbe1f0',
+        oxford: '#0b132b',
+        space: '#1c2541',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],

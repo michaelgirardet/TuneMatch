@@ -31,11 +31,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-red-200 p-4 shadow-lg">
+    <nav className="bg-space p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center gap-2">
-          <h1 className="text-[#f3f3f7] text-2xl font-sulphur">
-            Tune<span className="text-[#51537B] font-extrabold">Match</span>
+        <Link href="/" className="flex items-center gap-2 cursor-pointer">
+          <h1 className="text-white text-2xl font-quicksand font-bold">
+            Tune<span className="text-air font-extrabold">Match</span>
           </h1>
         </Link>
         {/* Navigation Desktop */}

@@ -181,3 +181,42 @@ export const getUserProfile: AuthRequestHandler = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la récupération du profil' });
   }
 };
+
+export const updateProfile: AuthRequestHandler = async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
+    // Récupère tous les champs du body
+    const {
+      instruments,
+      genres_musicaux,
+      biography,
+      youtube_link,
+      instagram_link,
+      soundcloud_link,
+    } = req.body;
+
+    // Ici tu peux ajouter des validations si tu veux (Zod, etc.)
+
+    await req.app.locals.pool.execute(
+      'UPDATE users SET instruments = ?, genres_musicaux = ?, biography = ?, youtube_link = ?, instagram_link = ?, soundcloud_link = ? WHERE id = ?',
+      [
+        instruments || null,
+        genres_musicaux || null,
+        biography || null,
+        youtube_link || null,
+        instagram_link || null,
+        soundcloud_link || null,
+        userId,
+      ]
+    );
+
+    res.json({ message: 'Profil mis à jour avec succès' });
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du profil:', error);
+    res.status(500).json({ error: 'Erreur lors de la mise à jour du profil' });
+  }
+};

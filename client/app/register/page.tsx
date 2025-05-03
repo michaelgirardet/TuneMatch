@@ -43,12 +43,16 @@ export default function Register() {
         body: JSON.stringify(dataToSend),
       });
 
+      const json = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        console.log('Erreur serveur:', errorData); // Pour débugger
-        setError(errorData.error || "Erreur lors de l'inscription");
+        setError(json.error || "Erreur lors de l'inscription");
         <ToasterError message="🚨 🎵 Petit couac technique ! On réessaie ?" />;
       } else {
+        const tokenRecuDuServeur = json.token;
+        if (tokenRecuDuServeur) {
+          localStorage.setItem('token', tokenRecuDuServeur);
+        }
         toast.success(
           "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",
           {
@@ -68,19 +72,24 @@ export default function Register() {
       <nav>
         <Navbar />
       </nav>
-      <div className="flex flex-col items-center justify-center h-[86vh]" id="register-form">
+      <div
+        className="flex flex-col items-center justify-center h-[86vh] bg-oxford"
+        id="register-form"
+      >
         <form
           onSubmit={handleSubmit}
           className="flex flex-col justify-center items-center pb-7 gap-5"
         >
-          <h1 className="title font-quicksand text-4xl pb-10 text-center">Inscription</h1>
+          <h1 className="font-quicksand text-4xl font-semibold pb-10 text-center text-white">
+            Inscription
+          </h1>
           {error && <p className="text-red-500">{error}</p>}
 
           <select
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded"
             required
           >
             <option value="">Tu es dans quel mood ? 😎</option>
@@ -95,7 +104,7 @@ export default function Register() {
             value={formData.nom_utilisateur}
             onChange={handleChange}
             placeholder="Username"
-            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
             required
           />
 
@@ -105,7 +114,7 @@ export default function Register() {
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
-            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
             required
           />
 
@@ -115,7 +124,7 @@ export default function Register() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
             required
           />
 
@@ -125,18 +134,18 @@ export default function Register() {
             value={formData.confirm_password}
             onChange={handleChange}
             placeholder="Confirm Password"
-            className="bg-[#101119] form-input font-sulphur flex w-[280px] self-center p-2 rounded"
+            className="bg-space text-white text-center form-input  flex w-[280px] self-center p-2 rounded focus:outline-electric"
             required
           />
           <Link
             href="/login"
-            className="font-montserrat text-[#f3f3f7] text-xs hover:underline underline-offset-2"
+            className="font-quicksand font-thin text-white text-xs hover:underline underline-offset-2"
           >
             Déjà enregistré ?
           </Link>
           <button
             type="submit"
-            className="button font-sulphur text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#51537B] hover:bg-[#595B88]"
+            className="bg-electric hover:bg-electrichover text-white button p-5 w-[200px] rounded flex justify-center self-center item-center"
           >
             S'inscrire
           </button>
