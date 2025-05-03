@@ -1,39 +1,18 @@
+import Navbar from '@/components/Navbar';
 import './globals.css';
-import { Montserrat, Quicksand, Sulphur_Point } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
+import Footer from '@/components/Footer';
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-  display: 'swap',
-});
-
-const quicksand = Quicksand({
-  subsets: ['latin'],
-  variable: '--font-quicksand',
-  display: 'swap',
-});
-
-const sulphurPoint = Sulphur_Point({
-  subsets: ['latin'],
-  variable: '--font-sulphur',
-  weight: ['300', '400', '700'],
-  display: 'swap',
-});
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="fr"
-      className={`${montserrat.variable} ${quicksand.variable} ${sulphurPoint.variable}`}
-    >
-      <body>
-        {children}
-        <ToastContainer />
+    <html lang="fr">
+      <body className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex flex-col">
+          {children}
+          <ToastContainer />
+        </main>
+        <Footer />
       </body>
     </html>
   );

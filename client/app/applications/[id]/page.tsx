@@ -100,7 +100,7 @@ export default function ApplicationsPage() {
     <main className="min-h-screen w-full flex flex-col">
       <Navbar />
       <div className="flex-grow p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-quicksand font-bold mb-8 text-center">Collabs reçues</h1>
           <div className="space-y-6">
             {applications.length === 0 ? (

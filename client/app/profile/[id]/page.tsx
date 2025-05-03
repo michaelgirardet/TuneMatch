@@ -100,8 +100,7 @@ export default function PublicProfile() {
   }
 
   return (
-    <main className="min-h-screen w-full flex flex-col">
-      <Navbar />
+    <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
       <div>
         <Link href="/search">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
@@ -182,7 +181,6 @@ export default function PublicProfile() {
           )}
         </div>
       </div>
-      <Footer />
-    </main>
+    </div>
   );
 }
