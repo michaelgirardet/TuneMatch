@@ -47,19 +47,7 @@ export default function ApplicationsPage() {
         setApplications(data);
       } catch (error) {
         console.error('Erreur:', error);
-        <ToastContainer
-          message="🚨 Impossible de charger les Collabs. Réessaie dans un instant."
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />;
+        toast.error('🚨 Impossible de charger les Collabs. Réessaie dans un instant.');
       } finally {
         setLoading(false);
       }
