@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ToasterError } from './Toast';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Notification {
   id: number;
@@ -21,7 +21,7 @@ export default function NotificationsMenu() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:5001/api/applications/notifications', {
         headers: {
@@ -40,7 +40,7 @@ export default function NotificationsMenu() {
       console.error('Erreur:', error);
       setError("🔔 Les notifications ne s'affichent pas. Un petit bug ?");
     }
-  };
+  }, [token]);
 
   const markAsRead = async (notificationId: number) => {
     try {
@@ -70,16 +70,25 @@ export default function NotificationsMenu() {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (token) {
       fetchNotifications();
     }
-  }, [token]);
+  }, [token, fetchNotifications]);
 
   return (
     <>
-      {error && <ToasterError message={error} />}
+      {error &&
+        toast.error("Quelque chose s'est mal passé, veuillez réessayer plus tard !", {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        })}
       <div className="relative">
         <button
           type="button"
@@ -89,7 +98,7 @@ export default function NotificationsMenu() {
           <>
             <BellIcon className="h-6 w-6 stroke-gray-400" />
             {unreadCount > 0 && (
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-[#51537B] rounded-full">
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-air rounded-full">
                 {unreadCount}
               </span>
             )}
@@ -99,7 +108,7 @@ export default function NotificationsMenu() {
         {isOpen && (
           <div className="absolute right-0 mt-2 w-80 bg-[#212936] border border-gray-700 rounded-lg shadow-lg z-50">
             <div className="p-4">
-              <h3 className="text-lg font-sulphur text-white mb-4">Notifications</h3>
+              <h3 className="text-lg font-quicksand text-white mb-4">Notifications</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <p className="text-gray-400 text-center">Aucune notification</p>

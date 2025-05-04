@@ -1,24 +1,26 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { ToasterError, ToasterSuccess } from './Toast';
 import { useAuthStore } from '@/store/authStore';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
-export default function Biography() {
-  const [biography, setBiography] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+interface BiographyModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function BiographyModal({ isOpen, onClose }: BiographyModalProps) {
+  const { user, token, updateUser } = useAuthStore();
+  const [biography, setBiography] = useState(user?.biography || '');
   const [loading, setLoading] = useState(false);
-  const { token, user, updateUser } = useAuthStore();
 
+  // Met à jour la bio si user change (utile si modale rouverte)
   useEffect(() => {
-    if (user?.biography) {
-      setBiography(user.biography);
-    }
-  }, [user]);
+    setBiography(user?.biography || '');
+  }, [user?.biography]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const response = await fetch('http://localhost:5001/api/users/biography', {
         method: 'PUT',
@@ -30,71 +32,79 @@ export default function Biography() {
       });
 
       if (response.ok) {
-        if (user) {
+        // On suppose que le backend renvoie user à jour (sinon, update manuellement)
+        const json = await response.json();
+        if (json.user) {
+          updateUser(json.user);
+        } else if (user?.id) {
           updateUser({ ...user, biography });
         }
-        <ToasterSuccess message="📖 Bio mise à jour ! Ton histoire est prête à être lue." />;
-        setIsEditing(false);
+        toast.success('📖 Bio mise à jour ! Ton histoire est prête à être lue.');
+        onClose();
       } else {
-        const error = await response.json();
-        <ToasterError message="Erreur lors de la mise à jour de la biographie" />;
-        console.error(error);
+        toast.error('Erreur lors de la mise à jour de la biographie');
       }
     } catch (error) {
-      <ToasterError message="🔐 Connexion impossible ! Vérifie tes identifiants et réessaie." />;
       console.error(error);
+      toast.error('🔐 Connexion impossible ! Vérifie ta connexion.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (isEditing) {
-    return (
-      <div className="p-5">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-oxford p-8 rounded-xl w-[90%] max-w-md shadow-2xl border-2 border-space relative animate-fade-in">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white text-2xl font-bold hover:text-air focus:outline-none"
+          aria-label="Fermer la modale"
+        >
+          ×
+        </button>
+        <h2 className="text-2xl mb-6 font-quicksand text-center font-semibold text-white uppercase tracking-widest">
+          Modifier la biographie
+        </h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <textarea
             value={biography}
             onChange={(e) => setBiography(e.target.value)}
-            className="p-4 bg-[#101119] rounded-lg text-[#f3f3f7] font-montserrat min-h-[200px] w-[65vw] resize-none"
-            placeholder="Écrivez votre biographie ici..."
+            placeholder="Écris ta biographie ici…"
+            className="p-4 bg-space rounded-lg text-white font-quicksand min-h-[120px] focus:outline-electric"
+            required
+            maxLength={1000}
           />
           <div className="flex justify-center gap-4">
             <button
               type="button"
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
+              onClick={onClose}
+              className="px-5 py-2 rounded-lg bg-[#212936] border border-lavender text-lavender font-sulphur hover:bg-space transition"
+              disabled={loading}
             >
               Annuler
             </button>
             <button
               type="submit"
-              disabled={loading}
-              className="px-4 py-2 rounded bg-[#51537B] text-[#f3f3f7] disabled:opacity-50 font-sulphur"
+              className="px-4 py-2 rounded-lg bg-air text-oxford font-quicksand"
+              disabled={loading || !biography}
             >
               {loading ? 'Sauvegarde...' : 'Sauvegarder'}
             </button>
           </div>
         </form>
       </div>
-    );
-  }
-
-  return (
-    <div className="relative p-5 ">
-      <p
-        className="font-montserrat p-7 bg-[#101119] text-[#f3f3f7] w-[80vw] md:w-[60vw] "
-        onClick={() => {
-          setBiography(user?.biography || '');
-          setIsEditing(true);
-        }}
-        onKeyDown={() => {
-          setBiography(user?.biography || '');
-          setIsEditing(true);
-        }}
-      >
-        {biography ||
-          "Aucune biographie pour l'instant. Cliquez sur Modifier pour en ajouter une !"}
-      </p>
+      <style jsx>{`
+        .animate-fade-in {
+          animation: fadeIn 0.25s;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.97);}
+          to { opacity: 1; transform: scale(1);}
+        }
+      `}</style>
     </div>
   );
 }

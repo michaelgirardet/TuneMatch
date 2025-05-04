@@ -1,10 +1,11 @@
 'use client';
-import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { SuccessModal, ErrModal } from '@/components/Modals';
+import { ErrModal, SuccessModal } from '@/components/Modals';
+import Navbar from '@/components/Navbar';
+import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { toast } from 'react-toastify';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
@@ -41,16 +42,43 @@ export default function ResetPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        <ToasterSuccess message="🔑 Mot de passe mis à jour ! Tu peux te reconnecter." />;
+        toast.success('🔑 Mot de passe mis à jour ! Tu peux te reconnecter.', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
         setResetError(null);
       } else {
         setResetError(data.error);
-        <ToasterError message="❌ Oups ! Un problème est survenu. Essaie à nouveau." />;
+        toast.error('❌ Oups ! Un problème est survenu. Essaie à nouveau.', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
         setResetSuccess(null);
       }
     } catch (error) {
       setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
-      <ToasterError message="🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie." />;
+      toast.error('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       console.error(error);
     } finally {
       setLoading(false);
@@ -72,7 +100,7 @@ export default function ResetPassword() {
               onSubmit={handleReset}
               className="flex flex-col justify-center items-center gap-5"
             >
-              <p className="font-montserrat px-4 text-center">
+              <p className="font-quicksand px-4 text-center">
                 Veuillez entrer votre nouveau mot de passe
               </p>
               <div className="p-5 flex flex-col justify-center items-center gap-2">
@@ -80,7 +108,7 @@ export default function ResetPassword() {
                   Nouveau mot de passe
                 </label>
                 <input
-                  className="font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+                  className="font-quicksand form-input flex w-[280px] self-center p-2 rounded"
                   type="password"
                   name="password"
                   id="password"
@@ -94,7 +122,7 @@ export default function ResetPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center items-center disabled:opacity-50"
+                className="button font-quicksand font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center items-center disabled:opacity-50"
               >
                 {loading ? 'Réinitialisation...' : 'Réinitialiser'}
               </button>
@@ -103,7 +131,7 @@ export default function ResetPassword() {
         ) : (
           <div className="text-center p-5">
             <h1 className="title font-quicksand pb-5">Lien invalide</h1>
-            <p className="font-montserrat">Le lien de réinitialisation est invalide ou a expiré.</p>
+            <p className="font-quicksand">Le lien de réinitialisation est invalide ou a expiré.</p>
           </div>
         )}
       </div>

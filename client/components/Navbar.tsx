@@ -1,13 +1,14 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/authStore';
-import { useState } from 'react';
 import LogoBurger from '@/public/sliders-icon-wh.svg';
 import CloseIcon from '@/public/xmark-wh.svg';
-import NotificationsMenu from './NotificationsMenu';
+import { useAuthStore } from '@/store/authStore';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import NotificationsMenu from './NotificationsMenu';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuthStore();
@@ -20,6 +21,16 @@ export default function Navbar() {
     setIsMenu(false);
     setIsBurger(false);
     router.push('/');
+    toast.success('Déconnexion réussie ! à bientôt !', {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
   };
 
   const handleBurger = () => {
@@ -44,25 +55,25 @@ export default function Navbar() {
             <>
               <Link
                 href="/"
-                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
               >
                 Accueil
               </Link>
               <Link
                 href="/profile"
-                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
               >
                 Profil
               </Link>
               <Link
                 href="/announcements"
-                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
               >
                 Annonces
               </Link>
               <Link
                 href="/messages"
-                className="text-[#f3f3f7] hover:text-[#ffffff] hover:bg-[#212936] p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
               >
                 Messages
               </Link>
@@ -91,7 +102,7 @@ export default function Navbar() {
                         }}
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] font-bold">
+                      <div className="w-8 h-8 rounded-full bg-air flex items-center justify-center text-white font-bold">
                         {user.nom_utilisateur?.[0]?.toUpperCase() || '?'}
                       </div>
                     )}
@@ -100,7 +111,7 @@ export default function Navbar() {
                     <div className="absolute right-0 mt-2 w-48 bg-[#212936] border border-[#1D1E2C] rounded-lg z-50">
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-[#f3f3f7] hover:bg-[#101119] font-sulphur rounded-t-lg"
+                        className="block px-4 py-2 text-white hover:bg-[#101119] font-quicksand rounded-t-lg"
                         onClick={() => setIsMenu(false)}
                       >
                         Mon profil
@@ -108,7 +119,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-[#f3f3f7] hover:bg-[#101119] font-sulphur rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-white hover:bg-[#101119] font-quicksand rounded-b-lg"
                       >
                         Déconnexion
                       </button>
@@ -121,13 +132,13 @@ export default function Navbar() {
             <>
               <Link
                 href="/register"
-                className="text-[#f3f3f7] hover:text-[#ffffff] border border-[#f3f3f7] p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] border border-[#f3f3f7] p-3 rounded-md transition-colors font-quicksand"
               >
                 Inscription
               </Link>
               <Link
                 href="/login"
-                className="text-[#f3f3f7] hover:text-[#ffffff] p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] p-3 rounded-md transition-colors font-quicksand"
               >
                 Connexion
               </Link>
@@ -173,35 +184,35 @@ export default function Navbar() {
                         <NotificationsMenu />
                         <Link
                           href="/"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Accueil</span>
                         </Link>
                         <Link
                           href="/profile"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Profil</span>
                         </Link>
                         <Link
                           href="/announcements"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Annonces</span>
                         </Link>
                         <Link
                           href="/messages"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Messages</span>
                         </Link>
                         <Link
                           href="/search"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Recherche</span>
@@ -219,14 +230,14 @@ export default function Navbar() {
                       <>
                         <Link
                           href="/login"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Connexion</span>
                         </Link>
                         <Link
                           href="/register"
-                          className="flex items-center px-4 py-3 text-[#f3f3f7] bg-[#51537B] hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white bg-air hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Inscription</span>

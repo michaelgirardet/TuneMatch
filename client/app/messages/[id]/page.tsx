@@ -1,12 +1,13 @@
 'use client';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { ArrowLeftIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
-import { PaperAirplaneIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Message {
   id: number;
@@ -47,7 +48,16 @@ export default function ConversationPage({ params }: { params: { id: string } })
       setMessages(data);
     } catch (error) {
       console.error('Erreur:', error);
-      <ToasterError message="Erreur lors de la récupération des messages" />;
+      toast.error('Erreur lors de la récupération des messages', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
     }
   }, [token, params.id]);
 
@@ -107,10 +117,28 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
       setNewMessage('');
       await fetchMessages();
-      <ToasterSuccess message="✉️ Message bien envoyé ! Plus qu'à attendre une réponse." />;
+      toast.success("✉️ Message bien envoyé ! Plus qu'à attendre une réponse.", {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
     } catch (error) {
       console.error('Erreur:', error);
-      <ToasterError message="Erreur lors de l'envoi du message" />;
+      toast.error("Erreur lors de l'envoi du message", {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
     }
   };
 
@@ -140,12 +168,12 @@ export default function ConversationPage({ params }: { params: { id: string } })
                 }}
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-[#51537B] flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 rounded-full bg-air flex items-center justify-center text-white font-bold">
                 {interlocutor.nom_utilisateur[0].toUpperCase()}
               </div>
             )}
             <div>
-              <h2 className="text-white font-sulphur text-lg">{interlocutor.nom_utilisateur}</h2>
+              <h2 className="text-white font-quicksand text-lg">{interlocutor.nom_utilisateur}</h2>
             </div>
           </>
         )}
@@ -178,14 +206,14 @@ export default function ConversationPage({ params }: { params: { id: string } })
                   }}
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-[#51537B] flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-8 h-8 rounded-full bg-air flex items-center justify-center text-white text-sm font-bold">
                   {message.expediteur_nom[0].toUpperCase()}
                 </div>
               )}
               <div
                 className={`rounded-lg p-3 ${
                   message.id_expediteur === user?.id
-                    ? 'bg-[#51537B] text-white'
+                    ? 'bg-air text-white'
                     : 'bg-[#212936] text-gray-200'
                 }`}
               >
@@ -217,7 +245,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
         />
         <button
           type="submit"
-          className="bg-[#51537B] text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-air text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!newMessage.trim()}
         >
           <PaperAirplaneIcon className="h-6 w-6" />

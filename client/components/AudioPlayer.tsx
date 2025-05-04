@@ -1,8 +1,8 @@
-import PlayRose from '@/public/circle-play-solid.svg';
 import PauseRose from '@/public/circle-pause-solid.svg';
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import PlayRose from '@/public/circle-play-solid.svg';
 import CloseIcon from '@/public/circle-xmark-solid.svg';
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface Track {
   id: number;
@@ -17,26 +17,22 @@ interface AudioPlayerProps {
   onDeleteTrack?: (trackId: number) => void;
 }
 
-function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProps) {
+export default function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProps) {
   const [playingTrackId, setPlayingTrackId] = useState<number | null>(null);
 
   const handlePlay = (trackId: number) => {
-    if (playingTrackId === trackId) {
-      setPlayingTrackId(null);
-    } else {
-      setPlayingTrackId(trackId);
-    }
+    setPlayingTrackId(playingTrackId === trackId ? null : trackId);
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-2xl">
+    <div className="flex flex-col gap-4 w-full">
       {tracks.length === 0 ? (
-        <div className="bg-[#1D1E2C] w-full p-6 rounded-lg text-center">
-          {onAddTrack && tracks.length < 3 && (
+        <div className="w-full p-6 rounded-lg text-center">
+          {onAddTrack && (
             <button
-              type="submit"
+              type="button"
               onClick={onAddTrack}
-              className="bg-[#51537B] text-[#f3f3f7] px-8 py-4 rounded hover:bg-[#595B88] transition-colors self-center font-montserrat"
+              className="bg-electric text-white px-8 py-4 rounded hover:bg-electrichover transition-colors self-center font-quicksand"
             >
               Ajouter un morceau
             </button>
@@ -47,7 +43,7 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
           {tracks.map((track) => (
             <div key={track.id} className="w-full rounded-lg p-6 flex flex-col gap-4 bg-[#101119]">
               <div className="flex justify-between items-center">
-                <h3 className="text-[#f3f3f7] font-montserrat">
+                <h3 className="text-white font-quicksand">
                   {track.artist} - {track.title}
                 </h3>
                 <div className="flex items-center gap-4">
@@ -84,9 +80,9 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
           ))}
           {onAddTrack && tracks.length < 3 && (
             <button
-              type="submit"
+              type="button"
               onClick={onAddTrack}
-              className="bg-[#51537B] text-[#f3f3f7] px-8 py-4 rounded hover:bg-[#595B88] transition-colors self-center font-sulphur"
+              className="bg-air text-white px-8 py-4 rounded hover:bg-[#595B88] transition-colors self-center font-quicksand"
             >
               Ajouter un morceau
             </button>
@@ -96,5 +92,3 @@ function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: AudioPlayerProp
     </div>
   );
 }
-
-export default AudioPlayer;

@@ -1,7 +1,7 @@
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import type { Express } from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 export const configureSecurityMiddleware = (app: Express) => {
   // Protection contre les vulnérabilités web courantes

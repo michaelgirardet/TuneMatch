@@ -1,13 +1,13 @@
 import express from 'express';
-import {
-  socialLinksSchema,
-  genresSchema,
-  biographySchema,
-  locationSchema,
-} from '../utils/validation';
+import type { RequestHandler } from 'express';
 import { ZodError } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
-import type { RequestHandler } from 'express';
+import {
+  biographySchema,
+  genresSchema,
+  locationSchema,
+  socialLinksSchema,
+} from '../utils/validation';
 
 type AuthRequestHandler = RequestHandler<
   { id?: string },

@@ -1,8 +1,8 @@
 'use client';
 
+import { MapPinIcon, MusicalNoteIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MusicalNoteIcon, MapPinIcon } from '@heroicons/react/24/outline';
 
 interface User {
   id: number;
@@ -42,32 +42,32 @@ export function UserCard({ user }: UserCardProps) {
       </figure>
 
       <div className="card-body">
-        <h2 className="card-title capitalize font-sulphur font-bold text-3xl mt-5 text-[#f3f3f7]">
+        <h2 className="card-title capitalize font-quicksand font-bold text-3xl mt-5 text-white">
           {user.nom_utilisateur}
-          <div className="badge badge-secondary font-sulphur font-light text-2xl text-[#f3f3f7] tracking-wide">
+          <div className="badge badge-secondary font-quicksand font-light text-2xl text-white tracking-wide">
             {user.role}
           </div>
         </h2>
 
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <MapPinIcon className="w-4 h-4" />
-          <span className="font-sulphur">
+          <span className="font-quicksand">
             {user.city}, {user.country}
           </span>
         </div>
 
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <MusicalNoteIcon className="w-4 h-4" />
-          <span className="font-sulphur">{user.genres_musicaux}</span>
+          <span className="font-quicksand">{user.genres_musicaux}</span>
         </div>
 
         {user.instruments_pratiques && (
-          <p className="text-sm font-sulphur text-gray-500">
+          <p className="text-sm font-quicksand text-gray-500">
             <strong>Instruments:</strong> {user.instruments_pratiques}
           </p>
         )}
 
-        <p className="text-sm text-gray-600 line-clamp-2 font-montserrat">{user.biography}</p>
+        <p className="text-sm text-gray-600 line-clamp-2 font-quicksand">{user.biography}</p>
 
         <div className="flex justify-between items-center mt-4">
           <div className="badge font-quicksand badge-outline text-white">
@@ -75,7 +75,7 @@ export function UserCard({ user }: UserCardProps) {
           </div>
           <Link
             href={`/profile/${user.id}`}
-            className="btn btn-primary btn-sm font-quicksand text-[#f3f3f7] font-light underline cursor-pointer"
+            className="btn btn-primary btn-sm font-quicksand text-white font-light underline cursor-pointer"
           >
             Voir le profil
           </Link>

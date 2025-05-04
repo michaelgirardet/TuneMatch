@@ -1,11 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { useParams, useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import Navbar from '@/components/Navbar';
+import { ToasterSuccess } from '@/components/Toast';
+import { toast } from 'react-toastify';
+import { useAuthStore } from '@/store/authStore';
 import Image from 'next/image';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface Application {
   id: number;
@@ -46,7 +47,19 @@ export default function ApplicationsPage() {
         setApplications(data);
       } catch (error) {
         console.error('Erreur:', error);
-        <ToasterError message="🚨 Impossible de charger les Collabs. Réessaie dans un instant." />;
+        <ToastContainer
+          message="🚨 Impossible de charger les Collabs. Réessaie dans un instant."
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />;
       } finally {
         setLoading(false);
       }
@@ -75,7 +88,16 @@ export default function ApplicationsPage() {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Erreur lors de la mise à jour du statut');
       }
-      <ToasterSuccess message="✅ Statut actualisé ! Tout est en place." />;
+      toast.success('✅ Statut actualisé ! Tout est en place.', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       setApplications(
         applications.map((app) => (app.id === applicationId ? { ...app, status: newStatus } : app))
       );
@@ -100,11 +122,11 @@ export default function ApplicationsPage() {
     <main className="min-h-screen w-full flex flex-col">
       <Navbar />
       <div className="flex-grow p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-quicksand font-bold mb-8 text-center">Collabs reçues</h1>
           <div className="space-y-6">
             {applications.length === 0 ? (
-              <p className="text-center text-gray-400 font-sulphur">
+              <p className="text-center text-gray-400 font-quicksand">
                 Aucune candidature reçue pour le moment
               </p>
             ) : (
@@ -124,12 +146,12 @@ export default function ApplicationsPage() {
                         }}
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] font-bold">
+                      <div className="w-12 h-12 rounded-full bg-air flex items-center justify-center text-white font-bold">
                         {application.nom_utilisateur[0].toUpperCase()}
                       </div>
                     )}
                     <div>
-                      <h3 className="font-montserrat text-[#f3f3f7]">
+                      <h3 className="font-quicksand text-white">
                         <span
                           onClick={() => router.push(`/profile/${application.artist_id}`)}
                           onKeyDown={() => router.push(`/profile/${application.artist_id}`)}
@@ -146,13 +168,13 @@ export default function ApplicationsPage() {
                     </div>
                   </div>
 
-                  <p className="font-montserrat text-[#f3f3f7] whitespace-pre-wrap">
+                  <p className="font-quicksand text-white whitespace-pre-wrap">
                     {application.message}
                   </p>
 
                   {application.selected_tracks && (
                     <div className="bg-[#1D1E2C] p-4 rounded">
-                      <h4 className="font-sulphur text-[#f3f3f7] mb-2">Morceaux sélectionnés:</h4>
+                      <h4 className="font-quicksand text-white mb-2">Morceaux sélectionnés:</h4>
                       <ul className="list-disc list-inside text-gray-400">
                         {application.selected_tracks.split(',').map((trackId) => (
                           <li key={trackId}>Morceau #{trackId}</li>
@@ -167,14 +189,14 @@ export default function ApplicationsPage() {
                         <button
                           type="button"
                           onClick={() => handleUpdateStatus(application.id, 'accepted')}
-                          className="px-4 py-2 rounded bg-[#2A9D8F] text-[#f3f3f7] text-sm"
+                          className="px-4 py-2 rounded bg-[#2A9D8F] text-white text-sm"
                         >
                           Accepter
                         </button>
                         <button
                           type="button"
                           onClick={() => handleUpdateStatus(application.id, 'rejected')}
-                          className="px-4 py-2 rounded bg-[#CA2E55] text-[#f3f3f7] text-sm"
+                          className="px-4 py-2 rounded bg-[#CA2E55] text-white text-sm"
                         >
                           Refuser
                         </button>
@@ -184,8 +206,8 @@ export default function ApplicationsPage() {
                         <span
                           className={`px-4 py-2 rounded text-sm ${
                             application.status === 'accepted'
-                              ? 'bg-[#2a9d8f] text-[#f3f3f7]'
-                              : 'bg-[#ca2e55] text-[#f3f3f7]'
+                              ? 'bg-[#2a9d8f] text-white'
+                              : 'bg-[#ca2e55] text-white'
                           }`}
                         >
                           {application.status === 'accepted' ? 'Acceptée' : 'Refusée'}
@@ -194,7 +216,7 @@ export default function ApplicationsPage() {
                           <button
                             type="button"
                             onClick={() => router.push(`/messages/${application.artist_id}`)}
-                            className="px-4 py-2 rounded bg-[#51537B] text-[#f3f3f7] text-sm hover:bg-[#595B88] transition-colors"
+                            className="px-4 py-2 rounded bg-air text-white text-sm hover:bg-[#595B88] transition-colors"
                           >
                             Envoyer un message
                           </button>

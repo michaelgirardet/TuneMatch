@@ -1,13 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Conversation {
   id: number;
@@ -48,14 +46,11 @@ export default function MessagesPage() {
 
   return (
     <>
-      <nav>
-        <Navbar />
-      </nav>
-      <div className="container min-h-screen w-full mx-auto px-4 py-8">
+      <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
         <Link href="/">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
         </Link>
-        <h1 className="text-2xl font-sulphur text-white mb-6">Mes conversations</h1>
+        <h1 className="text-2xl font-quicksand text-white mb-6">Mes conversations</h1>
         <div className="space-y-4">
           {conversations.length === 0 ? (
             <p className="text-gray-400 text-center">Aucune conversation</p>
@@ -66,7 +61,7 @@ export default function MessagesPage() {
                 href={`/messages/${conversation.id}`}
                 className="block bg-[#212936] rounded-lg p-4 hover:bg-[#2a344a] transition-colors"
               >
-                <div className="flex items-center space-x-4">
+                <div className="text-white flex items-center space-x-4">
                   {conversation.photo_profil ? (
                     <Image
                       src={conversation.photo_profil}
@@ -80,12 +75,12 @@ export default function MessagesPage() {
                       }}
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-[#51537B] flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-air flex items-center justify-center text-white font-bold">
                       {conversation.nom_utilisateur[0].toUpperCase()}
                     </div>
                   )}
                   <div className="flex-1">
-                    <h3 className="text-white font-sulphur">{conversation.nom_utilisateur}</h3>
+                    <h3 className="text-white font-quicksand">{conversation.nom_utilisateur}</h3>
                     <p className="text-gray-400 text-sm truncate">{conversation.dernier_message}</p>
                   </div>
                   <div className="text-xs text-gray-500">
@@ -100,9 +95,6 @@ export default function MessagesPage() {
           )}
         </div>
       </div>
-      <footer>
-        <Footer />
-      </footer>
     </>
   );
 }

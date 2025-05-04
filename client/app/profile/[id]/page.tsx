@@ -1,17 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { useParams } from 'next/navigation';
-import Navbar from '@/components/Navbar';
+import AudioPlayer from '@/components/AudioPlayer';
 import Footer from '@/components/Footer';
-import { ToasterError } from '@/components/Toast';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import LogoYT from '@/public/yt-icon-wh.png';
+import Navbar from '@/components/Navbar';
+import { toast } from 'react-toastify';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
-import AudioPlayer from '@/components/AudioPlayer';
+import LogoYT from '@/public/yt-icon-wh.png';
+import { useAuthStore } from '@/store/authStore';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface UserProfile {
   id: number;
@@ -58,7 +58,16 @@ export default function PublicProfile() {
         setProfile(data);
       } catch (error) {
         console.error('Erreur:', error);
-        <ToasterError message="Erreur lors du chargement du profil" />;
+        toast.error('Erreur lors du chargement du profil', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
       }
     };
 
@@ -100,8 +109,7 @@ export default function PublicProfile() {
   }
 
   return (
-    <main className="min-h-screen w-full flex flex-col">
-      <Navbar />
+    <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
       <div>
         <Link href="/search">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
@@ -121,15 +129,15 @@ export default function PublicProfile() {
             }}
           />
         ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-[#51537B] flex items-center justify-center text-[#f3f3f7] text-4xl font-bold">
+          <div className="w-[120px] h-[120px] rounded-full bg-air flex items-center justify-center text-white text-4xl font-bold">
             {profile.nom_utilisateur[0].toUpperCase()}
           </div>
         )}
 
-        <h1 className="title font-sulphur font-bold text-5xl capitalize">
+        <h1 className="title font-quicksand font-bold text-5xl capitalize">
           {profile.nom_utilisateur}
         </h1>
-        <p className="font-sulphur capitalize">{profile.role}</p>
+        <p className="font-quicksand capitalize">{profile.role}</p>
 
         {(profile.youtube_link || profile.instagram_link || profile.soundcloud_link) && (
           <div className="flex flex-row gap-2">
@@ -155,7 +163,7 @@ export default function PublicProfile() {
           {profile.genres_musicaux && (
             <div className="flex flex-wrap gap-2 justify-center">
               {profile.genres_musicaux.split(',').map((genre) => (
-                <span key={genre} className="font-sulphur text-[#f3f3f7] bg-[#101119] p-2 rounded">
+                <span key={genre} className="font-quicksand text-white bg-[#101119] p-2 rounded">
                   {genre.trim()}
                 </span>
               ))}
@@ -163,13 +171,13 @@ export default function PublicProfile() {
           )}
 
           {(profile.city || profile.country) && (
-            <p className="text-gray-400 font-sulphur">
+            <p className="text-gray-400 font-quicksand">
               {[profile.city, profile.country].filter(Boolean).join(', ')}
             </p>
           )}
 
           {profile.biography && (
-            <p className="text-[#f3f3f7] font-montserrat text-center whitespace-pre-wrap">
+            <p className="text-white font-quicksand text-center whitespace-pre-wrap">
               {profile.biography}
             </p>
           )}
@@ -182,7 +190,6 @@ export default function PublicProfile() {
           )}
         </div>
       </div>
-      <Footer />
-    </main>
+    </div>
   );
 }

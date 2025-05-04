@@ -1,14 +1,14 @@
 import express from 'express';
-import { auth } from '../middleware/auth';
 import {
   getUserProfile,
-  updatePhoto,
-  updateSocialLinks,
-  updateGenres,
   updateBiography,
+  updateGenres,
   updateLocation,
+  updatePhoto,
   updateProfile,
+  updateSocialLinks,
 } from '../controllers/user.controller';
+import { auth } from '../middleware/auth';
 
 const router = express.Router();
 

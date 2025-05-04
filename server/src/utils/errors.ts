@@ -8,4 +8,4 @@ export class CustomError extends Error {
     this.code = code;
     this.name = 'CustomError';
   }
-} 
+}

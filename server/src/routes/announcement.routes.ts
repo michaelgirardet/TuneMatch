@@ -1,13 +1,13 @@
 // routes/announcement.routes.ts
 import express from 'express';
-import { auth } from '../middleware/auth';
 import {
   createAnnouncement,
+  deleteAnnouncement,
   getAnnouncements,
   getUserAnnouncements,
   updateAnnouncement,
-  deleteAnnouncement,
 } from '../controllers/announcement.controller';
+import { auth } from '../middleware/auth';
 
 const router = express.Router();
 

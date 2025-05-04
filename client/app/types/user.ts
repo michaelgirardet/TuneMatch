@@ -5,4 +5,4 @@ export interface User {
   role: 'artiste' | 'producteur';
   photo_profil: string;
   biography?: string;
-} 
+}

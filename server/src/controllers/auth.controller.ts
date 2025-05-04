@@ -1,15 +1,15 @@
+import bcrypt from 'bcrypt';
 // controllers/auth.controller.ts
 import type { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { ZodError } from 'zod';
+import { sendResetPasswordEmail } from '../utils/email';
 import {
-  registerSchema,
-  loginSchema,
   forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
   resetPasswordSchema,
 } from '../utils/validation';
-import { sendResetPasswordEmail } from '../utils/email';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tunematch_secret_key_2024';
 const TOKEN_EXPIRATION = '24h';

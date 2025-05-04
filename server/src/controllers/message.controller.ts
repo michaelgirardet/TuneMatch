@@ -1,6 +1,6 @@
+import type { RequestHandler } from 'express';
 import { number, z } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
-import type { RequestHandler } from 'express';
 
 const messageSchema = z.object({
   content: z.string().min(1, 'Le message ne peut pas être vide'),

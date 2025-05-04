@@ -6,26 +6,24 @@
     "client": "cd client && npm run dev",
     "server": "cd server && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "preinstall": "npm install -g husky",
     "install-all": "npm install && npx husky install && cd client && npm install && cd ../server && npm install",
-    "format": "biome format --write .",
-    "lint": "biome check .",
-    "lint:fix": "biome check --apply .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.3",
+    "@eslint/compat": "^1.2.9",
+    "@eslint/eslintrc": "^3.3.1",
+    "eslint": "^8.57.0",
     "concurrently": "^8.2.2",
     "husky": "^9.0.0",
     "lint-staged": "^15.0.0"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "biome format --write",
-      "biome check --apply --no-errors-on-unmatched"
-    ]
+    "*.{js,jsx,ts,tsx}": ["eslint --fix"]
   },
   "dependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@tailwindcss/vite": "^4.0.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",

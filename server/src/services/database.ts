@@ -1,5 +1,5 @@
-import type { Pool, PoolConnection } from 'mysql2/promise';
 import { logger } from '@/utils/logger';
+import type { Pool, PoolConnection } from 'mysql2/promise';
 
 export class DatabaseService {
   private pool: Pool;
