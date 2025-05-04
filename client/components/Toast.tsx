@@ -10,8 +10,8 @@ interface ToastProps {
 export function ToasterSuccess({ message }: ToastProps) {
   useEffect(() => {
     toast.success(message, {
-      position: window.innerWidth < 768 ? 'top-right' : 'bottom-right',
-      className: 'toast-success font-sulphur',
+      position: window.innerWidth < 768 ? 'bottom-right' : 'bottom-right',
+      className: 'toast-success font-quicksand',
     });
   }, [message]);
 
@@ -21,8 +21,8 @@ export function ToasterSuccess({ message }: ToastProps) {
 export function ToasterWarning({ message }: ToastProps) {
   useEffect(() => {
     toast.warn(message, {
-      position: window.innerWidth < 768 ? 'top-right' : 'bottom-right',
-      className: 'font-sulphur',
+      position: window.innerWidth < 768 ? 'bottom-right' : 'bottom-right',
+      className: 'font-quicksand',
     });
   }, [message]);
 
@@ -32,8 +32,8 @@ export function ToasterWarning({ message }: ToastProps) {
 export function ToasterInformation({ message }: ToastProps) {
   useEffect(() => {
     toast.info(message, {
-      position: window.innerWidth < 768 ? 'top-right' : 'bottom-right',
-      className: 'font-sulphur',
+      position: window.innerWidth < 768 ? 'bottom-right' : 'bottom-right',
+      className: 'font-quicksand',
     });
   }, [message]);
 
@@ -43,8 +43,8 @@ export function ToasterInformation({ message }: ToastProps) {
 export function ToasterError({ message }: ToastProps) {
   useEffect(() => {
     toast.error(message, {
-      position: window.innerWidth < 768 ? 'top-right' : 'bottom-right',
-      className: 'font-sulphur',
+      position: window.innerWidth < 768 ? 'bottom-right' : 'bottom-right',
+      className: 'font-quicksand',
     });
   }, [message]);
 

@@ -1,5 +1,6 @@
 'use client';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -42,7 +43,16 @@ export default function GenreSelectionModal({
   const [loading, setLoading] = useState(false);
 
   const handleSessionExpired = () => {
-    <ToasterError message="Votre session a expiré, veuillez vous reconnecter" />;
+    toast.error('Votre session a expiré, veuillez vous reconnecter', {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
     logout();
     router.push('/login');
     onClose();
@@ -55,7 +65,16 @@ export default function GenreSelectionModal({
     }
 
     if (selectedGenres.length >= 3) {
-      <ToasterError message="🎼 3 genres max ! Garde ceux qui te représentent le mieux." />;
+      toast.error('🎼 3 genres max ! Garde ceux qui te représentent le mieux.', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       return;
     }
 
@@ -109,13 +128,40 @@ export default function GenreSelectionModal({
       }
 
       onUpdate(selectedGenres);
-      <ToasterSuccess message="🎼 Genres actualisés ! Ta vibe est bien définie." />;
+      toast.success('🎼 Genres actualisés ! Ta vibe est bien définie.', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       onClose();
     } catch (error) {
       if (error instanceof Error) {
-        <ToasterError message="error" />;
+        toast.error('🦄 Wow so easy!', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
       } else {
-        <ToasterError message="🔐 Connexion impossible ! Vérifie tes identifiants et réessaie." />;
+        toast.error('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
       }
       console.error('Erreur lors de la mise à jour des genres:', error);
     } finally {
@@ -126,9 +172,9 @@ export default function GenreSelectionModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-2xl">
-        <h2 className="text-xl mb-4 font-montserrat text-center font-bold">
+    <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-oxford p-8 rounded-lg w-[90%] max-w-2xl">
+        <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
           Sélectionnez vos genres musicaux (max. 3)
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -138,9 +184,9 @@ export default function GenreSelectionModal({
                 key={genre}
                 type="button"
                 onClick={() => handleGenreToggle(genre)}
-                className={`p-2 font-montserrat rounded transition-colors ${
+                className={`p-2 font-quicksand rounded transition-colors ${
                   selectedGenres.includes(genre)
-                    ? 'bg-[#51537B] text-[#f3f3f7]'
+                    ? 'bg-space text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
               >
@@ -152,14 +198,14 @@ export default function GenreSelectionModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
+              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-[#51537B] disabled:opacity-50 text-[#f3f3f7] font-sulphur"
+              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-oxford font-quicksand"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

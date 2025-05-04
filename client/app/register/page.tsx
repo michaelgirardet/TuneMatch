@@ -1,5 +1,7 @@
 'use client';
-import { ToasterError } from '@/components/Toast';
+import { useAuthStore } from '@/store/authStore'; // adapte le chemin
+// import jwt_decode from 'jwt-decode';
+// import { ToasterError } from '@/components/Toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -7,6 +9,7 @@ import { toast } from 'react-toastify';
 
 export default function Register() {
   const router = useRouter();
+  const login = useAuthStore((state) => state.login);
   const [formData, setFormData] = useState({
     role: '',
     nom_utilisateur: '',
@@ -44,17 +47,15 @@ export default function Register() {
       const json = await response.json();
 
       if (!response.ok) {
-        setError(json.error || "Erreur lors de l'inscription");
-        <ToasterError message="🚨 🎵 Petit couac technique ! On réessaie ?" />;
+        setError(json.message || json.error || "Erreur lors de l'inscription");
+        toast.error('🚨 🎵 Petit couac technique ! On réessaie ?');
       } else {
-        const tokenRecuDuServeur = json.token;
-        if (tokenRecuDuServeur) {
-          localStorage.setItem('token', tokenRecuDuServeur);
-        }
+        // Stocke la session dans Zustand (avec persistance automatique)
+        login(json.token, json.user);
         toast.success(
           "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",
           {
-            position: 'top-right',
+            position: 'bottom-right',
             autoClose: 5000,
           }
         );
@@ -63,6 +64,7 @@ export default function Register() {
     } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
       console.error(err);
+      toast.error('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
     }
   };
 
