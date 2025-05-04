@@ -2,6 +2,7 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 const ErrModal = ({ message }: { message: string }) => (
@@ -38,16 +39,45 @@ export default function ForgotPassword() {
 
       if (response.ok) {
         setResetSuccess(data.message);
-        <ToasterSuccess message="📩 Email envoyé ! Jette un œil à ta boîte de réception." />;
+        toast.success('📩 Email envoyé ! Jette un œil à ta boîte de réception.', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
         setResetError(null);
       } else {
         setResetError(data.error);
-        <ToasterError message="❌ Oups ! Un problème est survenu. Essaie à nouveau." />;
+        toast.error('❌ Oups ! Un problème est survenu. Essaie à nouveau.', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+          transition: Bounce,
+        });
         setResetSuccess(null);
       }
     } catch (error) {
       setResetError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
-      <ToasterError message="🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie." />;
+      toast.error('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+        transition: Bounce,
+      });
       console.error(error);
     } finally {
       setLoading(false);
@@ -62,7 +92,7 @@ export default function ForgotPassword() {
         {resetError && <ErrModal message={resetError} />}
         {resetSuccess && <SuccessModal message={resetSuccess} />}
         <form onSubmit={handleForgot} className="flex flex-col justify-center items-center gap-5">
-          <p className="font-montserrat px-4 text-center">
+          <p className="font-quicksand px-4 text-center">
             Pas de panique, ça nous est tous arrivé au moins une fois
           </p>
           <div className="p-5 flex flex-col justify-center item-center">
@@ -70,7 +100,7 @@ export default function ForgotPassword() {
               Email
             </label>
             <input
-              className="bg-[#101119] font-sulphur form-input flex w-[280px] self-center p-2 rounded"
+              className="bg-[#101119] font-quicksand form-input flex w-[280px] self-center p-2 rounded"
               type="email"
               name="email"
               id="email"
@@ -83,7 +113,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="button font-sulphur font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-[#51537B] hover:bg-[#595B88]"
+            className="button font-quicksand font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-air hover:bg-[#595B88]"
           >
             {loading ? 'Envoi...' : 'Valider'}
           </button>

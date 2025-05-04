@@ -15,6 +15,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     role ENUM('musicien', 'chanteur', 'producteur') NOT NULL,
     photo_profil VARCHAR(255),
+    instruments VARCHAR(255),
     biography TEXT,
     city VARCHAR(100),
     country VARCHAR(100),
@@ -145,22 +146,22 @@ CREATE TABLE notifications (
 );
 
 -- Données de test (dans l'ordre des dépendances)
-INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, biography, city, country) VALUES
-('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833554.jpg?ga=GA1.1.1458521712.1740386979', 'Passionné de musique électronique', 'Paris', 'France'),
-('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg?ga=GA1.1.1458521712.1740386979', 'Productrice de hip-hop', 'Lyon', 'France'),
-('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833546.jpg?ga=GA1.1.1458521712.1740386979', 'Guitariste et auteur-compositeur', 'Marseille', 'France'),
-('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869153.jpg?ga=GA1.1.1458521712.1740386979', 'Violoniste classique', 'Bordeaux', 'France'),
-('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303093.jpg?ga=GA1.1.1458521712.1740386979', 'Beatmaker spécialisé trap et drill', 'Berlin', 'Allemagne'),
-('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteur de reggaeton', 'Madrid', 'Espagne'),
-('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869129.jpg?ga=GA1.1.1458521712.1740386979', 'Pianiste jazz', 'Lille', 'France'),
-('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611710.jpg?ga=GA1.1.1458521712.1740386979', 'Producteur indépendant pop', 'New York', 'USA'),
-('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833584.jpg?ga=GA1.1.1458521712.1740386979', 'Batteur métal', 'Bruxelles', 'Belgique'),
-('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteuse pop K-pop', 'Séoul', 'Corée du Sud'),
-('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436200.jpg?ga=GA1.1.1458521712.1740386979', 'Basse funk', 'Los Angeles', 'USA'),
-('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869157.jpg?ga=GA1.1.1458521712.1740386979', 'Spécialisée en house music', 'Milan', 'Italie'),
-('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671126.jpg?ga=GA1.1.1458521712.1740386979', 'DJ techno', 'Amsterdam', 'Pays-Bas'),
-('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303065.jpg?ga=GA1.1.1458521712.1740386979', 'Mezzo-soprano classique', 'Varsovie', 'Pologne'),
-('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833548.jpg?ga=GA1.1.1458521712.1740386979', 'Ingé son spécialisé en rock alternatif', 'Dublin', 'Irlande');
+INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, instruments, biography, city, country) VALUES
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833554.jpg?ga=GA1.1.1458521712.1740386979', 'Guitare', 'Passionné de musique électronique', 'Paris', 'France'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg?ga=GA1.1.1458521712.1740386979', 'Piano, Chant', 'Productrice de hip-hop', 'Lyon', 'France'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833546.jpg?ga=GA1.1.1458521712.1740386979', 'Guitariste et auteur-compositeur', 'Guitare', 'Marseille', 'France'),
+('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869153.jpg?ga=GA1.1.1458521712.1740386979', 'Violoniste classique', 'Guitare', 'Bordeaux', 'France'),
+('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303093.jpg?ga=GA1.1.1458521712.1740386979', 'Beatmaker spécialisé trap et drill', 'Violon', 'Berlin', 'Allemagne'),
+('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteur de reggaeton', 'Madrid', 'DJ', 'Espagne'),
+('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869129.jpg?ga=GA1.1.1458521712.1740386979', 'Pianiste jazz', 'DJ', 'Lille', 'France'),
+('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611710.jpg?ga=GA1.1.1458521712.1740386979', 'Producteur indépendant pop', 'Chant', 'New York', 'USA'),
+('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833584.jpg?ga=GA1.1.1458521712.1740386979', 'Batteur métal', 'Batterie', 'Bruxelles', 'Belgique'),
+('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteuse pop K-pop', 'Piano', 'Séoul', 'Corée du Sud'),
+('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436200.jpg?ga=GA1.1.1458521712.1740386979', 'Basse funk', 'Piano', 'Los Angeles', 'USA'),
+('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869157.jpg?ga=GA1.1.1458521712.1740386979', 'Spécialisée en house music', 'Batterie', 'Milan', 'Italie'),
+('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671126.jpg?ga=GA1.1.1458521712.1740386979', 'DJ techno', 'DJ', 'Amsterdam', 'Pays-Bas'),
+('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303065.jpg?ga=GA1.1.1458521712.1740386979', 'Mezzo-soprano classique', 'Chant', 'Varsovie', 'Pologne'),
+('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833548.jpg?ga=GA1.1.1458521712.1740386979', 'Ingé son spécialisé en rock alternatif', 'Batterie', 'Dublin', 'Irlande');
 
 INSERT INTO tracks (title, artist, url, user_id) VALUES
 ('Electro Vibes', 'JohnD999', 'https://soundcloud.com/johnd999/electro-vibes', 1),

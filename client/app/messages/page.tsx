@@ -50,7 +50,7 @@ export default function MessagesPage() {
         <Link href="/">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
         </Link>
-        <h1 className="text-2xl font-sulphur text-white mb-6">Mes conversations</h1>
+        <h1 className="text-2xl font-quicksand text-white mb-6">Mes conversations</h1>
         <div className="space-y-4">
           {conversations.length === 0 ? (
             <p className="text-gray-400 text-center">Aucune conversation</p>
@@ -75,12 +75,12 @@ export default function MessagesPage() {
                       }}
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-[#51537B] flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-air flex items-center justify-center text-white font-bold">
                       {conversation.nom_utilisateur[0].toUpperCase()}
                     </div>
                   )}
                   <div className="flex-1">
-                    <h3 className="text-white font-sulphur">{conversation.nom_utilisateur}</h3>
+                    <h3 className="text-white font-quicksand">{conversation.nom_utilisateur}</h3>
                     <p className="text-gray-400 text-sm truncate">{conversation.dernier_message}</p>
                   </div>
                   <div className="text-xs text-gray-500">

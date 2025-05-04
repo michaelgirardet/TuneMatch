@@ -30,7 +30,7 @@ export default function Location() {
         aria-label="Modifier la localisation"
       >
         <FaMapMarkerAlt className="text-[#51537B]" />
-        <span className="text-[#f3f3f7] font-bold text-lg font-quicksand">{displayLocation}</span>
+        <span className="text-white font-bold text-lg font-quicksand">{displayLocation}</span>
       </button>
 
       <LocationModal

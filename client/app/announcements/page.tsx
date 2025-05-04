@@ -60,7 +60,7 @@ export default function AnnouncementsPage() {
               Collaborations Musicales
             </h1>
             <p
-              className={`text-lg md:text-xl text-gray-100 max-w-2xl text-center font-montserrat
+              className={`text-lg md:text-xl text-gray-100 max-w-2xl text-center font-quicksand
                 ${isVisible ? 'animate-fadeIn opacity-100 delay-300' : 'opacity-0'} transition-opacity duration-1000`}
             >
               Trouvez les meilleurs talents ou rejoignez les projets qui vous inspirent
@@ -82,7 +82,7 @@ export default function AnnouncementsPage() {
                   placeholder="Rechercher des annonces..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full py-3 pl-10 pr-4 rounded-lg bg-[#1d1e2c] text-[#f3f3f7] focus:ring-2 focus:ring-[#51537B] outline-none transition-all"
+                  className="w-full py-3 pl-10 pr-4 rounded-lg bg-[#1d1e2c] text-white focus:ring-2 focus:ring-[#51537B] outline-none transition-all"
                 />
                 <svg
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
@@ -105,7 +105,7 @@ export default function AnnouncementsPage() {
                 <button
                   type="button"
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1d1e2c] text-[#f3f3f7] hover:bg-[#2a2b3c] transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1d1e2c] text-white hover:bg-[#2a2b3c] transition-all"
                 >
                   <svg
                     className="h-5 w-5"
@@ -136,7 +136,7 @@ export default function AnnouncementsPage() {
                       // We'll need to expose a method from AnnouncementList to open the modal
                       window.openAnnouncementModal?.();
                     }}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#51537B] hover:bg-[#595B88] text-[#f3f3f7] font-sulphur transition-all"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-air hover:bg-[#595B88] text-white font-quicksand transition-all"
                   >
                     <svg
                       className="h-5 w-5"
@@ -170,7 +170,7 @@ export default function AnnouncementsPage() {
                     className={`px-3 py-2 rounded-full text-sm font-medium transition-all
                       ${
                         filterStyle === style || (style === 'Tous' && filterStyle === '')
-                          ? 'bg-[#51537B] text-white'
+                          ? 'bg-air text-white'
                           : 'bg-[#2a2b3c] text-gray-300 hover:bg-[#3a3b4c]'
                       }`}
                   >
@@ -190,7 +190,7 @@ export default function AnnouncementsPage() {
             <div className="bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-6 shadow-lg flex items-center">
               <div className="bg-[#212936] rounded-full p-3 mr-4">
                 <svg
-                  className="h-8 w-8 text-[#f3f3f7]"
+                  className="h-8 w-8 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -214,7 +214,7 @@ export default function AnnouncementsPage() {
             <div className="bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-6 shadow-lg flex items-center">
               <div className="bg-[#212936] rounded-full p-3 mr-4">
                 <svg
-                  className="h-8 w-8 text-[#f3f3f7]"
+                  className="h-8 w-8 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -238,7 +238,7 @@ export default function AnnouncementsPage() {
             <div className="bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-6 shadow-lg flex items-center">
               <div className="bg-[#212936] rounded-full p-3 mr-4">
                 <svg
-                  className="h-8 w-8 text-[#f3f3f7]"
+                  className="h-8 w-8 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -268,7 +268,7 @@ export default function AnnouncementsPage() {
           >
             <div className="flex items-center mb-8">
               <div className="h-1 bg-gradient-to-r from-[#51537B] to-transparent flex-grow" />
-              <h2 className="px-4 text-2xl font-montserrat font-semibold text-white">
+              <h2 className="px-4 text-2xl font-quicksand font-semibold text-white">
                 Annonces disponibles
               </h2>
               <div className="h-1 bg-gradient-to-l from-[#51537B] to-transparent flex-grow" />

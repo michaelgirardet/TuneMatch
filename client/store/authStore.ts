@@ -12,8 +12,10 @@ export interface User {
   youtube_link?: string;
   instagram_link?: string;
   soundcloud_link?: string;
+  instruments: string;
   city?: string;
   country?: string;
+  tracks?: string;
 }
 
 interface AuthState {

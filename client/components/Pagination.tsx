@@ -36,7 +36,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
   };
 
   return (
-    <div className="join flex justify-center gap-3 font-montserrat font-semibold text-md">
+    <div className="join flex justify-center gap-3 font-quicksand font-semibold text-md">
       <button
         type="button"
         className="join-item text-2xl btn text-white"

@@ -33,14 +33,14 @@ export default function Login() {
       if (response.ok) {
         login(data.token, data.user); // stocke le token et l'utilisateur dans Zustand/localStorage
         toast.success('🎸 Connexion réussie ! Prêt à faire du bruit ?', {
-          position: 'top-right',
+          position: 'bottom-right',
           autoClose: 5000,
         });
         router.push('/profile');
       } else {
         setError(data.error || 'Erreur lors de la connexion');
         toast.error('🚨 🎵 Petit couac technique ! On réessaie ?', {
-          position: 'top-right',
+          position: 'bottom-right',
           autoClose: 5000,
         });
         console.error(data.error);
