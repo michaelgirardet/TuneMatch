@@ -1,17 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { useParams } from 'next/navigation';
-import Navbar from '@/components/Navbar';
+import AudioPlayer from '@/components/AudioPlayer';
 import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 import { ToasterError } from '@/components/Toast';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import LogoYT from '@/public/yt-icon-wh.png';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
-import AudioPlayer from '@/components/AudioPlayer';
+import LogoYT from '@/public/yt-icon-wh.png';
+import { useAuthStore } from '@/store/authStore';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface UserProfile {
   id: number;
@@ -100,8 +100,7 @@ export default function PublicProfile() {
   }
 
   return (
-    <main className="min-h-screen w-full flex flex-col">
-      <Navbar />
+    <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
       <div>
         <Link href="/search">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
@@ -182,7 +181,6 @@ export default function PublicProfile() {
           )}
         </div>
       </div>
-      <Footer />
-    </main>
+    </div>
   );
 }

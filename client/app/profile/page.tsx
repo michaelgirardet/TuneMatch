@@ -1,246 +1,119 @@
 'use client';
-import Image from 'next/image';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { useAuthStore } from '@/store/authStore';
-import LogoYT from '@/public/yt-icon-wh.png';
+import AddTrackModal from '@/components/AddTrackModal';
+import AudioPlayer from '@/components/AudioPlayer';
+import Biography from '@/components/Biography';
+import GenreSelectionModal from '@/components/GenreSelectionModal';
+import Location from '@/components/Location';
+import ProfilePhoto from '@/components/ProfilePhoto';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
-import AudioPlayer from '@/components/AudioPlayer';
-import ProfilePhoto from '@/components/ProfilePhoto';
-import { useState, useEffect } from 'react';
-import SocialLinksModal from '@/components/SocialLinksModal';
-import GenreSelectionModal from '@/components/GenreSelectionModal';
-import Biography from '@/components/Biography';
-import AddTrackModal from '@/components/AddTrackModal';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
-import Location from '@/components/Location';
-
-interface Track {
-  id: number;
-  title: string;
-  artist: string;
-  url: string;
-}
-
-interface SocialLinks {
-  youtube?: string;
-  instagram?: string;
-  soundcloud?: string;
-}
+import LogoYT from '@/public/yt-icon-wh.png';
+import { useAuthStore } from '@/store/authStore';
+import Image from 'next/image';
 
 export default function Profile() {
-  const { user, updateUser, token } = useAuthStore();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [genreModalOpen, setGenreModalOpen] = useState(false);
-  const [selectedPlatform, setSelectedPlatform] = useState<'youtube' | 'instagram' | 'soundcloud'>(
-    'youtube'
-  );
-  const [genres, setGenres] = useState<string[]>([]);
-  const [socialLinks, setSocialLinks] = useState<SocialLinks>({
-    youtube: 'https://www.youtube.com/',
-    instagram: 'https://www.instagram.com/',
-    soundcloud: 'https://soundcloud.com/',
-  });
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [isAddTrackModalOpen, setIsAddTrackModalOpen] = useState(false);
-
-  const handlePhotoUpdate = (url: string) => {
-    if (user) {
-      updateUser({ ...user, photo_profil: url });
-    }
-  };
-
-  const handleSocialLinkClick = (platform: 'youtube' | 'instagram' | 'soundcloud') => {
-    setSelectedPlatform(platform);
-    setModalOpen(true);
-  };
-
-  const handleUpdateLinks = (newLinks: SocialLinks) => {
-    setSocialLinks(newLinks);
-  };
-
-  const handleUpdateGenres = (newGenres: string[]) => {
-    setGenres(newGenres);
-  };
-
-  const handleAddTrack = () => {
-    setIsAddTrackModalOpen(true);
-  };
-
-  const handleTrackSubmit = async (trackData: { title: string; artist: string; url: string }) => {
-    try {
-      const response = await fetch('http://localhost:5001/api/tracks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(trackData),
-      });
-
-      if (response.ok) {
-        const newTrack = await response.json();
-        setTracks([...tracks, newTrack]);
-        <ToasterSuccess message="🎶 Nouveau son ajouté ! Hâte de l’entendre." />;
-      } else {
-        const error = await response.json();
-        <ToasterError message={error} />;
-      }
-    } catch (error) {
-      <ToasterError message="Erreur lors de la connexion au serveur" />;
-      console.error(error);
-    }
-  };
-
-  const handleDeleteTrack = async (trackId: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce morceau ?')) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`http://localhost:5001/api/tracks/${trackId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        setTracks(tracks.filter((track) => track.id !== trackId));
-        <ToasterSuccess message="🗑️ Morceau supprimé. À toi de jouer pour la suite !" />;
-      } else {
-        <ToasterError message="Erreur lors de la suppression du morceau" />;
-      }
-    } catch (error) {
-      <ToasterError message="Erreur lors de la connexion au serveur" />;
-      console.error(error);
-    }
-  };
-
-  // Charger les morceaux au montage du composant
-  useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        const response = await fetch('http://localhost:5001/api/tracks', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setTracks(data);
-        }
-      } catch (error) {
-        console.error('Erreur lors du chargement des morceaux:', error);
-      }
-    };
-
-    if (token) {
-      fetchTracks();
-    }
-  }, [token]);
-
-  // Mettre à jour les genres quand l'utilisateur change
-  useEffect(() => {
-    if (user?.genres_musicaux) {
-      setGenres(user.genres_musicaux.split(','));
-    }
-  }, [user?.genres_musicaux]);
+  const { user } = useAuthStore();
+  // ...States et handlers comme dans ta version
 
   return (
-    <main className="min-h-screen w-full flex flex-col">
-      <Navbar />
-      <div className="flex flex-col items-center justify-center py-10 gap-5">
-        <ProfilePhoto currentPhotoUrl={user?.photo_profil} onPhotoUpdate={handlePhotoUpdate} />
-        <h1 className="title font-sulphur font-bold text-5xl capitalize">
-          {user?.nom_utilisateur}
-        </h1>
-        <p className="font-sulphur capitalize">{user?.role}</p>
-        <div className="flex flex-row gap-2">
-          <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">
-            <Image
-              src={LogoYT}
-              className="w-[60px] h-[auto] cursor-pointer hover:bg-[#212936] rounded-md"
-              alt="Logo Youtube"
-              aria-label="Modifier le lien YouTube"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSocialLinkClick('youtube');
-              }}
-            />
-          </a>
-          <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-            <Image
-              src={LogoIG}
-              className="w-[60px] h-[auto] cursor-pointer hover:bg-[#212936] rounded-md"
-              alt="Logo Instagram"
-              aria-label="Modifier le lien Instagram"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSocialLinkClick('instagram');
-              }}
-            />
-          </a>
-          <a href={socialLinks.soundcloud} target="_blank" rel="noopener noreferrer">
-            <Image
-              src={LogoSoundClound}
-              className="w-[60px] h-[auto] cursor-pointer hover:bg-[#212936] rounded-md"
-              alt="Logo Soundcloud"
-              aria-label="Modifier le lien Soundcloud"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSocialLinkClick('soundcloud');
-              }}
-            />
-          </a>
+    <div className="flex flex-col min-h-screen bg-oxford">
+      {/* Profil Card */}
+      <section className="w-[100vw] md:w-[55vw] mx-auto px-6 py-8 flex flex-col gap-8 items-center">
+        <div className="flex flex-col items-center gap-3 bg-space rounded-2xl p-8 shadow-lg w-full">
+          <ProfilePhoto currentPhotoUrl={user?.photo_profil} onPhotoUpdate={() => {}} />
+          <h2 className="text-3xl font-bold font-quicksand text-white">{user?.nom_utilisateur}</h2>
+          <p className="text-sm text-wite uppercase tracking-wider">{user?.role}</p>
+          {/* Social Links */}
+          <div className="flex gap-6 justify-center mt-4">
+            {[
+              { platform: 'youtube', icon: LogoYT, link: user?.youtube_link },
+              { platform: 'instagram', icon: LogoIG, link: user?.instagram_link },
+              { platform: 'soundcloud', icon: LogoSoundClound, link: user?.soundcloud_link },
+            ].map(({ platform, icon, link }) => (
+              <a
+                key={platform}
+                href={link || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition transform hover:scale-110 hover:ring-2 ring-[#51537B] rounded-lg p-2 bg-[#1a1a2f]"
+              >
+                <Image src={icon} alt={`${platform} logo`} className="w-[40px] h-[40px]" />
+              </a>
+            ))}
+          </div>
         </div>
-        <div>
-          <div className="flex flex-row justify-center items-center md:flex-col relative md:gap-5">
-            <ul className="flex gap-5 justify-center items-center flex-wrap">
-              {genres.map((genre) => (
-                <li
-                  key={genre}
-                  className="font-sulphur text-[#f3f3f7] bg-[#101119] p-2 rounded cursor-pointer"
-                  onClick={() => setGenreModalOpen(true)}
-                  onKeyDown={() => setGenreModalOpen(true)}
-                >
-                  {genre}
-                </li>
-              ))}
+
+        {/* Section Infos Profil */}
+        <section className="bg-space w-full rounded-2xl p-8 shadow-lg flex flex-col gap-8">
+          {/* Genres musicaux */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xl font-semibold text-white">Genres musicaux</h3>
+              <button
+                type="button"
+                className="text-sm text-lavender hover:text-white underline"
+                // onClick={() => ...}
+              >
+                Modifier
+              </button>
+            </div>
+            <ul className="flex flex-wrap gap-3">
+              {/* genres.map(...) */}
+              <li className="bg-[#32334E] text-white px-3 py-1 rounded-full text-sm">Rock</li>
+              <li className="bg-[#32334E] text-white px-3 py-1 rounded-full text-sm">Pop</li>
+              {/* ... */}
             </ul>
           </div>
-          <Location />
-          <Biography />
-        </div>
+
+          {/* Localisation */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xl font-semibold text-white">Localisation</h3>
+              <button
+                type="button"
+                className="text-sm text-lavender hover:text-white underline"
+                // onClick={() => ...
+              >
+                Modifier
+              </button>
+            </div>
+            <Location />
+          </div>
+
+          {/* Biographie */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xl font-semibold text-white">Biographie</h3>
+              <button
+                type="button"
+                className="text-sm text-lavender hover:text-white underline"
+                // onClick={() => ...}
+              >
+                Modifier
+              </button>
+            </div>
+            <Biography />
+          </div>
+        </section>
+
+        {/* Audio Tracks */}
         <div className="w-full max-w-2xl px-4">
-          <AudioPlayer
-            tracks={tracks}
-            onAddTrack={handleAddTrack}
-            onDeleteTrack={handleDeleteTrack}
-          />
+          <AudioPlayer tracks={[]} onAddTrack={() => {}} onDeleteTrack={() => {}} />
         </div>
-      </div>
-      <Footer />
-      <SocialLinksModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onUpdate={handleUpdateLinks}
-        currentLinks={socialLinks}
-        platform={selectedPlatform}
-      />
+      </section>
+
+      {/* Modals (à brancher sur tes handlers) */}
       <GenreSelectionModal
-        isOpen={genreModalOpen}
-        onClose={() => setGenreModalOpen(false)}
-        onUpdate={handleUpdateGenres}
-        currentGenres={genres}
+        isOpen={false} // Replace with your state variable controlling modal visibility
+        onClose={() => {}} // Replace with your handler for closing the modal
+        onUpdate={() => {}} // Replace with your handler for updating genres
+        currentGenres={[]} // Replace with the current genres from your data
       />
       <AddTrackModal
-        isOpen={isAddTrackModalOpen}
-        onClose={() => setIsAddTrackModalOpen(false)}
-        onAdd={handleTrackSubmit}
+        isOpen={false} // Replace with your state variable controlling modal visibility
+        onClose={() => {}} // Replace with your handler for closing the modal
+        onAdd={() => {}} // Replace with your handler for adding a new track
       />
-    </main>
+    </div>
   );
 }

@@ -1,11 +1,11 @@
-import express from 'express';
-import { auth } from '../middleware/auth';
 import {
-  getUserTracks,
-  getCurrentUserTracks,
   addTrack,
   deleteTrack,
+  getCurrentUserTracks,
+  getUserTracks,
 } from '@/controllers/tracks.controller';
+import express from 'express';
+import { auth } from '../middleware/auth';
 
 const router = express.Router();
 

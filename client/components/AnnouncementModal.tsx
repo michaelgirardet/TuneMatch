@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { ToasterError, ToasterSuccess } from './Toast';
+import { ToasterError } from './Toast';
 
 interface AnnouncementModalProps {
   isOpen: boolean;

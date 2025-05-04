@@ -1,13 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Conversation {
   id: number;
@@ -48,10 +46,7 @@ export default function MessagesPage() {
 
   return (
     <>
-      <nav>
-        <Navbar />
-      </nav>
-      <div className="container min-h-screen w-full mx-auto px-4 py-8">
+      <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
         <Link href="/">
           <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
         </Link>
@@ -66,7 +61,7 @@ export default function MessagesPage() {
                 href={`/messages/${conversation.id}`}
                 className="block bg-[#212936] rounded-lg p-4 hover:bg-[#2a344a] transition-colors"
               >
-                <div className="flex items-center space-x-4">
+                <div className="text-white flex items-center space-x-4">
                   {conversation.photo_profil ? (
                     <Image
                       src={conversation.photo_profil}
@@ -100,9 +95,6 @@ export default function MessagesPage() {
           )}
         </div>
       </div>
-      <footer>
-        <Footer />
-      </footer>
     </>
   );
 }

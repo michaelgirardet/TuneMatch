@@ -10,7 +10,7 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: '**',
-      }
+      },
     ],
   },
   webpack: (config) => {

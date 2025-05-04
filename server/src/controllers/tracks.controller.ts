@@ -1,6 +1,6 @@
+import type { RequestHandler } from 'express';
 import { z } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
-import type { RequestHandler } from 'express';
 
 const trackSchema = z.object({
   title: z.string().min(1, 'Le titre est requis'),

@@ -1,8 +1,8 @@
+import dotenv from 'dotenv';
 import mysql from 'mysql2/promise';
 import type { Pool } from 'mysql2/promise';
-import dotenv from 'dotenv';
-import type { DatabaseConfig } from './types';
 import application from './app';
+import type { DatabaseConfig } from './types';
 
 dotenv.config();
 

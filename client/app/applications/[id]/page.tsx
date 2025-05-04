@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { useParams, useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { useAuthStore } from '@/store/authStore';
 import Image from 'next/image';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface Application {
   id: number;
@@ -100,7 +100,7 @@ export default function ApplicationsPage() {
     <main className="min-h-screen w-full flex flex-col">
       <Navbar />
       <div className="flex-grow p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-quicksand font-bold mb-8 text-center">Collabs reçues</h1>
           <div className="space-y-6">
             {applications.length === 0 ? (

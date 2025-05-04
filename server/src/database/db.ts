@@ -1,6 +1,6 @@
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
 import path from 'node:path';
+import dotenv from 'dotenv';
+import mysql from 'mysql2/promise';
 
 // Charger les variables d'environnement
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });

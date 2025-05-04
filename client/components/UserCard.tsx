@@ -1,8 +1,8 @@
 'use client';
 
+import { MapPinIcon, MusicalNoteIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MusicalNoteIcon, MapPinIcon } from '@heroicons/react/24/outline';
 
 interface User {
   id: number;

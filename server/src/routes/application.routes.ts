@@ -1,12 +1,12 @@
-import express from 'express';
-import { auth } from '../middleware/auth';
 import {
   applyToAnnouncement,
   getAnnouncementApplications,
-  updateApplicationStatus,
   getUserNotifications,
   markNotificationAsRead,
+  updateApplicationStatus,
 } from '@/controllers/application.controller';
+import express from 'express';
+import { auth } from '../middleware/auth';
 
 const router = express.Router();
 

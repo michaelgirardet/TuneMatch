@@ -11,7 +11,9 @@ export class CacheService {
     try {
       return this.cache.get(key) || null;
     } catch (error) {
-      logger.error('Cache get error:', { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.error('Cache get error:', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
       return null;
     }
   }
@@ -20,7 +22,9 @@ export class CacheService {
     try {
       this.cache.set(key, value);
     } catch (error) {
-      logger.error('Cache set error:', { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.error('Cache set error:', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
     }
   }
 

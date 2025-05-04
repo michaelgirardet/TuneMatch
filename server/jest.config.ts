@@ -6,9 +6,9 @@ const config: Config.InitialOptions = {
   roots: ['<rootDir>/src'],
   testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
-  setupFiles: ['<rootDir>/src/tests/setup.ts']
+  setupFiles: ['<rootDir>/src/tests/setup.ts'],
 };
 
-export default config; 
+export default config;

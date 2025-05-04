@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import { ToasterError, ToasterSuccess } from './Toast';
 import { useAuthStore } from '@/store/authStore';
+import { useState } from 'react';
+import { ToasterError, ToasterSuccess } from './Toast';
 
 interface ProfilePhotoModalProps {
   isOpen: boolean;

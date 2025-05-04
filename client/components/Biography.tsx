@@ -1,7 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { ToasterError, ToasterSuccess } from './Toast';
 import { useAuthStore } from '@/store/authStore';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Biography() {
   const [biography, setBiography] = useState('');
@@ -13,7 +13,7 @@ export default function Biography() {
     if (user?.biography) {
       setBiography(user.biography);
     }
-  }, [user]);
+  }, [user?.biography]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,71 +30,51 @@ export default function Biography() {
       });
 
       if (response.ok) {
-        if (user) {
-          updateUser({ ...user, biography });
-        }
-        <ToasterSuccess message="📖 Bio mise à jour ! Ton histoire est prête à être lue." />;
+        updateUser?.({ ...user, biography });
+        toast.success('📖 Bio mise à jour ! Ton histoire est prête à être lue.');
         setIsEditing(false);
       } else {
-        const error = await response.json();
-        <ToasterError message="Erreur lors de la mise à jour de la biographie" />;
-        console.error(error);
+        toast.error('Erreur lors de la mise à jour de la biographie');
       }
     } catch (error) {
-      <ToasterError message="🔐 Connexion impossible ! Vérifie tes identifiants et réessaie." />;
       console.error(error);
+      toast.error('🔐 Connexion impossible ! Vérifie tes identifiants.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (isEditing) {
-    return (
-      <div className="p-5">
+  return (
+    <section className="bg-oxford rounded-2xl p-6 mt-6 w-full shadow-md">
+      {isEditing ? (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <textarea
-            value={biography}
             onChange={(e) => setBiography(e.target.value)}
-            className="p-4 bg-[#101119] rounded-lg text-[#f3f3f7] font-montserrat min-h-[200px] w-[65vw] resize-none"
+            className="p-4 bg-[#1a1a2f] rounded-lg text-white font-montserrat min-h-[120px] resize-none"
             placeholder="Écrivez votre biographie ici..."
           />
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-end gap-3">
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-[#f3f3f7] font-sulphur"
+              className="px-4 py-2 rounded-md border border-[#444] text-white hover:bg-[#222]"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-[#51537B] text-[#f3f3f7] disabled:opacity-50 font-sulphur"
+              className="px-4 py-2 rounded-md bg-[#51537B] text-white disabled:opacity-50"
             >
               {loading ? 'Sauvegarde...' : 'Sauvegarder'}
             </button>
           </div>
         </form>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative p-5 ">
-      <p
-        className="font-montserrat p-7 bg-[#101119] text-[#f3f3f7] w-[80vw] md:w-[60vw] "
-        onClick={() => {
-          setBiography(user?.biography || '');
-          setIsEditing(true);
-        }}
-        onKeyDown={() => {
-          setBiography(user?.biography || '');
-          setIsEditing(true);
-        }}
-      >
-        {biography ||
-          "Aucune biographie pour l'instant. Cliquez sur Modifier pour en ajouter une !"}
-      </p>
-    </div>
+      ) : (
+        <p className="text-[#f3f3f7] whitespace-pre-wrap font-montserrat">
+          {biography || "Aucune biographie pour l'instant."}
+        </p>
+      )}
+    </section>
   );
 }

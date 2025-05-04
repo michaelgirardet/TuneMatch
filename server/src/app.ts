@@ -1,13 +1,13 @@
-import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes';
-import tracksRoutes from './routes/tracks.routes';
-import searchRoutes from './routes/search.routes';
-import applicationRoutes from './routes/application.routes';
-import messageRoutes from './routes/message.routes';
+import express from 'express';
 import announcementRoutes from './routes/announcement.routes';
+import applicationRoutes from './routes/application.routes';
+import authRoutes from './routes/auth.routes';
 import completeProfileRoutes from './routes/completeProfile.routes';
+import messageRoutes from './routes/message.routes';
+import searchRoutes from './routes/search.routes';
+import tracksRoutes from './routes/tracks.routes';
+import userRoutes from './routes/user.routes';
 
 const app = express();
 

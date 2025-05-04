@@ -1,6 +1,6 @@
+import type { RequestHandler } from 'express';
 import { z } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
-import type { RequestHandler } from 'express';
 
 const profileSchema = z.object({
   instruments: z.string().optional(),

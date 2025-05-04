@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { SuccessModal, ErrModal } from '@/components/Modals';
+import { ErrModal, SuccessModal } from '@/components/Modals';
+import Navbar from '@/components/Navbar';
+import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
