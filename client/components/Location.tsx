@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import LocationModal from './LocationModal';
+import { useState } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import LocationModal from './LocationModal';
 
 export default function Location() {
   const { user, updateUser } = useAuthStore();

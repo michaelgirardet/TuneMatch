@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { useCallback, useEffect, useState } from 'react';
 import { ToasterError } from './Toast';
 
 interface Notification {
@@ -21,7 +21,7 @@ export default function NotificationsMenu() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:5001/api/applications/notifications', {
         headers: {
@@ -40,7 +40,7 @@ export default function NotificationsMenu() {
       console.error('Erreur:', error);
       setError("🔔 Les notifications ne s'affichent pas. Un petit bug ?");
     }
-  };
+  }, [token]);
 
   const markAsRead = async (notificationId: number) => {
     try {
@@ -70,12 +70,11 @@ export default function NotificationsMenu() {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (token) {
       fetchNotifications();
     }
-  }, [token]);
+  }, [token, fetchNotifications]);
 
   return (
     <>

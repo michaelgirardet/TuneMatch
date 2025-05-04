@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Conversation {
   id: number;

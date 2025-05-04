@@ -1,12 +1,12 @@
 'use client';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import { useAuthStore } from '@/store/authStore';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { ArrowLeftIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
-import { PaperAirplaneIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Message {
   id: number;

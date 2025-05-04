@@ -1,8 +1,8 @@
-import PlayRose from '@/public/circle-play-solid.svg';
 import PauseRose from '@/public/circle-pause-solid.svg';
+import PlayRose from '@/public/circle-play-solid.svg';
+import CloseIcon from '@/public/circle-xmark-solid.svg';
 import Image from 'next/image';
 import { useState } from 'react';
-import CloseIcon from '@/public/circle-xmark-solid.svg';
 
 interface Track {
   id: number;

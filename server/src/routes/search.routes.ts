@@ -1,6 +1,6 @@
+import { searchArtists } from '@/controllers/search.controller';
 import express from 'express';
 import { auth } from '../middleware/auth';
-import { searchArtists } from '@/controllers/search.controller';
 
 const router = express.Router();
 

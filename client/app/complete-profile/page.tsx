@@ -1,11 +1,11 @@
 'use client';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function CompleteProfile() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
     instruments: '',
     genres_musicaux: '',
     biography: '',
@@ -14,10 +14,6 @@ export default function CompleteProfile() {
     soundcloud_link: '',
   });
   const [error, setError] = useState('');
-
-  const _handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,8 +49,9 @@ export default function CompleteProfile() {
         });
         router.push('/search');
       }
-    } catch (_err) {
+    } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      console.error(err);
     }
   };
 

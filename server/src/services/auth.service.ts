@@ -1,9 +1,9 @@
+import crypto from 'crypto';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import type { pool } from '../database/connection';
 import type { User } from '../types/user.types';
 import type { RegisterInput } from '../utils/validation';
-import crypto from 'crypto';
 
 export class AuthService {
   private pool;
@@ -34,7 +34,10 @@ export class AuthService {
     };
   }
 
-  async login(email: string, plainPassword: string): Promise<{ token: string; user: Partial<User> }> {
+  async login(
+    email: string,
+    plainPassword: string
+  ): Promise<{ token: string; user: Partial<User> }> {
     // Recherche de l'utilisateur
     const [users] = (await this.pool.execute('SELECT * FROM Utilisateur WHERE email = ?', [
       email,

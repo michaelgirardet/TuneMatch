@@ -1,7 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Biography() {
   const [biography, setBiography] = useState('');

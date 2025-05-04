@@ -1,6 +1,4 @@
 'use client';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import Link from 'next/link';
 
 export default function Home() {
@@ -15,9 +13,9 @@ export default function Home() {
         <p>
           Bienvenue sur TuneMatch, la plateforme où artistes et producteurs se rencontrent pour
           donner vie à de nouveaux projets musicaux. Trouve le bon collaborateur, partage tes sons
-          et fais vibrer l'industrie avec tes créations.
+          et fais vibrer l&apos;industrie avec tes créations.
         </p>
-        <h2>Prêt à faire matcher ta musique ? 🎧</h2>
+        <h2>Prêt à faire matcher ta musique ?</h2>
         <Link href="/register" className="self-center">
           <button
             className="bg-electric hover:bg-electrichover mt-5 w-[200px] py-6 px-12 rounded-lg text-lg font-medium tracking-wide shadow-lg transition"

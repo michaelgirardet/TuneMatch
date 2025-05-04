@@ -1,13 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import { ToasterError, ToasterSuccess } from './Toast';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import type { AnnouncementData } from './AnnouncementModal';
 import AnnouncementModal from './AnnouncementModal';
-import Image from 'next/image';
 import type { ApplicationData } from './ApplicationModal';
 import ApplicationModal from './ApplicationModal';
-import { useRouter } from 'next/navigation';
+import { ToasterError, ToasterSuccess } from './Toast';
 
 interface Announcement extends AnnouncementData {
   id: number;
@@ -34,7 +34,7 @@ export default function AnnouncementList() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const fetchAnnouncements = async () => {
+  const fetchAnnouncements = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:5001/api/announcements', {
         headers: {
@@ -50,13 +50,13 @@ export default function AnnouncementList() {
       setAnnouncements(data);
     } catch (error) {
       console.error('Erreur:', error);
-      <ToasterError message="📢 Les annonces ne s’affichent pas. On regarde ça !" />;
+      ToasterError({ message: "📢 Les annonces ne s'affichent pas. On regarde ça !" });
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
-  const fetchUserTracks = async () => {
+  const fetchUserTracks = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:5001/api/tracks', {
         headers: {
@@ -71,9 +71,8 @@ export default function AnnouncementList() {
     } catch (error) {
       console.error('Erreur lors du chargement des morceaux:', error);
     }
-  };
+  }, [token]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (token) {
       fetchAnnouncements();
@@ -81,7 +80,7 @@ export default function AnnouncementList() {
         fetchUserTracks();
       }
     }
-  }, [token, user?.role]);
+  }, [token, user?.role, fetchAnnouncements, fetchUserTracks]);
 
   const handleCreateAnnouncement = async (announcementData: AnnouncementData) => {
     try {

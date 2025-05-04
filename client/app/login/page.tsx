@@ -1,11 +1,9 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
-import { toast } from 'react-toastify';
-import Navbar from '@/components/Navbar';
-import Footer from '../../components/Footer';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const router = useRouter();
@@ -47,8 +45,9 @@ export default function Login() {
         });
         console.error(data.error);
       }
-    } catch (_err) {
+    } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      console.error(err);
     }
   };
 

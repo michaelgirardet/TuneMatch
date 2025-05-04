@@ -1,16 +1,15 @@
 'use client';
-import { useAuthStore } from '@/store/authStore';
-import ProfilePhoto from '@/components/ProfilePhoto';
-import SocialLinksModal from '@/components/SocialLinksModal';
-import GenreSelectionModal from '@/components/GenreSelectionModal';
-import Biography from '@/components/Biography';
 import AddTrackModal from '@/components/AddTrackModal';
 import AudioPlayer from '@/components/AudioPlayer';
+import Biography from '@/components/Biography';
+import GenreSelectionModal from '@/components/GenreSelectionModal';
 import Location from '@/components/Location';
-import Image from 'next/image';
-import LogoYT from '@/public/yt-icon-wh.png';
+import ProfilePhoto from '@/components/ProfilePhoto';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundClound from '@/public/soundcloud-removebg-preview.png';
+import LogoYT from '@/public/yt-icon-wh.png';
+import { useAuthStore } from '@/store/authStore';
+import Image from 'next/image';
 
 export default function Profile() {
   const { user } = useAuthStore();
@@ -104,23 +103,16 @@ export default function Profile() {
       </section>
 
       {/* Modals (à brancher sur tes handlers) */}
-      <SocialLinksModal
-        isOpen={false} // Replace with your state variable controlling modal visibility
-        onClose={() => {}} // Replace with your handler for closing the modal
-        onUpdate={(_updatedLinks) => {}} // Replace with your handler for updating links
-        currentLinks={user?.social_links || []} // Replace with the current social links from your data
-        platform="youtube" // Replace with the appropriate platform or make it dynamic
-      />
       <GenreSelectionModal
         isOpen={false} // Replace with your state variable controlling modal visibility
         onClose={() => {}} // Replace with your handler for closing the modal
-        onUpdate={(updatedGenres) => {}} // Replace with your handler for updating genres
+        onUpdate={() => {}} // Replace with your handler for updating genres
         currentGenres={[]} // Replace with the current genres from your data
       />
       <AddTrackModal
         isOpen={false} // Replace with your state variable controlling modal visibility
         onClose={() => {}} // Replace with your handler for closing the modal
-        onAdd={(newTrack) => {}} // Replace with your handler for adding a new track
+        onAdd={() => {}} // Replace with your handler for adding a new track
       />
     </div>
   );

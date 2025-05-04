@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Extend the Window interface to include openAnnouncementModal
 declare global {
@@ -7,8 +7,8 @@ declare global {
     openAnnouncementModal?: () => void;
   }
 }
-import { useAuthStore } from '@/store/authStore';
 import AnnouncementList from '@/components/AnnouncementList';
+import { useAuthStore } from '@/store/authStore';
 
 export default function AnnouncementsPage() {
   const { user } = useAuthStore();

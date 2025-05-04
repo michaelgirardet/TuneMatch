@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar';
 import './globals.css';
-import { ToastContainer } from 'react-toastify';
 import Footer from '@/components/Footer';
+import { ToastContainer } from 'react-toastify';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

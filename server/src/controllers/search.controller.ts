@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import type { AuthRequest } from '../types/auth.types';
 import type { RequestHandler } from 'express';
-import { DatabaseService } from '../services/database';
+import { z } from 'zod';
 import { pool } from '../database/connection';
+import { DatabaseService } from '../services/database';
+import type { AuthRequest } from '../types/auth.types';
 
 const db = new DatabaseService(pool);
 

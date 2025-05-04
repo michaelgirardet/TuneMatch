@@ -1,11 +1,9 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Footer from '../../components/Footer';
-import { toast } from 'react-toastify';
 import { ToasterError } from '@/components/Toast';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Register() {
   const router = useRouter();
@@ -62,8 +60,9 @@ export default function Register() {
         );
         router.push('/complete-profile');
       }
-    } catch (_err) {
+    } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
+      console.error(err);
     }
   };
 
@@ -140,7 +139,7 @@ export default function Register() {
           type="submit"
           className="bg-electric hover:bg-electrichover text-white button p-5 w-[200px] rounded flex justify-center self-center item-center"
         >
-          S'inscrire
+          S&apos;inscrire
         </button>
       </form>
     </div>

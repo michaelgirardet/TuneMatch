@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { toast } from 'react-toastify';
-import { UserCard } from '@/components/UserCard';
 import { Pagination } from '@/components/Pagination';
-import { FiSearch, FiFilter, FiMusic, FiMapPin, FiGlobe, FiGrid, FiList } from 'react-icons/fi';
+import { UserCard } from '@/components/UserCard';
+import Image from 'next/image';
+import { useAuthStore } from '@/store/authStore';
+import { useCallback, useEffect, useState } from 'react';
+import { FiFilter, FiGlobe, FiGrid, FiList, FiMapPin, FiMusic, FiSearch } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
 interface Artist {
   id: number;
@@ -362,15 +363,18 @@ export default function SearchPage() {
                   >
                     <div className="w-full md:w-48 h-48 relative">
                       {artist.photo_profil ? (
-                        <img
+                        <Image
                           src={artist.photo_profil}
                           alt={artist.nom_utilisateur}
                           className="w-full h-full object-cover"
+                          width={192}
+                          height={192}
+                          // priority // optionnel
                         />
                       ) : (
                         <div className="w-full h-full bg-primary-dark flex items-center justify-center">
                           <span className="text-6xl text-primary-light opacity-50">
-                            {artist.nom_utilisateur.charAt(0).toUpperCase()}
+                            {artist.nom_utilisateur?.charAt(0).toUpperCase() ?? '?'}
                           </span>
                         </div>
                       )}
@@ -378,6 +382,7 @@ export default function SearchPage() {
                         <span className="text-xs text-primary-light capitalize">{artist.role}</span>
                       </div>
                     </div>
+
                     <div className="p-6 flex-1">
                       <h3 className="font-heading text-xl font-medium text-surface-white mb-2 capitalize">
                         {artist.nom_utilisateur}
@@ -392,7 +397,7 @@ export default function SearchPage() {
                         {artist.biography || 'Aucune biographie disponible.'}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {artist.genres_musicaux.split(',').map((genre, _index) => (
+                        {artist.genres_musicaux.split(',').map((genre) => (
                           <span
                             key={genre.trim()}
                             className="bg-primary-dark px-2 py-1 rounded-full text-xs text-primary-light"
@@ -430,8 +435,8 @@ export default function SearchPage() {
                   Aucun artiste trouvé
                 </h3>
                 <p className="text-primary-light max-w-md mx-auto text-white">
-                  Essayez d'ajuster vos filtres de recherche ou d'élargir vos critères pour obtenir
-                  plus de résultats.
+                  Essayez d&apos;ajuster vos filtres de recherche ou d&apos;élargir vos critères
+                  pour obtenir plus de résultats.
                 </p>
                 <button
                   type="button"

@@ -1,7 +1,7 @@
 'use client';
+import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { ToasterError, ToasterSuccess } from './Toast';
-import { useAuthStore } from '@/store/authStore';
 
 interface SocialLinksModalProps {
   isOpen: boolean;

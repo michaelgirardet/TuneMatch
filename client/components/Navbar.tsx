@@ -1,13 +1,13 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/authStore';
-import { useState } from 'react';
 import LogoBurger from '@/public/sliders-icon-wh.svg';
 import CloseIcon from '@/public/xmark-wh.svg';
-import NotificationsMenu from './NotificationsMenu';
+import { useAuthStore } from '@/store/authStore';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import NotificationsMenu from './NotificationsMenu';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuthStore();
