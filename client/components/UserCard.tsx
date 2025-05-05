@@ -23,7 +23,7 @@ interface UserCardProps {
 
 export function UserCard({ user }: UserCardProps) {
   return (
-    <div className="card w-full shadow-xl bg-[#212936] p-5 rounded-xl">
+    <div className="card w-full shadow-xl bg-space p-5 rounded-xl">
       <figure className="relative h-48">
         {user.photo_profil ? (
           <Link href={`/profile/${user.id}`}>
@@ -75,7 +75,7 @@ export function UserCard({ user }: UserCardProps) {
           </div>
           <Link
             href={`/profile/${user.id}`}
-            className="btn btn-primary btn-sm font-quicksand text-white font-light underline cursor-pointer"
+            className="btn btn-primary btn-sm font-quicksand text-white hover:text-airhover font-light underline cursor-pointer"
           >
             Voir le profil
           </Link>

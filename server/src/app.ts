@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import announcementRoutes from './routes/announcement.routes';
 import applicationRoutes from './routes/application.routes';
 import authRoutes from './routes/auth.routes';
@@ -21,6 +22,9 @@ app.use(
     credentials: true,
   })
 );
+
+// Lire les cookies
+app.use(cookieParser());
 
 console.log('Enregistrement des routes...');
 

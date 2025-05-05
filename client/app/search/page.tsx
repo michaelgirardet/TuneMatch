@@ -133,7 +133,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-oxford">
       {/* Hero section */}
-      <div className="bg-gradient-to-r from-primary to-primary-dark py-16">
+      <div className="bg-space py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-quicksand text-5xl md:text-6xl font-bold text-white mb-6">
@@ -359,7 +359,7 @@ export default function SearchPage() {
                 {artists.map((artist) => (
                   <div
                     key={artist.id}
-                    className="bg-primary rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row"
+                    className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row"
                   >
                     <div className="w-full md:w-48 h-48 relative">
                       {artist.photo_profil ? (

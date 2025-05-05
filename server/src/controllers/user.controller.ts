@@ -17,6 +17,7 @@ type AuthRequestHandler = RequestHandler<
   { user?: AuthRequest['user'] }
 >;
 
+// Changer sa photo de profil
 export const updatePhoto: AuthRequestHandler = async (req, res) => {
   try {
     const { photo_profil } = req.body;
@@ -38,6 +39,7 @@ export const updatePhoto: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Mettre à jour ses réseaux sociaux
 export const updateSocialLinks: AuthRequestHandler = async (req, res) => {
   try {
     const { platform, link } = socialLinksSchema.parse(req.body);
@@ -66,6 +68,7 @@ export const updateSocialLinks: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Mettre a jour ses genres musicaux
 export const updateGenres: AuthRequestHandler = async (req, res) => {
   try {
     const { genres } = genresSchema.parse(req.body);
@@ -98,6 +101,7 @@ export const updateGenres: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Mettre à jour sa biographie
 export const updateBiography: AuthRequestHandler = async (req, res) => {
   try {
     const { biography } = biographySchema.parse(req.body);
@@ -125,6 +129,7 @@ export const updateBiography: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Mettre à jour sa localisation
 export const updateLocation: AuthRequestHandler = async (req, res) => {
   try {
     const { city, country } = locationSchema.parse(req.body);
@@ -182,6 +187,7 @@ export const getUserProfile: AuthRequestHandler = async (req, res) => {
   }
 };
 
+// Remplir son profil à l'inscription
 export const updateProfile: AuthRequestHandler = async (req, res) => {
   try {
     const userId = req.user?.userId;
