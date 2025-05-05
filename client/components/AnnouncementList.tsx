@@ -285,7 +285,7 @@ export default function AnnouncementList() {
               setSelectedAnnouncement(undefined);
               setIsModalOpen(true);
             }}
-            className="px-4 py-2 rounded bg-air hover:bg-[#595B88] text-white font-quicksand"
+            className="px-4 py-2 rounded bg-air hover:bg-airhover text-white font-quicksand"
           >
             Créer une annonce
           </button>
@@ -299,7 +299,7 @@ export default function AnnouncementList() {
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="bg-[#212936] rounded-lg p-6 shadow-lg flex flex-col gap-4"
+            className="bg-space rounded-lg p-6 shadow-lg flex flex-col gap-4"
           >
             <div className="flex items-center gap-4">
               {announcement.photo_profil ? (
@@ -326,7 +326,7 @@ export default function AnnouncementList() {
                   <span
                     onClick={() => router.push(`/profile/${announcement.user_id}`)}
                     onKeyDown={() => router.push(`/profile/${announcement.user_id}`)}
-                    className="cursor-pointer hover:text-[#51537B] transition-colors"
+                    className="cursor-pointer text-air hover:text-airhover transition-colors"
                   >
                     {announcement.nom_utilisateur}
                   </span>
@@ -336,17 +336,17 @@ export default function AnnouncementList() {
 
             <p className="font-quicksand text-white">{announcement.description}</p>
 
-            <div className="flex flex-wrap gap-2 font-quicksand font-light">
-              <span className="px-2 py-1 bg-[#f3f3f7] text-[#OAOAOA] rounded text-sm">
+            <div className="flex flex-wrap gap-2 font-quicksand">
+              <span className="px-2 py-1 bg-oxford text-lavender rounded-full text-sm">
                 {announcement.musical_style}
               </span>
               {announcement.voice_type && (
-                <span className="px-2 py-1 bg-[#f3f3f7] text-[#OAOAOA] rounded text-sm">
+                <span className="px-2 py-1 bg-oxford text-lavender rounded-full text-sm">
                   Voix: {announcement.voice_type}
                 </span>
               )}
               {announcement.instrument && (
-                <span className="px-2 py-1 bg-[#f3f3f7] text-[#OAOAOA] rounded text-sm">
+                <span className="px-2 py-1 bg-oxford text-lavender rounded-full text-sm">
                   Instrument: {announcement.instrument}
                 </span>
               )}

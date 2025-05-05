@@ -112,7 +112,7 @@ export default function PublicProfile() {
     <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
       <div>
         <Link href="/search">
-          <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
+          <ArrowLeftIcon className="h-8 w-8 text-white mb-5" />
         </Link>
       </div>
       <div className="flex flex-col items-center justify-center py-10 gap-5">
@@ -134,10 +134,10 @@ export default function PublicProfile() {
           </div>
         )}
 
-        <h1 className="title font-quicksand font-bold text-5xl capitalize">
+        <h1 className="title font-quicksand font-semibold text-5xl capitalize text-lavender">
           {profile.nom_utilisateur}
         </h1>
-        <p className="font-quicksand capitalize">{profile.role}</p>
+        <p className="font-quicksand capitalize text-white">{profile.role}</p>
 
         {(profile.youtube_link || profile.instagram_link || profile.soundcloud_link) && (
           <div className="flex flex-row gap-2">
@@ -171,7 +171,7 @@ export default function PublicProfile() {
           )}
 
           {(profile.city || profile.country) && (
-            <p className="text-gray-400 font-quicksand">
+            <p className="text-gray-400 font-quicksand text-white">
               {[profile.city, profile.country].filter(Boolean).join(', ')}
             </p>
           )}

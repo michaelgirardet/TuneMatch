@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import type { pool } from '../database/connection';

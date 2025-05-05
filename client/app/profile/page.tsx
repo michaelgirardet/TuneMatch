@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 import ProfilePhoto from '@/components/ProfilePhoto';
 import GenreSelectionModal from '@/components/GenreSelectionModal';
-import Biography from '@/components/Biography';
 import LocationModal from '@/components/LocationModal';
 import AudioPlayer from '@/components/AudioPlayer';
 import AddTrackModal from '@/components/AddTrackModal';
@@ -13,9 +13,15 @@ import LogoSoundCloud from '@/public/soundcloud-removebg-preview.png';
 import LogoYT from '@/public/yt-icon-wh.png';
 import BiographyModal from '@/components/Biography';
 
+interface Track {
+  id: number;
+  title?: string;
+  artist?: string;
+  url?: string;
+}
+
 export default function Profile() {
   const user = useAuthStore((state) => state.user);
-  const token = useAuthStore((state) => state.token);
   const updateUser = useAuthStore((state) => state.updateUser);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
@@ -25,9 +31,17 @@ export default function Profile() {
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isTrackModalOpen, setTrackModalOpen] = useState(false);
 
-  // Tracks state (à remplacer par un fetch réel si besoin)
-  const [tracks, setTracks] = useState<{ id: number }[]>(
-    Array.isArray(user?.tracks) ? user.tracks : []
+  const [tracks, setTracks] = useState<Track[]>(
+    Array.isArray(user?.tracks)
+      ? (user.tracks.map(
+          (track: { id: number; title?: string; artist?: string; url?: string }) => ({
+            id: track.id,
+            title: track.title ?? 'Unknown Title',
+            artist: track.artist ?? 'Unknown Artist',
+            url: track.url ?? '',
+          })
+        ) as Track[])
+      : ([] as Track[])
   );
 
   if (!isAuthenticated || !user) {
@@ -40,12 +54,8 @@ export default function Profile() {
 
   // --- Handlers pour update (à brancher à tes modales) ---
   async function handleUpdateGenres(newGenres: string[]) {
-    const response = await fetch('http://localhost:5001/api/users/profile', {
+    const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
       body: JSON.stringify({ genres_musicaux: newGenres.join(',') }),
     });
     const json = await response.json();
@@ -56,12 +66,8 @@ export default function Profile() {
   }
 
   async function handleUpdateBio(newBio: string) {
-    const response = await fetch('http://localhost:5001/api/users/profile', {
+    const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
       body: JSON.stringify({ biography: newBio }),
     });
     const json = await response.json();
@@ -72,18 +78,14 @@ export default function Profile() {
   }
 
   async function handleUpdateLocation(location: { city: string; country: string }) {
-    const response = await fetch('http://localhost:5001/api/users/profile', {
+    const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
       body: JSON.stringify({ city: location.city, country: location.country }),
     });
     const json = await response.json();
     if (response.ok && json.user) {
       updateUser(json.user);
-      setLocationModalOpen(false);
+      setTracks([...tracks]);
     }
   }
 
@@ -102,7 +104,7 @@ export default function Profile() {
   return (
     <div className="flex flex-col min-h-screen bg-oxford">
       {/* Profil Card */}
-      <section className="w-[100vw] md:w-[55vw] mx-auto px-6 py-8 flex flex-col gap-8 items-center" />
+      <section className="w-[100vw] md:w-[55vw] mx-auto px-6 py-1 flex flex-col gap-8 items-center" />
       <div className="flex flex-col items-center gap-3 bg-space p-8 shadow-lg w-full">
         <ProfilePhoto currentPhotoUrl={user.photo_profil} onPhotoUpdate={() => {}} />
         <h2 className="text-3xl font-bold font-quicksand text-white">{user.nom_utilisateur}</h2>
@@ -135,10 +137,12 @@ export default function Profile() {
         {/* Genres musicaux */}
         <div>
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl font-semibold text-white">Genres musicaux</h3>
+            <h3 className="text-xl font-semibold font-quicksand text-center text-white">
+              Genres musicaux
+            </h3>
             <button
               type="button"
-              className="text-sm text-lavender hover:text-white underline"
+              className="text-sm text-lavender hover:text-airhover underline"
               onClick={() => setGenreModalOpen(true)}
             >
               Modifier
@@ -152,38 +156,41 @@ export default function Profile() {
                 </li>
               ))
             ) : (
-              <li className="text-white">Non renseigné</li>
+              <li className="text-white font-quicksand">Non renseigné</li>
             )}
           </ul>
         </div>
         {/* Localisation */}
         <div>
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl font-semibold text-white">Localisation</h3>
+            <h3 className="text-xl font-semibold font-quicksand text-white">Localisation</h3>
             <button
               type="button"
-              className="text-sm text-lavender hover:text-white underline"
+              className="text-sm text-lavender hover:text-airhover underline"
               onClick={() => setLocationModalOpen(true)}
             >
               Modifier
             </button>
           </div>
-          <p className="text-white">
-            {user.city || 'Ville inconnue'}, {user.country || 'Pays inconnu'}
+          <p className="text-white font-quicksand">
+            {user.city || 'Pas de ville renseignée !'} {user.country || 'Pays inconnu'}
           </p>
         </div>
         <div>
+          {/* Biographie */}
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl font-semibold text-white">Biographie</h3>
+            <h3 className="text-xl font-semibold font-quicksand text-white">Biographie</h3>
             <button
               type="button"
-              className="text-sm text-lavender hover:text-white underline"
+              className="text-sm text-lavender hover:text-airhover underline"
               onClick={() => setBioModalOpen(true)}
             >
               Modifier
             </button>
           </div>
-          <p className="text-white">{user.biography || 'Aucune biographie pour le moment.'}</p>
+          <p className="text-white font-quicksand">
+            {user.biography || 'Aucune biographie pour le moment.'}
+          </p>
         </div>
 
         {/* Audio Tracks */}

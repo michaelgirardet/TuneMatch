@@ -25,9 +25,11 @@ CREATE TABLE users (
     genres_musicaux VARCHAR(255),
     reset_token VARCHAR(255),
     reset_token_expires TIMESTAMP NULL,
+    refresh_token VARCHAR(512) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 -- TABLE Tracks (dépend de users)
 CREATE TABLE tracks (
@@ -145,23 +147,25 @@ CREATE TABLE notifications (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Données de test (dans l'ordre des dépendances)
-INSERT INTO users (nom_utilisateur, email, password, role, photo_profil, instruments, biography, city, country) VALUES
-('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833554.jpg?ga=GA1.1.1458521712.1740386979', 'Guitare', 'Passionné de musique électronique', 'Paris', 'France'),
-('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg?ga=GA1.1.1458521712.1740386979', 'Piano, Chant', 'Productrice de hip-hop', 'Lyon', 'France'),
-('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833546.jpg?ga=GA1.1.1458521712.1740386979', 'Guitariste et auteur-compositeur', 'Guitare', 'Marseille', 'France'),
-('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869153.jpg?ga=GA1.1.1458521712.1740386979', 'Violoniste classique', 'Guitare', 'Bordeaux', 'France'),
-('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303093.jpg?ga=GA1.1.1458521712.1740386979', 'Beatmaker spécialisé trap et drill', 'Violon', 'Berlin', 'Allemagne'),
-('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteur de reggaeton', 'Madrid', 'DJ', 'Espagne'),
-('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869129.jpg?ga=GA1.1.1458521712.1740386979', 'Pianiste jazz', 'DJ', 'Lille', 'France'),
-('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611710.jpg?ga=GA1.1.1458521712.1740386979', 'Producteur indépendant pop', 'Chant', 'New York', 'USA'),
-('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833584.jpg?ga=GA1.1.1458521712.1740386979', 'Batteur métal', 'Batterie', 'Bruxelles', 'Belgique'),
-('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteuse pop K-pop', 'Piano', 'Séoul', 'Corée du Sud'),
-('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436200.jpg?ga=GA1.1.1458521712.1740386979', 'Basse funk', 'Piano', 'Los Angeles', 'USA'),
-('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869157.jpg?ga=GA1.1.1458521712.1740386979', 'Spécialisée en house music', 'Batterie', 'Milan', 'Italie'),
-('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671126.jpg?ga=GA1.1.1458521712.1740386979', 'DJ techno', 'DJ', 'Amsterdam', 'Pays-Bas'),
-('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303065.jpg?ga=GA1.1.1458521712.1740386979', 'Mezzo-soprano classique', 'Chant', 'Varsovie', 'Pologne'),
-('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833548.jpg?ga=GA1.1.1458521712.1740386979', 'Ingé son spécialisé en rock alternatif', 'Batterie', 'Dublin', 'Irlande');
+INSERT INTO users (
+  nom_utilisateur, email, password, role, photo_profil, instruments, biography, city, country, refresh_token
+) VALUES
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833554.jpg?ga=GA1.1.1458521712.1740386979', 'Guitare', 'Passionné de musique électronique', 'Paris', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken1.signature'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg?ga=GA1.1.1458521712.1740386979', 'Piano, Chant', 'Productrice de hip-hop', 'Lyon', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken2.signature'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833546.jpg?ga=GA1.1.1458521712.1740386979', 'Guitariste et auteur-compositeur', 'Guitare', 'Marseille', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken3.signature'),
+('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869153.jpg?ga=GA1.1.1458521712.1740386979', 'Violoniste classique', 'Guitare', 'Bordeaux', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken4.signature'),
+('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303093.jpg?ga=GA1.1.1458521712.1740386979', 'Beatmaker spécialisé trap et drill', 'Violon', 'Berlin', 'Allemagne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken5.signature'),
+('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteur de reggaeton', 'Madrid', 'DJ', 'Espagne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken6.signature'),
+('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869129.jpg?ga=GA1.1.1458521712.1740386979', 'Pianiste jazz', 'DJ', 'Lille', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken7.signature'),
+('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611710.jpg?ga=GA1.1.1458521712.1740386979', 'Producteur indépendant pop', 'Chant', 'New York', 'USA', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken8.signature'),
+('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833584.jpg?ga=GA1.1.1458521712.1740386979', 'Batteur métal', 'Batterie', 'Bruxelles', 'Belgique', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken9.signature'),
+('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?ga=GA1.1.1458521712.1740386979', 'Chanteuse pop K-pop', 'Piano', 'Séoul', 'Corée du Sud', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken10.signature'),
+('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436200.jpg?ga=GA1.1.1458521712.1740386979', 'Basse funk', 'Piano', 'Los Angeles', 'USA', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken11.signature'),
+('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869157.jpg?ga=GA1.1.1458521712.1740386979', 'Spécialisée en house music', 'Batterie', 'Milan', 'Italie', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken12.signature'),
+('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671126.jpg?ga=GA1.1.1458521712.1740386979', 'DJ techno', 'DJ', 'Amsterdam', 'Pays-Bas', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken13.signature'),
+('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303065.jpg?ga=GA1.1.1458521712.1740386979', 'Mezzo-soprano classique', 'Chant', 'Varsovie', 'Pologne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken14.signature'),
+('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833548.jpg?ga=GA1.1.1458521712.1740386979', 'Ingé son spécialisé en rock alternatif', 'Batterie', 'Dublin', 'Irlande', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken15.signature');
+
 
 INSERT INTO tracks (title, artist, url, user_id) VALUES
 ('Electro Vibes', 'JohnD999', 'https://soundcloud.com/johnd999/electro-vibes', 1),
