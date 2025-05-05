@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       colors: {
         air: '#75a5b8',
+        airhover: '#86B0C1',
         electric: '#8f13ff',
         electrichover: '#A033FF',
         lavender: '#dbe1f0',

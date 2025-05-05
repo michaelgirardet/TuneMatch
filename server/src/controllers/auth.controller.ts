@@ -12,7 +12,7 @@ import {
 } from '../utils/validation';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tunematch_secret_key_2024';
-const TOKEN_EXPIRATION = '24h';
+const TOKEN_EXPIRATION = '15m';
 
 export class AuthController {
   async register(req: Request, res: Response) {
@@ -59,6 +59,7 @@ export class AuthController {
       const [rows] = await req.app.locals.pool.execute('SELECT * FROM users WHERE email = ?', [
         email,
       ]);
+
       interface User {
         id: number;
         email: string;
@@ -76,12 +77,35 @@ export class AuthController {
         return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
       }
 
-      const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, JWT_SECRET, {
-        expiresIn: TOKEN_EXPIRATION,
+      // Générer access token (15 min)
+      const accessToken = jwt.sign(
+        { userId: user.id, email: user.email, role: user.role },
+        JWT_SECRET,
+        { expiresIn: '15m' }
+      );
+
+      // Générer refresh token (30 jours)
+      const refreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
+
+      // (Optionnel mais recommandé) Stocker le refreshToken en base pour pouvoir l'invalider plus tard
+      await req.app.locals.pool.execute('UPDATE users SET refresh_token = ? WHERE id = ?', [
+        refreshToken,
+        user.id,
+      ]);
+
+      // Supprimer le mot de passe avant de renvoyer l'utilisateur
+      const { password: _, ...userWithoutPassword } = user;
+
+      // Envoyer le refresh token dans un cookie httpOnly sécurisé
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // true en prod
+        sameSite: 'strict',
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 jours
       });
 
-      const { password: _, ...userWithoutPassword } = user;
-      res.json({ token, user: userWithoutPassword });
+      // Envoyer access token et infos utilisateur dans la réponse JSON
+      res.json({ accessToken, user: userWithoutPassword });
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({ error: 'Données invalides', details: error.errors });
