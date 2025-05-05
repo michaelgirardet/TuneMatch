@@ -78,9 +78,9 @@ export default function AnnouncementModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-2xl">
-        <h2 className="text-xl mb-4 font-quicksand text-center font-bold">
+    <div className="fixed inset-0 bg-transparent flex items-center justify-center  z-50">
+      <div className="bg-space p-8 rounded-lg w-[90%] max-w-2xl">
+        <h2 className="text-xl mb-4 font-quicksand text-white text-center font-semibold uppercase">
           {announcement ? "Modifier l'annonce" : 'Créer une nouvelle annonce'}
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -91,7 +91,7 @@ export default function AnnouncementModal({
               value={formData.title}
               placeholder="Titre"
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand"
+              className="form-input p-2 rounded text-center bg-oxford text-white font-thin italic font-quicksand"
               required
             />
           </div>
@@ -102,7 +102,7 @@ export default function AnnouncementModal({
               value={formData.description}
               placeholder="Description"
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand flex flex-row justify-center items-center"
+              className="form-input p-2 rounded text-center text-white bg-oxford font-thin italic font-quicksand"
               required
             />
           </div>
@@ -112,12 +112,14 @@ export default function AnnouncementModal({
               id="musical_style"
               value={formData.musical_style}
               onChange={(e) => setFormData({ ...formData, musical_style: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand"
+              className="form-input p-2 rounded text-center text-white bg-oxford font-thin italic font-quicksand"
               required
             >
-              <option value="">Sélectionnez un style</option>
+              <option value="" className="text-white">
+                Sélectionnez un style
+              </option>
               {MUSICAL_STYLES.map((style) => (
-                <option key={style} value={style}>
+                <option key={style} value={style} className="text-white">
                   {style}
                 </option>
               ))}
@@ -131,7 +133,7 @@ export default function AnnouncementModal({
               placeholder="Type de voix"
               value={formData.voice_type}
               onChange={(e) => setFormData({ ...formData, voice_type: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand"
+              className="form-input p-2 rounded text-center bg-oxford text-white font-thin italic font-quicksand"
             />
           </div>
 
@@ -142,7 +144,7 @@ export default function AnnouncementModal({
               placeholder="Intrument (optionnel)"
               value={formData.instrument}
               onChange={(e) => setFormData({ ...formData, instrument: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand"
+              className="form-input p-2 rounded text-center bg-oxford text-white font-thin italic font-quicksand"
             />
           </div>
 
@@ -152,7 +154,7 @@ export default function AnnouncementModal({
               value={formData.other_criteria}
               placeholder="Autres critères (optionnel)"
               onChange={(e) => setFormData({ ...formData, other_criteria: e.target.value })}
-              className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand"
+              className="form-input p-2 rounded text-center bg-oxford text-white font-thin italic font-quicksand"
             />
           </div>
 
