@@ -4,7 +4,7 @@ import CloseIcon from '@/public/circle-xmark-solid.svg';
 import Image from 'next/image';
 import { useState } from 'react';
 
-interface Track {
+interface TrackProps {
   id: number;
   title: string;
   artist: string;
@@ -12,7 +12,7 @@ interface Track {
 }
 
 interface AudioPlayerProps {
-  tracks: Track[];
+  tracks: TrackProps[];
   onAddTrack?: () => void;
   onDeleteTrack?: (trackId: number) => void;
 }

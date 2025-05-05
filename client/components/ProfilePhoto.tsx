@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useState, useRef } from 'react';
+import { fetchWithAuth } from '../app/utils/fetchWithAuth';
 import ProfilePhotoModal from './ProfilePhotoModal';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-toastify';
@@ -14,7 +15,6 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const token = useAuthStore((state) => state.token);
   const updateUser = useAuthStore((state) => state.updateUser);
 
   // Handler d'upload (API à adapter à ton backend)
@@ -30,12 +30,10 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
       const formData = new FormData();
       formData.append('photo', file);
 
-      const response = await fetch('http://localhost:5001/api/users/photo', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
         body: formData,
+        // Pas de Content-Type ici, fetch le gère avec FormData
       });
       const json = await response.json();
       if (response.ok && json.photoUrl) {

@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 interface BiographyModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onUpdate: (newBio: string) => Promise<void>;
+  currentBio: string;
 }
 
 export default function BiographyModal({ isOpen, onClose }: BiographyModalProps) {

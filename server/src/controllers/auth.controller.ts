@@ -115,6 +115,50 @@ export class AuthController {
     }
   }
 
+  async logout(req: Request, res: Response) {
+    try {
+      // Récupère le refresh token depuis le cookie
+      const refreshToken = req.cookies.refreshToken;
+      if (!refreshToken)
+        return res.status(200).clearCookie('refreshToken').json({ message: 'Déjà déconnecté.' });
+
+      // Décoder le refresh token pour trouver l'utilisateur
+      let decoded: { userId: number } | null;
+      try {
+        const result = jwt.verify(refreshToken, JWT_SECRET);
+        decoded =
+          typeof result === 'object' && result !== null && 'userId' in result
+            ? (result as { userId: number })
+            : null;
+      } catch {
+        return res
+          .status(200)
+          .clearCookie('refreshToken')
+          .json({ message: 'Token déjà invalide.' });
+      }
+
+      // Supprime le refresh token en base
+      await req.app.locals.pool.execute('UPDATE users SET refresh_token = NULL WHERE id = ?', [
+        decoded?.userId ??
+          (() => {
+            throw new Error('Decoded token is null');
+          })(),
+      ]);
+
+      // Supprime le cookie côté client
+      res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+      });
+
+      return res.json({ message: 'Déconnexion réussie.' });
+    } catch (err) {
+      res.status(500).json({ message: 'Erreur lors de la déconnexion.' });
+      console.error(err);
+    }
+  }
+
   async forgotPassword(req: Request, res: Response) {
     try {
       const { email } = forgotPasswordSchema.parse(req.body);
