@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 import { useAuthStore } from '@/store/authStore';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -11,7 +12,7 @@ interface BiographyModalProps {
 }
 
 export default function BiographyModal({ isOpen, onClose }: BiographyModalProps) {
-  const { user, token, updateUser } = useAuthStore();
+  const { user, updateUser } = useAuthStore();
   const [biography, setBiography] = useState(user?.biography || '');
   const [loading, setLoading] = useState(false);
 
@@ -24,12 +25,8 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5001/api/users/biography', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/biography', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ biography }),
       });
 

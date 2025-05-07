@@ -1,10 +1,10 @@
+// ProfilePhoto.tsx
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { fetchWithAuth } from '../app/utils/fetchWithAuth';
-import ProfilePhotoModal from './ProfilePhotoModal';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-toastify';
-
+import ProfilePhotoModal from './ProfilePhotoModal';
 interface ProfilePhotoProps {
   currentPhotoUrl?: string;
   onPhotoUpdate: (url: string) => void;
@@ -33,12 +33,11 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
       const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
         method: 'POST',
         body: formData,
-        // Pas de Content-Type ici, fetch le gère avec FormData
       });
       const json = await response.json();
       if (response.ok && json.photoUrl) {
         onPhotoUpdate(json.photoUrl);
-        updateUser({ ...json.user }); // Si ton backend renvoie user à jour
+        updateUser({ ...json.user });
         toast.success('Photo de profil mise à jour !');
         setIsModalOpen(false);
       } else {

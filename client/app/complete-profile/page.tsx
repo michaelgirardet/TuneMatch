@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
 const GENRES = [
   'Pop',
@@ -85,12 +86,8 @@ export default function CompleteArtistProfile() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5001/api/users/profile', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           ...formData,
           genres_musicaux: formData.genres_musicaux.join(','),

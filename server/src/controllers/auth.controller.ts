@@ -99,9 +99,9 @@ export class AuthController {
       // Envoyer le refresh token dans un cookie httpOnly sécurisé
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // true en prod
+        secure: false, // OBLIGATOIRE EN LOCAL
         sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 jours
+        maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
       // Envoyer access token et infos utilisateur dans la réponse JSON
@@ -235,38 +235,54 @@ export class AuthController {
 
   async refreshToken(req: Request, res: Response) {
     try {
-      const { token } = req.body;
-      if (!token) return res.status(401).json({ message: 'Token manquant' });
+      const refreshToken = req.cookies.refreshToken;
+      if (!refreshToken) {
+        return res.status(401).json({ message: 'Refresh token manquant' });
+      }
 
-      const decoded = jwt.verify(token, JWT_SECRET, { ignoreExpiration: true }) as {
-        userId: number;
-        email: string;
-        role: string;
-      };
+      // Vérifie le refresh token
+      let decoded: { userId: number } | null;
+      try {
+        const result = jwt.verify(refreshToken, JWT_SECRET);
+        decoded =
+          typeof result === 'object' && result !== null && 'userId' in result
+            ? (result as { userId: number })
+            : null;
+      } catch (err) {
+        console.error(err);
+        return res.status(401).json({ message: 'Refresh token invalide ou expiré' });
+      }
 
+      // Vérifie que le refresh token correspond à celui stocké en base
       const [rows] = await req.app.locals.pool.execute(
-        'SELECT id, email, role FROM users WHERE id = ?',
-        [decoded.userId]
+        'SELECT id, email, role, refresh_token FROM users WHERE id = ?',
+        [decoded?.userId]
       );
       interface User {
         id: number;
         email: string;
         role: string;
+        refresh_token: string | null;
       }
       const users = rows as User[];
-      if (users.length === 0) return res.status(404).json({ message: 'Utilisateur non trouvé' });
+      if (users.length === 0 || users[0].refresh_token !== refreshToken) {
+        return res.status(401).json({ message: 'Refresh token non reconnu' });
+      }
 
-      const newToken = jwt.sign(
+      // Génère un nouveau access token
+      const newAccessToken = jwt.sign(
         { userId: users[0].id, email: users[0].email, role: users[0].role },
         JWT_SECRET,
-        { expiresIn: TOKEN_EXPIRATION }
+        { expiresIn: '15m' }
       );
 
-      res.json({ token: newToken });
+      // (Optionnel) Rotation du refresh token :
+      // const newRefreshToken = jwt.sign({ userId: users[0].id }, JWT_SECRET, { expiresIn: '30d' });
+      // await req.app.locals.pool.execute('UPDATE users SET refresh_token = ? WHERE id = ?', [newRefreshToken, users[0].id]);
+      // res.cookie('refreshToken', newRefreshToken, { ... });
+
+      res.json({ accessToken: newAccessToken });
     } catch (error) {
-      if (error instanceof jwt.JsonWebTokenError) {
-        return res.status(401).json({ message: 'Token invalide' });
-      }
       console.error('Erreur refreshToken:', error);
       res.status(500).json({ message: 'Erreur serveur' });
     }

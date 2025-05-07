@@ -4,6 +4,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { ToasterError, ToasterSuccess } from './Toast';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -24,19 +25,14 @@ export default function LocationModal({
   const [city, setCity] = useState(currentLocation.city || '');
   const [country, setCountry] = useState(currentLocation.country || '');
   const [loading, setLoading] = useState(false);
-  const { token } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/users/location', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/location', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ city, country }),
       });
 

@@ -9,6 +9,7 @@ import type { ApplicationData } from './ApplicationModal';
 import ApplicationModal from './ApplicationModal';
 import { ToasterError, ToasterSuccess } from './Toast';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface Announcement extends AnnouncementData {
   id: number;
@@ -37,11 +38,7 @@ export default function AnnouncementList() {
 
   const fetchAnnouncements = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/announcements', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth('http://localhost:5001/api/announcements', {});
 
       if (!response.ok) {
         throw new Error('Erreur lors de la récupération des annonces');
@@ -55,15 +52,11 @@ export default function AnnouncementList() {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, []);
 
   const fetchUserTracks = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/tracks', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth('http://localhost:5001/api/tracks', {});
 
       if (response.ok) {
         const data = await response.json();
@@ -72,7 +65,7 @@ export default function AnnouncementList() {
     } catch (error) {
       console.error('Erreur lors du chargement des morceaux:', error);
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -85,12 +78,8 @@ export default function AnnouncementList() {
 
   const handleCreateAnnouncement = async (announcementData: AnnouncementData) => {
     try {
-      const response = await fetch('http://localhost:5001/api/announcements', {
+      const response = await fetchWithAuth('http://localhost:5001/api/announcements', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(announcementData),
       });
 
@@ -128,14 +117,10 @@ export default function AnnouncementList() {
     if (!selectedAnnouncement?.id) return;
 
     try {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `http://localhost:5001/api/announcements/${selectedAnnouncement.id}`,
         {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
           body: JSON.stringify(announcementData),
         }
       );
@@ -177,11 +162,8 @@ export default function AnnouncementList() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5001/api/announcements/${id}`, {
+      const response = await fetchWithAuth(`http://localhost:5001/api/announcements/${id}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       if (!response.ok) {
@@ -225,14 +207,10 @@ export default function AnnouncementList() {
     if (!selectedAnnouncementId) return;
 
     try {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `http://localhost:5001/api/applications/announcements/${selectedAnnouncementId}/apply`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
           body: JSON.stringify(applicationData),
         }
       );

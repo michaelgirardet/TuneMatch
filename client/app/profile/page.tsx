@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'next/navigation';
 import { fetchWithAuth } from '../utils/fetchWithAuth';
 import ProfilePhoto from '@/components/ProfilePhoto';
 import GenreSelectionModal from '@/components/GenreSelectionModal';
@@ -13,13 +12,7 @@ import LogoIG from '@/public/instagram-new.png';
 import LogoSoundCloud from '@/public/soundcloud-removebg-preview.png';
 import LogoYT from '@/public/yt-icon-wh.png';
 import BiographyModal from '@/components/BiographyModal';
-
-interface TrackProps {
-  id: number;
-  title?: string;
-  artist?: string;
-  url?: string;
-}
+import type { TrackProps } from '../types/TrackProps';
 
 export default function Profile() {
   const user = useAuthStore((state) => state.user);
@@ -32,18 +25,7 @@ export default function Profile() {
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isTrackModalOpen, setTrackModalOpen] = useState(false);
 
-  const [tracks, setTracks] = useState<TrackProps[]>(
-    Array.isArray(user?.tracks)
-      ? (user.tracks.map(
-          (track: { id: number; title?: string; artist?: string; url?: string }) => ({
-            id: track.id,
-            title: track.title ?? 'Unknown Title',
-            artist: track.artist ?? 'Unknown Artist',
-            url: track.url ?? '',
-          })
-        ) as TrackProps[])
-      : ([] as TrackProps[])
-  );
+  const [tracks, setTracks] = useState<TrackProps[] | undefined>();
 
   if (!isAuthenticated || !user) {
     return (
@@ -98,7 +80,7 @@ export default function Profile() {
   }
   async function handleDeleteTrack(trackId: number) {
     // Appel API pour supprimer, puis maj localement
-    setTracks(tracks.filter((t: { id: number }) => t.id !== trackId));
+    setTracks(tracks?.filter((t: { id: number }) => t.id !== trackId));
   }
 
   // --- Affichage ---
@@ -202,7 +184,7 @@ export default function Profile() {
         {/* Audio Tracks */}
         <div className="flex items-center justify-center px-4">
           <AudioPlayer
-            tracks={tracks}
+            tracks={tracks || []}
             onAddTrack={() => setTrackModalOpen(true)}
             onDeleteTrack={handleDeleteTrack}
           />
