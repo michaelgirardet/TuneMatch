@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { fetchWithAuth } from '../utils/fetchWithAuth';
+import { fetchAndUpdateUser } from '../utils/fetchAndUpdateUser';
 import ProfilePhoto from '@/components/ProfilePhoto';
 import GenreSelectionModal from '@/components/GenreSelectionModal';
 import LocationModal from '@/components/LocationModal';
@@ -27,6 +28,7 @@ export default function Profile() {
 
   const [tracks, setTracks] = useState<TrackProps[] | undefined>();
 
+  // Message si l'utilisateur n'est pas connecté
   if (!isAuthenticated || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-oxford text-white text-2xl">
@@ -35,7 +37,7 @@ export default function Profile() {
     );
   }
 
-  // --- Handlers pour update (à brancher à tes modales) ---
+  // --- Handlers pour les différents updates  ---
   async function handleUpdateGenres(newGenres: string[]) {
     const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
       method: 'PUT',
@@ -45,6 +47,7 @@ export default function Profile() {
     if (response.ok && json.user) {
       updateUser(json.user);
       setGenreModalOpen(false);
+      fetchAndUpdateUser();
     }
   }
 
@@ -57,6 +60,7 @@ export default function Profile() {
     if (response.ok && json.user) {
       updateUser(json.user);
       setBioModalOpen(false);
+      fetchAndUpdateUser();
     }
   }
 
@@ -69,13 +73,14 @@ export default function Profile() {
     if (response.ok && json.user) {
       updateUser(json.user);
       setLocationModalOpen(false);
+      fetchAndUpdateUser();
     }
   }
 
   // // Tracks (ajout/suppression)
-  async function handleAddTrack(newTrack: string) {
+  async function handleAddTrack(newTrack: { title: string; artist: string; url: string }) {
     // Appel API pour ajouter le track, puis maj localement
-    setTracks([...tracks, { id: Date.now(), ...(typeof newTrack === 'object' ? newTrack : {}) }]);
+    setTracks([...(tracks || []), { id: Date.now(), ...newTrack }]);
     setTrackModalOpen(false);
   }
   async function handleDeleteTrack(trackId: number) {
@@ -85,10 +90,10 @@ export default function Profile() {
 
   // --- Affichage ---
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-space">
+    <div className="flex flex-col min-h-screen items-center justify-center bg-oxford">
       {/* Profil Card */}
       <section className="w-[100vw] md:w-[55vw] h-auto mx-auto px-6 py-1 flex flex-col gap-8 items-center" />
-      <div className="flex flex-col items-center gap-3 bg-space p-8 shadow-lg w-full">
+      <div className="flex flex-col items-center gap-3 p-8 w-full">
         <ProfilePhoto
           currentPhotoUrl={user.photo_profil}
           onPhotoUpdate={(url) => {
@@ -100,9 +105,21 @@ export default function Profile() {
         {/* Réseaux sociaux */}
         <div className="flex gap-6 justify-center mt-4">
           {[
-            { platform: 'youtube', icon: LogoYT, link: user.youtube_link },
-            { platform: 'instagram', icon: LogoIG, link: user.instagram_link },
-            { platform: 'soundcloud', icon: LogoSoundCloud, link: user.soundcloud_link },
+            {
+              platform: 'youtube',
+              icon: LogoYT,
+              link: user.youtube_link || 'https://www.youtube.com/',
+            },
+            {
+              platform: 'instagram',
+              icon: LogoIG,
+              link: user.instagram_link || 'https://www.instagram.com/',
+            },
+            {
+              platform: 'soundcloud',
+              icon: LogoSoundCloud,
+              link: user.soundcloud_link || 'https://soundcloud.com/discover',
+            },
           ].map(
             ({ platform, icon, link }) =>
               link && (
@@ -121,7 +138,7 @@ export default function Profile() {
       </div>
 
       {/* Infos Profil */}
-      <section className="bg-space w-full p-8 shadow-lg flex flex-col gap-8">
+      <section className="w-full p-8 flex flex-col gap-8">
         {/* Genres musicaux */}
         <div>
           <div className="flex justify-between items-center mb-3">
@@ -184,7 +201,11 @@ export default function Profile() {
         {/* Audio Tracks */}
         <div className="flex items-center justify-center px-4">
           <AudioPlayer
-            tracks={tracks || []}
+            tracks={(tracks || []).map((track) => ({
+              ...track,
+              title: track.title || 'Untitled Track',
+              artist: track.artist || 'Unknown Artist',
+            }))}
             onAddTrack={() => setTrackModalOpen(true)}
             onDeleteTrack={handleDeleteTrack}
           />

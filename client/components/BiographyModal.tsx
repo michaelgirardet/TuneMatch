@@ -16,7 +16,6 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
   const [biography, setBiography] = useState(user?.biography || '');
   const [loading, setLoading] = useState(false);
 
-  // Met à jour la bio si user change (utile si modale rouverte)
   useEffect(() => {
     setBiography(user?.biography || '');
   }, [user?.biography]);
@@ -31,7 +30,6 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
       });
 
       if (response.ok) {
-        // On suppose que le backend renvoie user à jour (sinon, update manuellement)
         const json = await response.json();
         if (json.user) {
           updateUser(json.user);

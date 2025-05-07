@@ -5,6 +5,7 @@ import { fetchWithAuth } from '../app/utils/fetchWithAuth';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-toastify';
 import ProfilePhotoModal from './ProfilePhotoModal';
+
 interface ProfilePhotoProps {
   currentPhotoUrl?: string;
   onPhotoUpdate: (url: string) => void;
@@ -56,7 +57,7 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
       <div className="relative group flex flex-col items-center">
         {/* Avatar Card */}
         <div
-          className="w-[160px] h-[160px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
+          className="w-[200px] h-[200px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
           transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer"
           aria-label="Changer la photo de profil"
           onClick={() => setIsModalOpen(true)}

@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { fetchWithAuth } from '../app/utils/fetchWithAuth';
-import { useState } from 'react';
+import { useAuthStore } from '@/store/authStore';
+import { useState, useEffect } from 'react';
 
 interface ProfilePhotoModalProps {
   isOpen: boolean;
@@ -13,7 +14,12 @@ export default function ProfilePhotoModal({
   onClose,
   onPhotoUpdate,
 }: ProfilePhotoModalProps) {
+  const { user, updateUser } = useAuthStore();
   const [photoUrl, setPhotoUrl] = useState('');
+
+  useEffect(() => {
+    setPhotoUrl(user?.photo_profil || '');
+  }, [user?.photo_profil]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +35,7 @@ export default function ProfilePhotoModal({
       if (response.ok) {
         const json = await response.json();
         onPhotoUpdate(json.photoUrl);
+        updateUser({ ...json.user });
         toast.success('📸 Nouvelle photo enregistrée ! Tu es au top !', {
           position: 'bottom-right',
           theme: 'dark',
@@ -53,7 +60,7 @@ export default function ProfilePhotoModal({
 
   return (
     <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-oxford p-8 rounded-lg w-[90%] max-w-md">
+      <div className="bg-space p-8 rounded-lg w-[90%] max-w-md">
         <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
           Modifier la photo de profil
         </h2>
@@ -63,7 +70,7 @@ export default function ProfilePhotoModal({
             value={photoUrl}
             onChange={(e) => setPhotoUrl(e.target.value)}
             placeholder="URL de la photo"
-            className="form-input p-2 rounded text-center bg-space text-white font-thin italic font-quicksand focus:outline-electric"
+            className="form-input p-2 rounded text-center bg-oxford text-white font-thin italic font-quicksand focus:outline-electric"
             required
           />
           <div className="flex justify-center gap-4">

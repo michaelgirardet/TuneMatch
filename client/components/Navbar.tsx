@@ -19,7 +19,7 @@ export default function Navbar() {
   async function handleLogout() {
     await fetch('http://localhost:5001/api/logout', {
       method: 'POST',
-      credentials: 'include', // pour envoyer le cookie
+      credentials: 'include',
     });
     logout();
     setIsMenu(false);

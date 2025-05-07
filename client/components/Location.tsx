@@ -1,25 +1,59 @@
 'use client';
 import { useAuthStore } from '@/store/authStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import LocationModal from './LocationModal';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 export default function Location() {
-  const { user, updateUser } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const updateUser = useAuthStore((state) => state.updateUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleLocationUpdate = (location: { city: string; country: string }) => {
+  // État local pour stocker la localisation
+  const [location, setLocation] = useState({
+    city: user?.city || '',
+    country: user?.country || '',
+  });
+
+  // Mettre à jour l'état local lorsque user change
+  useEffect(() => {
     if (user) {
-      updateUser({
-        ...user,
-        city: location.city,
-        country: location.country,
+      setLocation({
+        city: user.city || '',
+        country: user.country || '',
       });
+    }
+  }, [user]);
+
+  const handleLocationUpdate = async (newLocation: { city: string; country: string }) => {
+    try {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
+        method: 'PUT',
+        body: JSON.stringify({
+          city: newLocation.city,
+          country: newLocation.country,
+        }),
+      });
+
+      const json = await response.json();
+
+      if (response.ok && json.user) {
+        updateUser(json.user);
+        setLocation(newLocation);
+        setIsModalOpen(false);
+      } else {
+        console.error('Erreur lors de la mise à jour:', json);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la localisation:', error);
     }
   };
 
   const displayLocation =
-    user?.city && user?.country ? `${user.city}, ${user.country}` : 'Ajouter une localisation';
+    location.city && location.country
+      ? `${location.city}, ${location.country}`
+      : 'Ajouter une localisation';
 
   return (
     <div className="relative">
@@ -37,10 +71,7 @@ export default function Location() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onUpdate={handleLocationUpdate}
-        currentLocation={{
-          city: user?.city || '',
-          country: user?.country || '',
-        }}
+        currentLocation={location}
       />
     </div>
   );

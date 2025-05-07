@@ -1,5 +1,5 @@
 'use client';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
@@ -39,9 +39,16 @@ export default function GenreSelectionModal({
   currentGenres,
 }: GenreSelectionModalProps) {
   const { token, isAuthenticated, logout } = useAuthStore();
+  const { user, updateUser } = useAuthStore();
   const router = useRouter();
   const [selectedGenres, setSelectedGenres] = useState<string[]>(currentGenres);
   const [loading, setLoading] = useState(false);
+
+  // Synchronisation automatique avec la valeur du store
+  useEffect(() => {
+    // On synchronise avec la dernière valeur connue du profil
+    setSelectedGenres(user?.genres_musicaux ? user.genres_musicaux.split(',') : []);
+  }, [user?.genres_musicaux]);
 
   const handleSessionExpired = () => {
     toast.error('Votre session a expiré, veuillez vous reconnecter', {
@@ -112,12 +119,12 @@ export default function GenreSelectionModal({
       const data = await response.json();
       console.log('Réponse réussie:', data);
 
-      // Recharger les données utilisateur
-      const userResponse = await fetchWithAuth('http://localhost:5001/api/users/me', {});
+      const userResponse = await fetchWithAuth('http://localhost:5001/api/users/genres', {});
 
       if (userResponse.ok) {
         const userData = await userResponse.json();
         useAuthStore.getState().updateUser(userData);
+        updateUser(data.user);
       }
 
       onUpdate(selectedGenres);
