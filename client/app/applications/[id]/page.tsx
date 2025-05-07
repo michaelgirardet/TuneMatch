@@ -7,6 +7,7 @@ import { useAuthStore } from '@/store/authStore';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface Application {
   id: number;
@@ -30,13 +31,8 @@ export default function ApplicationsPage() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5001/api/applications/announcements/${params.id}/applications`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await fetchWithAuth(
+          `http://localhost:5001/api/applications/announcements/${params.id}/applications`
         );
 
         if (!response.ok) {
@@ -60,14 +56,10 @@ export default function ApplicationsPage() {
 
   const handleUpdateStatus = async (applicationId: number, newStatus: 'accepted' | 'rejected') => {
     try {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `http://localhost:5001/api/applications/${applicationId}/status`,
         {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
           body: JSON.stringify({ status: newStatus }),
         }
       );

@@ -16,7 +16,11 @@ export default function Navbar() {
   const [isMenu, setIsMenu] = useState(false);
   const router = useRouter();
 
-  const handleLogout = () => {
+  async function handleLogout() {
+    await fetch('http://localhost:5001/api/logout', {
+      method: 'POST',
+      credentials: 'include', // pour envoyer le cookie
+    });
     logout();
     setIsMenu(false);
     setIsBurger(false);
@@ -31,7 +35,7 @@ export default function Navbar() {
       progress: undefined,
       theme: 'dark',
     });
-  };
+  }
 
   const handleBurger = () => {
     setIsBurger((b) => !b);

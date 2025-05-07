@@ -1,3 +1,4 @@
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 import { useAuthStore } from '@/store/authStore';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
@@ -23,11 +24,10 @@ export default function NotificationsMenu() {
 
   const fetchNotifications = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/applications/notifications', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth(
+        'http://localhost:5001/api/applications/notifications',
+        {}
+      );
 
       if (!response.ok) {
         throw new Error('Erreur lors de la récupération des notifications');
@@ -40,17 +40,14 @@ export default function NotificationsMenu() {
       console.error('Erreur:', error);
       setError("🔔 Les notifications ne s'affichent pas. Un petit bug ?");
     }
-  }, [token]);
+  }, []);
 
   const markAsRead = async (notificationId: number) => {
     try {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `http://localhost:5001/api/applications/notifications/${notificationId}/read`,
         {
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
 

@@ -1,7 +1,6 @@
-import { useAuthStore } from '@/store/authStore';
-import { useState } from 'react';
-import { ToasterError } from './Toast';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '../app/utils/fetchWithAuth';
+import { useState } from 'react';
 
 interface ProfilePhotoModalProps {
   isOpen: boolean;
@@ -15,64 +14,35 @@ export default function ProfilePhotoModal({
   onPhotoUpdate,
 }: ProfilePhotoModalProps) {
   const [photoUrl, setPhotoUrl] = useState('');
-  const { token } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5001/api/users/photo', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ photo_profil: photoUrl }),
       });
 
       if (response.ok) {
-        onPhotoUpdate(photoUrl);
+        const json = await response.json();
+        onPhotoUpdate(json.photoUrl);
         toast.success('📸 Nouvelle photo enregistrée ! Tu es au top !', {
           position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: 'dark',
         });
         onClose();
       } else {
-        toast.error('Erreur lors de la mise à jour de la photo"', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-        });
         toast.error('Erreur lors de la mise à jour de la photo', {
           position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: 'dark',
         });
       }
     } catch (error) {
-      toast.error('🔐 Connexion impossible ! Vérifie tes identifiants et réessaie.', {
+      toast.error('🔐 Problème de connexion ! Réessaie plus tard.', {
         position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: 'dark',
       });
       console.error(error);

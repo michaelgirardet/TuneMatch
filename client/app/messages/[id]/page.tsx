@@ -1,5 +1,4 @@
 'use client';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
 import { ArrowLeftIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
@@ -8,6 +7,7 @@ import { fr } from 'date-fns/locale';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface Message {
   id: number;
@@ -34,11 +34,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
   const fetchMessages = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/messages/${params.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth(`http://localhost:5001/api/messages/${params.id}`, {});
 
       if (!response.ok) {
         throw new Error('Erreur lors de la récupération des messages');
@@ -59,7 +55,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
         theme: 'dark',
       });
     }
-  }, [token, params.id]);
+  }, [params.id]);
 
   useEffect(() => {
     if (token) {
@@ -72,11 +68,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   useEffect(() => {
     const fetchInterlocutor = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/users/${params.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetchWithAuth(`http://localhost:5001/api/users/${params.id}`, {});
 
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des informations de l'interlocuteur");
@@ -99,12 +91,8 @@ export default function ConversationPage({ params }: { params: { id: string } })
     if (!newMessage.trim()) return;
 
     try {
-      const response = await fetch('http://localhost:5001/api/messages', {
+      const response = await fetchWithAuth('http://localhost:5001/api/messages', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           content: newMessage,
           recipientId: Number.parseInt(params.id),

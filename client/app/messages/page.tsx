@@ -6,6 +6,7 @@ import { fr } from 'date-fns/locale';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
 interface Conversation {
   id: number;
@@ -22,11 +23,7 @@ export default function MessagesPage() {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/messages/conversations', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetchWithAuth('http://localhost:5001/api/messages/conversations');
 
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des conversations');

@@ -11,14 +11,8 @@ import Image from 'next/image';
 import LogoIG from '@/public/instagram-new.png';
 import LogoSoundCloud from '@/public/soundcloud-removebg-preview.png';
 import LogoYT from '@/public/yt-icon-wh.png';
-import BiographyModal from '@/components/Biography';
-
-interface Track {
-  id: number;
-  title?: string;
-  artist?: string;
-  url?: string;
-}
+import BiographyModal from '@/components/BiographyModal';
+import type { TrackProps } from '../types/TrackProps';
 
 export default function Profile() {
   const user = useAuthStore((state) => state.user);
@@ -31,18 +25,7 @@ export default function Profile() {
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isTrackModalOpen, setTrackModalOpen] = useState(false);
 
-  const [tracks, setTracks] = useState<Track[]>(
-    Array.isArray(user?.tracks)
-      ? (user.tracks.map(
-          (track: { id: number; title?: string; artist?: string; url?: string }) => ({
-            id: track.id,
-            title: track.title ?? 'Unknown Title',
-            artist: track.artist ?? 'Unknown Artist',
-            url: track.url ?? '',
-          })
-        ) as Track[])
-      : ([] as Track[])
-  );
+  const [tracks, setTracks] = useState<TrackProps[] | undefined>();
 
   if (!isAuthenticated || !user) {
     return (
@@ -85,7 +68,7 @@ export default function Profile() {
     const json = await response.json();
     if (response.ok && json.user) {
       updateUser(json.user);
-      setTracks([...tracks]);
+      setLocationModalOpen(false);
     }
   }
 
@@ -97,16 +80,21 @@ export default function Profile() {
   }
   async function handleDeleteTrack(trackId: number) {
     // Appel API pour supprimer, puis maj localement
-    setTracks(tracks.filter((t: { id: number }) => t.id !== trackId));
+    setTracks(tracks?.filter((t: { id: number }) => t.id !== trackId));
   }
 
   // --- Affichage ---
   return (
-    <div className="flex flex-col min-h-screen bg-oxford">
+    <div className="flex flex-col min-h-screen items-center justify-center bg-space">
       {/* Profil Card */}
-      <section className="w-[100vw] md:w-[55vw] mx-auto px-6 py-1 flex flex-col gap-8 items-center" />
+      <section className="w-[100vw] md:w-[55vw] h-auto mx-auto px-6 py-1 flex flex-col gap-8 items-center" />
       <div className="flex flex-col items-center gap-3 bg-space p-8 shadow-lg w-full">
-        <ProfilePhoto currentPhotoUrl={user.photo_profil} onPhotoUpdate={() => {}} />
+        <ProfilePhoto
+          currentPhotoUrl={user.photo_profil}
+          onPhotoUpdate={(url) => {
+            updateUser({ ...user, photo_profil: url });
+          }}
+        />
         <h2 className="text-3xl font-bold font-quicksand text-white">{user.nom_utilisateur}</h2>
         <p className="text-sm text-white uppercase tracking-wider">{user.role}</p>
         {/* Réseaux sociaux */}
@@ -196,7 +184,7 @@ export default function Profile() {
         {/* Audio Tracks */}
         <div className="flex items-center justify-center px-4">
           <AudioPlayer
-            tracks={tracks}
+            tracks={tracks || []}
             onAddTrack={() => setTrackModalOpen(true)}
             onDeleteTrack={handleDeleteTrack}
           />
@@ -224,7 +212,7 @@ export default function Profile() {
         isOpen={isBioModalOpen}
         onClose={() => setBioModalOpen(false)}
         onUpdate={handleUpdateBio}
-        currentBio={user.biography}
+        currentBio={user.biography || ''}
       />
       <AddTrackModal
         isOpen={isTrackModalOpen}

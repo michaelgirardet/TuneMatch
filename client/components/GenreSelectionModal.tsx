@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface GenreSelectionModalProps {
   isOpen: boolean;
@@ -91,12 +92,8 @@ export default function GenreSelectionModal({
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/users/genres', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/genres', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ genres: selectedGenres }),
       });
 
@@ -116,11 +113,7 @@ export default function GenreSelectionModal({
       console.log('Réponse réussie:', data);
 
       // Recharger les données utilisateur
-      const userResponse = await fetch('http://localhost:5001/api/users/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const userResponse = await fetchWithAuth('http://localhost:5001/api/users/me', {});
 
       if (userResponse.ok) {
         const userData = await userResponse.json();

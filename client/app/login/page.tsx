@@ -13,7 +13,6 @@ export default function Login() {
     password: '',
   });
   const [error, setError] = useState('');
-  console.error(error);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,6 +25,7 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
 
       const data = await response.json();
@@ -43,7 +43,7 @@ export default function Login() {
           position: 'bottom-right',
           autoClose: 5000,
         });
-        console.error(data.error);
+        console.error(error);
       }
     } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');

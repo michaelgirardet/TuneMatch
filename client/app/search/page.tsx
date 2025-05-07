@@ -7,6 +7,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useCallback, useEffect, useState } from 'react';
 import { FiFilter, FiGlobe, FiGrid, FiList, FiMapPin, FiMusic, FiSearch } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
 interface Artist {
   id: number;
@@ -71,11 +72,7 @@ export default function SearchPage() {
         if (value) queryParams.append(key, value.toString());
       }
 
-      const response = await fetch(`http://localhost:5001/api/search?${queryParams}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth(`http://localhost:5001/api/search?${queryParams}`, {});
 
       if (!response.ok) {
         const errorData = await response.json();
