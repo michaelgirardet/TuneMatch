@@ -59,7 +59,7 @@ export default function Register() {
             autoClose: 5000,
           }
         );
-        router.push('/complete-profile');
+        router.push('/profile');
       }
     } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
