@@ -276,7 +276,7 @@ export default function AnnouncementsPage() {
           </div>
 
           {/* Section CTA */}
-          <div className="mt-16 mb-8 bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-8 text-center shadow-lg font-quicksand">
+          <div className="mt-16 mb-8 bg-space rounded-lg p-8 text-center shadow-lg font-quicksand">
             <h3 className="text-2xl font-bold text-white mb-4">
               Vous êtes un artiste talentueux ?
             </h3>

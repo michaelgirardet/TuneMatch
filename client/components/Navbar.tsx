@@ -115,10 +115,10 @@ export default function Navbar() {
                     )}
                   </div>
                   {isMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-[#212936] border border-[#1D1E2C] rounded-lg z-50">
+                    <div className="absolute right-0 mt-5 w-48 bg-charcoalhover rounded-lg z-50">
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-white hover:bg-[#101119] font-quicksand rounded-t-lg"
+                        className="block px-4 py-2 text-white hover:bg-charcoal font-quicksand rounded-t-lg"
                         onClick={() => setIsMenu(false)}
                       >
                         Mon profil
@@ -126,7 +126,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-white hover:bg-[#101119] font-quicksand rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-white hover:bg-charcoal font-quicksand rounded-b-lg"
                       >
                         Déconnexion
                       </button>
@@ -153,7 +153,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Navigation Mobile */}
+        {/* Navigation Mobile, Burger Menu */}
         <div className="md:hidden">
           <Image
             src={LogoBurger}
@@ -163,7 +163,7 @@ export default function Navbar() {
           />
           {isBurger && (
             <div
-              className="fixed top-0 right-0 w-full h-full bg-black bg-opacity-50 backdrop-blur-sm z-40"
+              className="fixed top-0 right-0 w-full h-full z-40"
               onClick={handleBurger}
               onKeyDown={handleBurger}
               tabIndex={-1}
@@ -174,12 +174,12 @@ export default function Navbar() {
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
               >
-                <div className="flex flex-col h-full p-8">
+                <div className="flex flex-col h-full p-8 bg-space backdrop-blur-md">
                   <div className="flex justify-end mb-8">
                     <button
                       type="button"
                       onClick={handleBurger}
-                      className="p-2 hover:bg-[#2a344a] rounded-full transition-colors duration-200"
+                      className="p-2 hover:bg-oxford rounded-full transition-colors duration-200"
                     >
                       <Image src={CloseIcon} alt="fermeture du menu" className="w-6 h-6" />
                     </button>
@@ -191,35 +191,35 @@ export default function Navbar() {
                         <NotificationsMenu />
                         <Link
                           href="/"
-                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Accueil</span>
                         </Link>
                         <Link
                           href="/profile"
-                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Profil</span>
                         </Link>
                         <Link
                           href="/announcements"
-                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Annonces</span>
                         </Link>
                         <Link
                           href="/messages"
-                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Messages</span>
                         </Link>
                         <Link
                           href="/search"
-                          className="flex items-center px-4 py-3 text-white hover:bg-[#2a344a] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Recherche</span>
@@ -228,7 +228,7 @@ export default function Navbar() {
                         <button
                           type="button"
                           onClick={handleLogout}
-                          className="flex items-center px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200 text-xl font-medium mt-auto font-quicksand"
+                          className="flex items-center px-4 py-3 text-red-600 hover:bg-red-500/10 rounded-lg transition-all duration-200 text-xl font-medium mt-auto font-quicksand"
                         >
                           <span>Déconnexion</span>
                         </button>
