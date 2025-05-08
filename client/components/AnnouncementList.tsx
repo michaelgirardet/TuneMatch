@@ -256,55 +256,57 @@ export default function AnnouncementList() {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
       {user?.role === 'producteur' && (
-        <div className="mb-8 flex justify-center">
+        <div className="mb-6 text-center">
           <button
             type="button"
             onClick={() => {
               setSelectedAnnouncement(undefined);
               setIsModalOpen(true);
             }}
-            className="px-4 py-2 rounded bg-air hover:bg-airhover text-white font-quicksand"
+            className="px-6 py-2 bg-charcoal hover:bg-charcoalhover text-white rounded-lg font-quicksand transition"
           >
             Créer une annonce
           </button>
         </div>
       )}
 
-      <div>
-        <hr className="text-white w-[50vw] justify-self-center mt-16" />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+      <hr className="border-gray-700 my-8 mx-auto w-1/2" />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="bg-space rounded-lg p-6 shadow-lg flex flex-col gap-4"
+            className="bg-[#1a1a2f] rounded-2xl p-5 shadow-md flex flex-col justify-between"
           >
-            <div className="flex items-center gap-4">
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
               {announcement.photo_profil ? (
                 <Image
                   src={announcement.photo_profil}
                   alt={announcement.nom_utilisateur}
                   width={40}
                   height={40}
-                  className="rounded-full"
+                  className="rounded-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = '/default-avatar.jpg';
                   }}
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-air flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
                   {announcement.nom_utilisateur[0].toUpperCase()}
                 </div>
               )}
-              <div>
-                <h3 className="font-quicksand text-white">{announcement.title}</h3>
-                <p className="text-sm text-gray-400">
+              <div className="flex flex-col">
+                <h3 className="text-white font-quicksand font-semibold text-sm">
+                  {announcement.title}
+                </h3>
+                <p className="text-gray-400 text-xs">
                   par{' '}
                   <span
                     onClick={() => router.push(`/profile/${announcement.user_id}`)}
                     onKeyDown={() => router.push(`/profile/${announcement.user_id}`)}
-                    className="cursor-pointer text-air hover:text-airhover transition-colors"
+                    className="cursor-pointer text-air hover:text-charcoalhover underline"
                   >
                     {announcement.nom_utilisateur}
                   </span>
@@ -312,57 +314,59 @@ export default function AnnouncementList() {
               </div>
             </div>
 
-            <p className="font-quicksand text-white">{announcement.description}</p>
+            {/* Description */}
+            <p className="text-white font-quicksand text-sm mb-3">{announcement.description}</p>
 
-            <div className="flex flex-wrap gap-2 font-quicksand">
-              <span className="px-2 py-1 bg-oxford text-lavender rounded-full text-sm">
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="bg-oxford text-lavender text-xs px-2 py-1 rounded-full">
                 {announcement.musical_style}
               </span>
               {announcement.voice_type && (
-                <span className="px-2 py-1 bg-oxford text-lavender rounded-full text-sm">
+                <span className="bg-oxford text-lavender text-xs px-2 py-1 rounded-full">
                   Voix: {announcement.voice_type}
                 </span>
               )}
               {announcement.instrument && (
-                <span className="px-2 py-1 bg-oxford text-lavender rounded-full text-sm">
+                <span className="bg-oxford text-lavender text-xs px-2 py-1 rounded-full">
                   Instrument: {announcement.instrument}
                 </span>
               )}
             </div>
 
+            {/* Autres critères */}
             {announcement.other_criteria && (
-              <p className="text-sm text-gray-400">{announcement.other_criteria}</p>
+              <p className="text-gray-400 text-xs mb-4">{announcement.other_criteria}</p>
             )}
 
-            <div className="flex justify-center gap-2 mt-4">
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-2 mt-auto">
               {user?.id === announcement.user_id ? (
                 <>
-                  <div className="flex flex-col justify-between items-center gap-2 sm:flex-row">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedAnnouncement(announcement);
-                        setIsModalOpen(true);
-                      }}
-                      className="py-3 w-44 rounded bg-[#212936] text-white text-md border-lg border font-quicksand sm:w-36 md:w-24 md:text-sm"
-                    >
-                      Modifier
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => router.push(`/applications/${announcement.id}`)}
-                      className="py-3 w-44 rounded bg-[#1d1e2c] border border-lg border-[#1d1e2c] text-white text-md font-quicksand sm:w-36 md:w-24 md:text-sm"
-                    >
-                      Collabs
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteAnnouncement(announcement.id)}
-                      className="py-3 w-44 rounded bg-[#CA2E55] text-white text-md font-quicksand sm:w-36 md:w-24 md:text-sm"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedAnnouncement(announcement);
+                      setIsModalOpen(true);
+                    }}
+                    className="w-full py-2 text-sm bg-[#212936] text-white rounded-md font-quicksand"
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/applications/${announcement.id}`)}
+                    className="w-full py-2 text-sm bg-[#1d1e2c] text-white border border-gray-600 rounded-md font-quicksand"
+                  >
+                    Collabs
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteAnnouncement(announcement.id)}
+                    className="w-full py-2 text-sm bg-[#CA2E55] text-white rounded-md font-quicksand"
+                  >
+                    Supprimer
+                  </button>
                 </>
               ) : (
                 (user?.role === 'musicien' || user?.role === 'chanteur') && (
@@ -372,7 +376,7 @@ export default function AnnouncementList() {
                       setSelectedAnnouncementId(announcement.id);
                       setIsApplicationModalOpen(true);
                     }}
-                    className="px-6 py-3 rounded bg-air text-white text-sm font-quicksand"
+                    className="w-full py-2 text-sm bg-charcoal text-white rounded-md font-quicksand"
                   >
                     Postuler
                   </button>
@@ -383,6 +387,7 @@ export default function AnnouncementList() {
         ))}
       </div>
 
+      {/* Modals */}
       <AnnouncementModal
         isOpen={isModalOpen}
         onClose={() => {
@@ -392,7 +397,6 @@ export default function AnnouncementList() {
         onSubmit={handleSubmit}
         announcement={selectedAnnouncement}
       />
-
       <ApplicationModal
         isOpen={isApplicationModalOpen}
         onClose={() => {

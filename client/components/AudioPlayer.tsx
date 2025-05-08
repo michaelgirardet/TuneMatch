@@ -32,7 +32,7 @@ export default function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: 
             <button
               type="button"
               onClick={onAddTrack}
-              className="bg-air text-white px-8 py-4 rounded hover:bg-airhover transition-colors self-center font-quicksand"
+              className="bg-electric text-white px-8 py-4 rounded hover:bg-electrichover transition-colors self-center font-quicksand"
             >
               Ajouter un morceau
             </button>
@@ -82,7 +82,7 @@ export default function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: 
             <button
               type="button"
               onClick={onAddTrack}
-              className="bg-air text-white px-8 py-4 rounded hover:bg-airhover transition-colors self-center font-quicksand"
+              className="bg-charcoal text-white px-8 py-4 rounded hover:bg-charcoalhover transition-colors self-center font-quicksand"
             >
               Ajouter un morceau
             </button>

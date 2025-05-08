@@ -86,7 +86,7 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-air text-oxford font-quicksand"
+              className="px-4 py-2 rounded-lg bg-charcoal text-oxford font-quicksand"
               disabled={loading || !biography}
             >
               {loading ? 'Sauvegarde...' : 'Sauvegarder'}

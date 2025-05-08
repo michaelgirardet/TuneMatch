@@ -126,7 +126,7 @@ export default function ApplicationsPage() {
                         }}
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-air flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
                         {application.nom_utilisateur[0].toUpperCase()}
                       </div>
                     )}
@@ -196,7 +196,7 @@ export default function ApplicationsPage() {
                           <button
                             type="button"
                             onClick={() => router.push(`/messages/${application.artist_id}`)}
-                            className="px-4 py-2 rounded bg-air text-white text-sm hover:bg-[#595B88] transition-colors"
+                            className="px-4 py-2 rounded bg-charcoal text-white text-sm hover:bg-[#595B88] transition-colors"
                           >
                             Envoyer un message
                           </button>

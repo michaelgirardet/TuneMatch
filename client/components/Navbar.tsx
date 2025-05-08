@@ -50,12 +50,12 @@ export default function Navbar() {
     <nav className="bg-space p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2 cursor-pointer">
-          <h1 className="text-white text-2xl font-quicksand font-bold">
-            Tune<span className="text-air font-extrabold">Match</span>
+          <h1 className="text-white text-4xl font-quicksand font-bold">
+            Tune<span className="text-[#B35CFF] font-extrabold">Match</span>
           </h1>
         </Link>
         {/* Navigation Desktop */}
-        <div className="hidden md:flex gap-4 items-center">
+        <div className="hidden md:flex gap-4 items-center lg:text-lg">
           {isAuthenticated ? (
             <>
               <Link
@@ -95,19 +95,21 @@ export default function Navbar() {
                     onBlur={() => setIsMenu(false)}
                   >
                     {user.photo_profil ? (
-                      <Image
-                        src={user.photo_profil}
-                        alt={user.nom_utilisateur}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = '/default-avatar.png';
-                        }}
-                      />
+                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                        <Image
+                          src={user.photo_profil}
+                          alt={user.nom_utilisateur}
+                          width={48}
+                          height={48}
+                          className="object-fit w-full h-full"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = '/default-avatar.png';
+                          }}
+                        />
+                      </div>
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-air flex items-center justify-center text-white font-bold">
+                      <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
                         {user.nom_utilisateur?.[0]?.toUpperCase() || '?'}
                       </div>
                     )}
@@ -242,7 +244,7 @@ export default function Navbar() {
                         </Link>
                         <Link
                           href="/register"
-                          className="flex items-center px-4 py-3 text-white bg-air hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white bg-charcoal hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Inscription</span>

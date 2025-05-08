@@ -7,6 +7,7 @@ import type { AuthRequest } from '../types/auth.types';
 const db = new DatabaseService(pool);
 
 const searchSchema = z.object({
+  query: z.string().optional(),
   role: z.enum(['musicien', 'chanteur', 'producteur']).optional(),
   genres: z.string().optional(),
   city: z.string().optional(),
@@ -120,6 +121,18 @@ export const searchArtists: AuthRequestHandler = async (req, res) => {
 
     const baseParams: SqlParams = [userId];
 
+    if (filters.query) {
+      baseQuery += ` AND (
+    u.nom_utilisateur LIKE ?
+    OR u.city LIKE ?
+    OR u.country LIKE ?
+    OR u.genres_musicaux LIKE ?
+    OR pa.instruments_pratiques LIKE ?
+  )`;
+      for (let i = 0; i < 5; i++) {
+        baseParams.push(`%${filters.query}%`);
+      }
+    }
     if (filters.role) {
       baseQuery += ' AND u.role = ?';
       baseParams.push(filters.role);

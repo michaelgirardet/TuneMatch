@@ -67,7 +67,7 @@ export default function ProfilePhotoModal({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-air text-white hover:bg-air/80"
+              className="px-4 py-2 rounded-lg bg-charcoal text-white hover:bg-charcoal/80"
               disabled={!isValidUrl(photoUrl)}
             >
               Enregistrer

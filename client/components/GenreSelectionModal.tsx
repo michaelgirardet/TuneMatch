@@ -199,7 +199,7 @@ export default function GenreSelectionModal({
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-oxford font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-oxford font-quicksand"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

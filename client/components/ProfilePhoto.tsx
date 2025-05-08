@@ -57,14 +57,12 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
 
   return (
     <>
-      <div className="relative group flex flex-col items-center">
+      <div className="relative group flex flex-col items-center gap-5">
         <div
-          className="w-[160px] h-[160px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
+          className="w-[180px] h-auto md:w-[270px] md:h-auto rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
           transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer"
           onClick={() => setIsModalOpen(true)}
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setIsModalOpen(true)}
-          tabIndex={0}
-          role="button"
           aria-label="Changer la photo de profil"
         >
           <Image
@@ -82,18 +80,18 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
           )}
         </div>
 
-        <div className="flex gap-2 mt-2">
+        <div className="flex items-center justify-center gap-2 mt-2 px-5">
           <button
             type="button"
             onClick={openFileDialog}
-            className="px-4 py-1 text-xs bg-air text-white rounded-full shadow hover:bg-air/80 transition"
+            className="rounded-md font-quicksand bg-charcoal py-2.5 px-5 border border-transparent text-center text-white transition-all shadow-sm hover:shadow-lg focus:bg-charcoalhover focus:shadow-none active:bg-slate-700 hover:bg-charcoalhover active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           >
             Téléverser une image
           </button>
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-1 text-xs bg-air text-white rounded-full shadow hover:bg-air/80 transition"
+            className="rounded-md font-quicksand bg-charcoal py-2.5 px-5 border border-transparent text-center text-white transition-all shadow-sm hover:shadow-lg focus:bg-charcoalhover focus:shadow-none active:bg-slate-700 hover:bg-charcoalhover active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           >
             Depuis une URL
           </button>

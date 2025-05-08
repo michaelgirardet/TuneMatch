@@ -91,12 +91,11 @@ export default function Profile() {
     setTracks(tracks?.filter((t: { id: number }) => t.id !== trackId));
   }
 
-  // --- Affichage ---
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-space">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-oxford">
       {/* Profil Card */}
-      <section className="w-[100vw] md:w-[55vw] h-auto mx-auto px-6 py-1 flex flex-col gap-8 items-center" />
-      <div className="flex flex-col items-center gap-3 bg-space p-8 shadow-lg w-full">
+      <section className="w-[100vw] md:w-[55vw] h-auto mx-auto flex flex-col items-center" />
+      <div className="flex flex-col items-center justify-center gap-5 bg-oxford">
         <ProfilePhoto
           currentPhotoUrl={user.photo_profil}
           onPhotoUpdate={async (url) => {
@@ -110,8 +109,10 @@ export default function Profile() {
             }
           }}
         />
-        <h2 className="text-3xl font-bold font-quicksand text-white">{user.nom_utilisateur}</h2>
-        <p className="text-sm text-white uppercase tracking-wider">{user.role}</p>
+        <h2 className="text-4xl font-bold font-quicksand text-white capitalize">
+          {user.nom_utilisateur}
+        </h2>
+        <p className="text-lg font-quicksand text-white uppercase tracking-wider">{user.role}</p>
         {/* Réseaux sociaux */}
         <div className="flex gap-6 justify-center mt-4">
           {[
@@ -136,16 +137,16 @@ export default function Profile() {
       </div>
 
       {/* Infos Profil */}
-      <section className="bg-space w-full p-8 shadow-lg flex flex-col gap-8">
+      <section className="bg-oxford w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
         {/* Genres musicaux */}
         <div>
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl font-semibold font-quicksand text-center text-white">
+            <h3 className="text-2xl font-semibold font-quicksand text-center text-white">
               Genres musicaux
             </h3>
             <button
               type="button"
-              className="text-sm text-lavender hover:text-airhover underline"
+              className="text-sm font-quicksand font-thin text-white hover:text-charcoalhover underline"
               onClick={() => setGenreModalOpen(true)}
             >
               Modifier
@@ -166,26 +167,30 @@ export default function Profile() {
         {/* Localisation */}
         <div>
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl font-semibold font-quicksand text-white">Localisation</h3>
+            <h3 className="text-2xl font-semibold font-quicksand text-center text-white">
+              Localisation
+            </h3>
             <button
               type="button"
-              className="text-sm text-lavender hover:text-airhover underline"
+              className="text-sm font-quicksand font-thin text-white hover:text-charcoalhover underline"
               onClick={() => setLocationModalOpen(true)}
             >
               Modifier
             </button>
           </div>
-          <p className="text-white font-quicksand">
-            {user.city || 'Pas de ville renseignée !'} {user.country || 'Pays inconnu'}
+          <p className="text-white font-quicksand capitalize">
+            {user.city || 'Pas de ville renseignée !'}, {user.country || 'Pays inconnu'}
           </p>
         </div>
         <div>
           {/* Biographie */}
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xl font-semibold font-quicksand text-white">Biographie</h3>
+            <h3 className="text-2xl font-semibold font-quicksand text-center text-white">
+              Biographie
+            </h3>
             <button
               type="button"
-              className="text-sm text-lavender hover:text-airhover underline"
+              className="text-sm font-quicksand font-thin text-white hover:text-charcoalhover underline"
               onClick={() => setBioModalOpen(true)}
             >
               Modifier

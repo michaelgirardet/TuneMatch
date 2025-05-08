@@ -125,7 +125,7 @@ export default function PublicProfile() {
             }}
           />
         ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-air flex items-center justify-center text-white text-4xl font-bold">
+          <div className="w-[120px] h-[120px] rounded-full bg-charcoal flex items-center justify-center text-white text-4xl font-bold">
             {profile.nom_utilisateur[0].toUpperCase()}
           </div>
         )}
