@@ -55,30 +55,30 @@ export default function Navbar() {
           </h1>
         </Link>
         {/* Navigation Desktop */}
-        <div className="hidden md:flex gap-4 items-center lg:text-lg">
+        <div className="hidden md:flex gap-4 items-center text-md lg:text-lg">
           {isAuthenticated ? (
             <>
               <Link
                 href="/"
-                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Accueil
               </Link>
               <Link
                 href="/profile"
-                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Profil
               </Link>
               <Link
                 href="/announcements"
-                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Annonces
               </Link>
               <Link
                 href="/messages"
-                className="text-white hover:text-[#ffffff] hover:underline p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Messages
               </Link>

@@ -71,7 +71,7 @@ export default function AnnouncementsPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           {/* Search and Filter Bar */}
           <div
-            className={`bg-[#212936] rounded-lg shadow-lg p-4 mb-8 
+            className={`bg-space rounded-lg shadow-lg p-4 mb-8 
             ${isVisible ? 'animate-slideInUp opacity-100 delay-500' : 'opacity-0 translate-y-10'} 
             transition-all duration-700`}
           >
@@ -82,7 +82,7 @@ export default function AnnouncementsPage() {
                   placeholder="Rechercher des annonces..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full py-3 pl-10 pr-4 rounded-lg bg-[#1d1e2c] text-white focus:ring-2 focus:ring-[#51537B] outline-none transition-all"
+                  className="w-full py-3 pl-10 pr-4 rounded-lg bg-oxford text-white focus:ring-2 focus:ring-[#51537B] outline-none transition-all"
                 />
                 <svg
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
@@ -105,7 +105,7 @@ export default function AnnouncementsPage() {
                 <button
                   type="button"
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1d1e2c] text-white hover:bg-[#2a2b3c] transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-electric text-white hover:bg-electrichover transition-all"
                 >
                   <svg
                     className="h-5 w-5"
@@ -169,7 +169,7 @@ export default function AnnouncementsPage() {
                       ${
                         filterStyle === style || (style === 'Tous' && filterStyle === '')
                           ? 'bg-charcoal text-white'
-                          : 'bg-[#2a2b3c] text-gray-300 hover:bg-[#3a3b4c]'
+                          : 'bg-space text-gray-300 hover:bg-[#3a3b4c]'
                       }`}
                   >
                     {style}
@@ -185,8 +185,8 @@ export default function AnnouncementsPage() {
             ${isVisible ? 'animate-slideInUp opacity-100 delay-700' : 'opacity-0 translate-y-10'} 
             transition-all duration-700`}
           >
-            <div className="bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-6 shadow-lg flex items-center">
-              <div className="bg-[#212936] rounded-full p-3 mr-4">
+            <div className="bg-space rounded-lg p-6 shadow-lg flex items-center">
+              <div className="bg-oxford rounded-full p-3 mr-4">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -209,8 +209,8 @@ export default function AnnouncementsPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-6 shadow-lg flex items-center">
-              <div className="bg-[#212936] rounded-full p-3 mr-4">
+            <div className="bg-space rounded-lg p-6 shadow-lg flex items-center">
+              <div className="bg-oxford rounded-full p-3 mr-4">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -233,8 +233,8 @@ export default function AnnouncementsPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-6 shadow-lg flex items-center">
-              <div className="bg-[#212936] rounded-full p-3 mr-4">
+            <div className="bg-space rounded-lg p-6 shadow-lg flex items-center">
+              <div className="bg-oxford rounded-full p-3 mr-4">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"

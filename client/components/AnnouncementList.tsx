@@ -276,7 +276,7 @@ export default function AnnouncementList() {
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="bg-[#1a1a2f] rounded-2xl p-5 shadow-md flex flex-col justify-between"
+            className="bg-space rounded-2xl p-5 shadow-md flex flex-col justify-between"
           >
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
@@ -284,8 +284,8 @@ export default function AnnouncementList() {
                 <Image
                   src={announcement.photo_profil}
                   alt={announcement.nom_utilisateur}
-                  width={40}
-                  height={40}
+                  width={50}
+                  height={50}
                   className="rounded-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
@@ -293,15 +293,15 @@ export default function AnnouncementList() {
                   }}
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-white font-bold font-quicksand">
                   {announcement.nom_utilisateur[0].toUpperCase()}
                 </div>
               )}
               <div className="flex flex-col">
-                <h3 className="text-white font-quicksand font-semibold text-sm">
+                <h3 className="text-white font-quicksand font-semibold text-xl">
                   {announcement.title}
                 </h3>
-                <p className="text-gray-400 text-xs">
+                <p className="text-gray-400 text-sm">
                   par{' '}
                   <span
                     onClick={() => router.push(`/profile/${announcement.user_id}`)}
@@ -315,20 +315,20 @@ export default function AnnouncementList() {
             </div>
 
             {/* Description */}
-            <p className="text-white font-quicksand text-sm mb-3">{announcement.description}</p>
+            <p className="text-white font-quicksand text-md mb-3">{announcement.description}</p>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-3">
-              <span className="bg-oxford text-lavender text-xs px-2 py-1 rounded-full">
+              <span className="bg-oxford text-lavender text-sm px-2 py-1 rounded-full">
                 {announcement.musical_style}
               </span>
               {announcement.voice_type && (
-                <span className="bg-oxford text-lavender text-xs px-2 py-1 rounded-full">
+                <span className="bg-oxford text-lavender text-sm px-2 py-1 rounded-full">
                   Voix: {announcement.voice_type}
                 </span>
               )}
               {announcement.instrument && (
-                <span className="bg-oxford text-lavender text-xs px-2 py-1 rounded-full">
+                <span className="bg-oxford text-lavender text-sm px-2 py-1 rounded-full">
                   Instrument: {announcement.instrument}
                 </span>
               )}
@@ -376,9 +376,9 @@ export default function AnnouncementList() {
                       setSelectedAnnouncementId(announcement.id);
                       setIsApplicationModalOpen(true);
                     }}
-                    className="w-full py-2 text-sm bg-charcoal text-white rounded-md font-quicksand"
+                    className="w-full py-2 text-md font-semibold bg-electric hover:bg-electrichover text-white rounded-md font-quicksand"
                   >
-                    Postuler
+                    Rejoindre
                   </button>
                 )
               )}

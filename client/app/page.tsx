@@ -24,7 +24,7 @@ export default function Home() {
         </div>
         <Link href="/register" className="self-center w-full md:w-auto">
           <button
-            className="bg-electric hover:bg-electrichover mt-4 md:mt-8 w-full md:w-[200px] py-4 md:py-6 px-8 md:px-12 rounded-lg text-lg md:text-xl font-medium tracking-wide shadow-lg transition"
+            className="bg-electric hover:bg-electrichover mt-4 md:mt-8 w-full md:w-[200px] py-4 md:py-6 px-8 md:px-12 rounded-lg text-lg md:text-xl font-semibold shadow-lg transition font-quicksand"
             type="button"
           >
             Découvrir

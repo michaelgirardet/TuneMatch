@@ -59,7 +59,7 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
     <>
       <div className="relative group flex flex-col items-center gap-5">
         <div
-          className="w-[180px] h-auto rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
+          className="w-[180px] h-[180px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
           transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer mt-5"
           onClick={() => setIsModalOpen(true)}
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setIsModalOpen(true)}
