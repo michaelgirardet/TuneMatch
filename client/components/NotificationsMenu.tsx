@@ -103,7 +103,7 @@ export default function NotificationsMenu() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-5 w-80 bg-charcoal border border-gray-700 rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 mt-6 w-80 bg-space border border-gray-700 rounded-lg shadow-lg z-50">
             <div className="p-4">
               <h3 className="text-lg font-quicksand text-white mb-4">Notifications</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
@@ -115,8 +115,8 @@ export default function NotificationsMenu() {
                       key={notification.id}
                       className={`p-3 rounded-lg ${
                         notification.is_read
-                          ? 'bg-[#101119]'
-                          : 'bg-[#101119] border-l-4 border-[#51537B]'
+                          ? 'bg-oxford shadow-lg'
+                          : 'bg-oxford border-l-4 border-[#51537B shadow-lg'
                       }`}
                       onClick={() => !notification.is_read && markAsRead(notification.id)}
                       onKeyDown={() => !notification.is_read && markAsRead(notification.id)}

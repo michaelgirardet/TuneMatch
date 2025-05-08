@@ -131,7 +131,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
+    <div className="container px-4 py-8 h-screen min-w-[90vw] flex flex-col self-center bg-oxford">
       {/* En-tête de la conversation */}
       <div className="bg-[#212936] rounded-t-lg p-4 flex items-center gap-4 border-b border-gray-700">
         <button
@@ -156,8 +156,8 @@ export default function ConversationPage({ params }: { params: { id: string } })
                 }}
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
-                {interlocutor.nom_utilisateur[0].toUpperCase()}
+              <div className="w-10 h-10 rounded-full bg-charcoal capitalize flex items-center justify-center text-white font-semibold">
+                {interlocutor.nom_utilisateur}
               </div>
             )}
             <div>

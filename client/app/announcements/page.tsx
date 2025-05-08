@@ -79,10 +79,10 @@ export default function AnnouncementsPage() {
               <div className="relative w-full md:w-1/2">
                 <input
                   type="text"
-                  placeholder="Rechercher des annonces..."
+                  placeholder="Rechercher une annonce, un style, un instrument…"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full py-3 pl-10 pr-4 rounded-lg bg-oxford text-white focus:ring-2 focus:ring-[#51537B] outline-none transition-all"
+                  className="w-full py-3 pl-10 pr-4 rounded-lg bg-oxford text-white focus:ring-2 focus:ring-electric outline-none transition-all"
                 />
                 <svg
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
@@ -166,11 +166,11 @@ export default function AnnouncementsPage() {
                     key={style}
                     onClick={() => setFilterStyle(style === 'Tous' ? '' : style)}
                     className={`px-3 py-2 rounded-full text-sm font-medium transition-all
-                      ${
-                        filterStyle === style || (style === 'Tous' && filterStyle === '')
-                          ? 'bg-charcoal text-white'
-                          : 'bg-space text-gray-300 hover:bg-[#3a3b4c]'
-                      }`}
+          ${
+            filterStyle === style || (style === 'Tous' && filterStyle === '')
+              ? 'bg-charcoal text-white'
+              : 'bg-space text-gray-300 hover:bg-[#3a3b4c]'
+          }`}
                   >
                     {style}
                   </button>
