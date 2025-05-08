@@ -169,7 +169,7 @@ export default function SearchPage() {
         <div
           className={`mb-10 transition-all duration-300 ${isFiltersOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}
         >
-          <div className="bg-space rounded-xl shadow-lg p-6">
+          <div className="bg-space rounded-xl shadow-lg p-6 relative z-40">
             <div className="flex justify-between items-center mb-6">
               <h2 className="font-quicksand text-xl text-white">Filtres avancés</h2>
               <button

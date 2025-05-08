@@ -129,11 +129,9 @@ export default function AnnouncementsPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      // Scroll to AnnouncementList component and trigger create modal
                       document
                         .getElementById('announcement-list-component')
                         ?.scrollIntoView({ behavior: 'smooth' });
-                      // We'll need to expose a method from AnnouncementList to open the modal
                       window.openAnnouncementModal?.();
                     }}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-charcoal hover:bg-[#595B88] text-white font-quicksand transition-all"
@@ -159,7 +157,7 @@ export default function AnnouncementsPage() {
               </div>
             </div>
 
-            {/* Expandable Filter Options */}
+            {/* Section de filtes détaillés */}
             {showFilters && (
               <div className="mt-4 pt-4 border-t border-gray-700 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
                 {MUSICAL_STYLES.map((style) => (
@@ -181,7 +179,7 @@ export default function AnnouncementsPage() {
             )}
           </div>
 
-          {/* Stats Cards */}
+          {/* Cartes des statistiques */}
           <div
             className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-12
             ${isVisible ? 'animate-slideInUp opacity-100 delay-700' : 'opacity-0 translate-y-10'} 
@@ -260,7 +258,7 @@ export default function AnnouncementsPage() {
             </div>
           </div>
 
-          {/* Annoucement List Section with Title */}
+          {/* Liste d'annonces */}
           <div
             id="announcement-list-component"
             className={`${isVisible ? 'animate-slideInUp opacity-100 delay-900' : 'opacity-0 translate-y-10'} 
@@ -277,8 +275,8 @@ export default function AnnouncementsPage() {
             <AnnouncementList searchTerm={searchTerm} filterStyle={filterStyle} />
           </div>
 
-          {/* Call to Action Section */}
-          <div className="mt-16 mb-8 bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-8 text-center shadow-lg">
+          {/* Section CTA */}
+          <div className="mt-16 mb-8 bg-gradient-to-r from-[#32334E] to-[#51537B] rounded-lg p-8 text-center shadow-lg font-quicksand">
             <h3 className="text-2xl font-bold text-white mb-4">
               Vous êtes un artiste talentueux ?
             </h3>

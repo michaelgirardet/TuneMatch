@@ -92,10 +92,10 @@ export default function Profile() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-space">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-oxford">
       {/* Profil Card */}
       <section className="w-[100vw] md:w-[55vw] h-auto mx-auto flex flex-col items-center" />
-      <div className="flex flex-col items-center justify-center gap-5 bg-space">
+      <div className="flex flex-col items-center justify-center gap-5 bg-oxford">
         <ProfilePhoto
           currentPhotoUrl={user.photo_profil}
           onPhotoUpdate={async (url) => {
@@ -137,7 +137,7 @@ export default function Profile() {
       </div>
 
       {/* Infos Profil */}
-      <section className="bg-space w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
+      <section className="bg-oxford w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
         {/* Genres musicaux */}
         <div>
           <div className="flex justify-between items-center mb-3">
