@@ -7,6 +7,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useCallback, useEffect, useState } from 'react';
 import { FiFilter, FiGlobe, FiGrid, FiList, FiMapPin, FiMusic, FiSearch } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
 interface Artist {
   id: number;
@@ -27,6 +28,7 @@ interface SearchFilters {
   city?: string;
   country?: string;
   instruments?: string;
+  query?: string;
   page: number;
   limit: number;
 }
@@ -39,6 +41,7 @@ export default function SearchPage() {
   const [filters, setFilters] = useState<SearchFilters>({
     page: 1,
     limit: 12,
+    query: '',
   });
   const [pagination, setPagination] = useState({
     total: 0,
@@ -71,11 +74,7 @@ export default function SearchPage() {
         if (value) queryParams.append(key, value.toString());
       }
 
-      const response = await fetch(`http://localhost:5001/api/search?${queryParams}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth(`http://localhost:5001/api/search?${queryParams}`, {});
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -133,7 +132,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-oxford">
       {/* Hero section */}
-      <div className="bg-space py-16">
+      <div className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-quicksand text-5xl md:text-6xl font-bold text-white mb-6">
@@ -148,17 +147,17 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Rechercher par genre, instrument..."
-                className="w-full bg-surface-white bg-opacity-10 backdrop-blur-sm text-surface-white border border-primary-light rounded-full py-4 px-6 pl-12 focus:outline-none focus:ring-2 focus:ring-accent-violet"
-                onChange={(e) => handleFilterChange('genres', e.target.value)}
-                value={filters.genres || ''}
+                className="w-full bg-space text-white border border-space rounded-lg py-4 px-6 pl-12 focus:outline-electric"
+                onChange={(e) => handleFilterChange('query', e.target.value)}
+                value={filters.query || ''}
               />
-              <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-primary-light text-xl" />
+              <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-xl" />
               <button
                 type="button"
                 onClick={toggleFilters}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary-light hover:text-accent-violet transition-colors"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-accent-violet transition-colors"
               >
-                <FiFilter className="text-xl" />
+                <FiFilter className="text-xl text-white" />
               </button>
             </div>
           </div>
@@ -170,13 +169,13 @@ export default function SearchPage() {
         <div
           className={`mb-10 transition-all duration-300 ${isFiltersOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}
         >
-          <div className="bg-primary rounded-xl shadow-lg p-6">
+          <div className="bg-space rounded-xl shadow-lg p-6 relative z-40">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="font-heading text-xl text-surface-white">Filtres avancés</h2>
+              <h2 className="font-quicksand text-xl text-white">Filtres avancés</h2>
               <button
                 type="button"
                 onClick={clearFilters}
-                className="text-sm text-primary-light hover:text-accent-violet transition-colors"
+                className="text-sm text-white font-quicksand hover:text-accent-violet transition-colors"
               >
                 Réinitialiser
               </button>
@@ -184,12 +183,12 @@ export default function SearchPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <label htmlFor="role-select" className="block text-sm text-primary-light font-body">
+                <label htmlFor="role-select" className="block text-sm  text-white font-quicksand">
                   Rôle
                 </label>
                 <select
                   id="role-select"
-                  className="w-full bg-primary-dark text-surface-light font-body px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-oxford text-white font-quicksand px-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('role', e.target.value)}
                   value={filters.role || ''}
                 >
@@ -202,17 +201,17 @@ export default function SearchPage() {
 
               <div className="space-y-2">
                 <label
-                  className="block text-sm text-primary-light font-body"
+                  className="block text-sm text-white font-quicksand"
                   htmlFor="music-genres-select"
                 >
                   Genre musical
                 </label>
                 <div className="relative">
-                  <FiMusic className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-light" />
+                  <FiMusic className="absolute left-3 top-1/2 transform -translate-y-1/2 text-electric" />
                   <input
                     type="text"
                     placeholder="Pop, Rock, Jazz..."
-                    className="w-full bg-primary-dark text-surface-light font-body pl-10 pr-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                    className="w-full bg-oxford text-white font-body pl-10 pr-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                     onChange={(e) => handleFilterChange('genres', e.target.value)}
                     value={filters.genres || ''}
                   />
@@ -221,7 +220,7 @@ export default function SearchPage() {
 
               <div className="space-y-2">
                 <label
-                  className="block text-sm text-primary-light font-body"
+                  className="block text-sm text-white font-quicksand"
                   htmlFor="instrument choice"
                 >
                   Instrument
@@ -229,22 +228,22 @@ export default function SearchPage() {
                 <input
                   type="text"
                   placeholder="Guitare, Piano, Batterie..."
-                  className="w-full bg-primary-dark text-surface-light font-body px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-oxford text-white font-body px-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('instruments', e.target.value)}
                   value={filters.instruments || ''}
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm text-primary-light font-body" htmlFor="city choice">
+                <label className="block text-sm text-white font-quicksand" htmlFor="city choice">
                   Ville
                 </label>
                 <div className="relative">
-                  <FiMapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-light" />
+                  <FiMapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-electric" />
                   <input
                     type="text"
                     placeholder="Paris, Lyon, Marseille..."
-                    className="w-full bg-primary-dark text-surface-light font-body pl-10 pr-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                    className="w-full bg-oxford text-white font-body pl-10 pr-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                     onChange={(e) => handleFilterChange('city', e.target.value)}
                     value={filters.city || ''}
                   />
@@ -252,18 +251,15 @@ export default function SearchPage() {
               </div>
 
               <div className="space-y-2">
-                <label
-                  className="block text-sm text-primary-light font-body"
-                  htmlFor="country choice"
-                >
+                <label className="block text-sm text-white font-quicksand" htmlFor="country choice">
                   Pays
                 </label>
                 <div className="relative">
-                  <FiGlobe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-light" />
+                  <FiGlobe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-electric" />
                   <input
                     type="text"
                     placeholder="France, Belgique, Canada..."
-                    className="w-full bg-primary-dark text-surface-light font-body pl-10 pr-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                    className="w-full bg-oxford text-white font-body pl-10 pr-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                     onChange={(e) => handleFilterChange('country', e.target.value)}
                     value={filters.country || ''}
                   />
@@ -271,11 +267,11 @@ export default function SearchPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm text-primary-light font-body" htmlFor="results">
+                <label className="block text-sm text-white font-quicksand" htmlFor="results">
                   Résultats par page
                 </label>
                 <select
-                  className="w-full bg-primary-dark text-surface-light font-body px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-oxford text-white font-body px-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('limit', e.target.value)}
                   value={filters.limit.toString()}
                 >
@@ -290,7 +286,7 @@ export default function SearchPage() {
               <button
                 type="button"
                 onClick={fetchArtists}
-                className="bg-accent-violet hover:bg-accent-pink text-surface-white font-body font-medium py-2 px-6 rounded-full transition-colors duration-300 flex items-center"
+                className="bg-electric hover:bg-electrichover text-white font-quicksand font-semibold py-2 px-6 rounded-full transition-colors duration-300 flex items-center"
               >
                 <FiSearch className="mr-2" />
                 Rechercher
@@ -310,7 +306,7 @@ export default function SearchPage() {
           </div>
 
           <div className="text-white flex items-center space-x-4">
-            <span className="text-primary-light font-body">Affichage:</span>
+            <span className="text-white font-body">Affichage:</span>
             <button
               type="button"
               onClick={() => setViewMode('grid')}
@@ -322,7 +318,7 @@ export default function SearchPage() {
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-accent-violet text-surface-white' : 'text-primary-light hover:text-surface-white'}`}
+              className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-accent-violet text-surface-white' : 'text-white hover:text-surface-white'}`}
               aria-label="Affichage en liste"
             >
               <FiList />
@@ -373,13 +369,13 @@ export default function SearchPage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-primary-dark flex items-center justify-center">
-                          <span className="text-6xl text-primary-light opacity-50">
+                          <span className="text-6xl text-white opacity-50">
                             {artist.nom_utilisateur?.charAt(0).toUpperCase() ?? '?'}
                           </span>
                         </div>
                       )}
                       <div className="absolute bottom-2 left-2 bg-primary-dark px-2 py-1 rounded">
-                        <span className="text-xs text-primary-light capitalize">{artist.role}</span>
+                        <span className="text-xs text-white capitalize">{artist.role}</span>
                       </div>
                     </div>
 
@@ -387,7 +383,7 @@ export default function SearchPage() {
                       <h3 className="font-heading text-xl font-medium text-surface-white mb-2 capitalize">
                         {artist.nom_utilisateur}
                       </h3>
-                      <div className="flex items-center text-sm text-primary-light mb-3">
+                      <div className="flex items-center text-sm mb-3">
                         <FiMapPin className="mr-1" />
                         <span>
                           {artist.city}, {artist.country}
@@ -400,7 +396,7 @@ export default function SearchPage() {
                         {artist.genres_musicaux.split(',').map((genre) => (
                           <span
                             key={genre.trim()}
-                            className="bg-primary-dark px-2 py-1 rounded-full text-xs text-primary-light"
+                            className="bg-primary-dark px-2 py-1 rounded-full text-xs text-white"
                           >
                             {genre.trim()}
                           </span>
@@ -408,7 +404,7 @@ export default function SearchPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <div>
-                          <span className="text-sm text-primary-light">
+                          <span className="text-sm text-white">
                             {artist.tracks_count} morceau{artist.tracks_count !== 1 ? 'x' : ''}
                           </span>
                         </div>
@@ -434,7 +430,7 @@ export default function SearchPage() {
                 <h3 className="font-heading text-xl text-surface-white mb-2 text-white">
                   Aucun artiste trouvé
                 </h3>
-                <p className="text-primary-light max-w-md mx-auto text-white">
+                <p className="text-white max-w-md mx-auto text-white">
                   Essayez d&apos;ajuster vos filtres de recherche ou d&apos;élargir vos critères
                   pour obtenir plus de résultats.
                 </p>

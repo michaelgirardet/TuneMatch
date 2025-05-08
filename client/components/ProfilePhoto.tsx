@@ -1,8 +1,10 @@
+// ProfilePhoto.tsx
 import Image from 'next/image';
 import { useState, useRef } from 'react';
-import ProfilePhotoModal from './ProfilePhotoModal';
+import { fetchWithAuth } from '../app/utils/fetchWithAuth';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-toastify';
+import ProfilePhotoModal from './ProfilePhotoModal';
 
 interface ProfilePhotoProps {
   currentPhotoUrl?: string;
@@ -13,36 +15,35 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const token = useAuthStore((state) => state.token);
   const updateUser = useAuthStore((state) => state.updateUser);
 
-  // Handler d'upload (API à adapter à ton backend)
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const openFileDialog = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       toast.error('Le fichier doit être une image.');
       return;
     }
+
     setIsUploading(true);
     try {
       const formData = new FormData();
       formData.append('photo', file);
 
-      const response = await fetch('http://localhost:5001/api/users/photo', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
         body: formData,
       });
       const json = await response.json();
+
       if (response.ok && json.photoUrl) {
         onPhotoUpdate(json.photoUrl);
-        updateUser({ ...json.user }); // Si ton backend renvoie user à jour
+        updateUser({ ...json.user });
         toast.success('Photo de profil mise à jour !');
-        setIsModalOpen(false);
       } else {
         toast.error(json.error || "Erreur lors de l'upload.");
       }
@@ -52,26 +53,23 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
     } finally {
       setIsUploading(false);
     }
-  }
+  };
 
   return (
     <>
-      <div className="relative group flex flex-col items-center">
-        {/* Avatar Card */}
+      <div className="relative group flex flex-col items-center gap-5">
         <div
-          className="w-[160px] h-[160px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
-          transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer"
-          aria-label="Changer la photo de profil"
+          className="w-[180px] h-[180px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
+          transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer mt-5"
           onClick={() => setIsModalOpen(true)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') setIsModalOpen(true);
-          }}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setIsModalOpen(true)}
+          aria-label="Changer la photo de profil"
         >
           <Image
             src={currentPhotoUrl || '/avatar.png'}
-            alt={currentPhotoUrl ? 'Photo de profil' : 'Avatar par défaut'}
-            width={160}
-            height={160}
+            alt="Photo de profil"
+            width={120}
+            height={120}
             className="object-cover w-full h-full transition-opacity duration-200 group-hover:opacity-80"
             priority
           />
@@ -81,29 +79,51 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
             </div>
           )}
         </div>
-        {/* Modifier Button (toujours visible sur mobile, hover sur desktop) */}
-        <button
-          type="button"
-          aria-label="Modifier la photo de profil"
-          onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-2 left-1/2 -translate-x-1/2 px-4 py-1 text-xs bg-air text-white rounded-full 
-          shadow transition-all duration-200 opacity-100 md:opacity-0 group-hover:opacity-100 group-hover:translate-y-2"
-        >
-          Modifier
-        </button>
+
+        <div className="flex items-center justify-center gap-2 mt-2 px-5">
+          <button
+            type="button"
+            onClick={openFileDialog}
+            className="rounded-md font-quicksand bg-charcoal py-2.5 px-5 border border-transparent text-center text-white transition-all shadow-sm hover:shadow-lg focus:bg-charcoalhover focus:shadow-none active:bg-slate-700 hover:bg-charcoalhover active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          >
+            Téléverser une image
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="rounded-md font-quicksand bg-charcoal py-2.5 px-5 border border-transparent text-center text-white transition-all shadow-sm hover:shadow-lg focus:bg-charcoalhover focus:shadow-none active:bg-slate-700 hover:bg-charcoalhover active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          >
+            Depuis une URL
+          </button>
+        </div>
       </div>
 
-      {/* Modal pour changer la photo */}
       <ProfilePhotoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onPhotoUpdate={(url) => {
-          onPhotoUpdate(url);
-          setIsModalOpen(false);
+        onPhotoUpdate={async (url) => {
+          try {
+            const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ photo_profil: url }),
+            });
+            const json = await response.json();
+            if (response.ok && json.photoUrl) {
+              onPhotoUpdate(json.photoUrl);
+              updateUser({ ...json.user });
+              toast.success('📸 Nouvelle photo enregistrée !');
+              setIsModalOpen(false);
+            } else {
+              toast.error(json.error || 'Erreur lors de la mise à jour.');
+            }
+          } catch (error) {
+            toast.error('Erreur réseau lors de la mise à jour.');
+            console.error(error);
+          }
         }}
       />
 
-      {/* Input file caché pour accessibilité */}
       <input
         type="file"
         accept="image/*"

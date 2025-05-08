@@ -13,7 +13,6 @@ export default function Login() {
     password: '',
   });
   const [error, setError] = useState('');
-  console.error(error);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,24 +25,25 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
 
-      const data = await response.json();
+      const json = await response.json();
 
       if (response.ok) {
-        login(data.token, data.user); // stocke le token et l'utilisateur dans Zustand/localStorage
+        login(json.accessToken || json.token, json.user);
         toast.success('🎸 Connexion réussie ! Prêt à faire du bruit ?', {
           position: 'bottom-right',
           autoClose: 5000,
         });
         router.push('/profile');
       } else {
-        setError(data.error || 'Erreur lors de la connexion');
+        setError(json.error || 'Erreur lors de la connexion');
         toast.error('🚨 🎵 Petit couac technique ! On réessaie ?', {
           position: 'bottom-right',
           autoClose: 5000,
         });
-        console.error(data.error);
+        console.error(error);
       }
     } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
@@ -65,7 +65,7 @@ export default function Login() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
+            className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
             placeholder="Email"
             required
           />
@@ -79,19 +79,19 @@ export default function Login() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
+            className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
             required
           />
         </div>
         <div className="w-full flex items-center justify-between">
           <Link href="/forgot-password">
-            <p className="text-white text-xs font-quicksand hover:underline underline-offset-2">
+            <p className="font-quicksand font-thin text-white text-md hover:underline underline-offset-2">
               Mot de passe oublié ?
             </p>
           </Link>
           <div className="flex items-center justyfy-center h-5">
             <Link href="/register">
-              <p className="text-white text-xs font-quicksand hover:underline underline-offset-2">
+              <p className="font-quicksand font-thin text-white text-md hover:underline underline-offset-2">
                 Pas encore inscrit ?
               </p>
             </Link>
@@ -99,7 +99,7 @@ export default function Login() {
         </div>
         <button
           type="submit"
-          className="bg-electric hover:bg-electrichover text-white button p-5 w-[200px] rounded flex justify-center self-center item-center"
+          className="bg-electric hover:bg-electrichover text-white button p-5 w-[90vw] md:w-[30vw] rounded flex justify-center self-center item-center text-lg"
         >
           Connexion
         </button>

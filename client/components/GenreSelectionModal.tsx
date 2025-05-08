@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface GenreSelectionModalProps {
   isOpen: boolean;
@@ -91,12 +92,9 @@ export default function GenreSelectionModal({
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/users/genres', {
+      // Mettre à jour les genres musicaux
+      const response = await fetchWithAuth('http://localhost:5001/api/users/genres', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ genres: selectedGenres }),
       });
 
@@ -105,7 +103,6 @@ export default function GenreSelectionModal({
         console.error('Erreur détaillée:', error);
 
         if (response.status === 401 || error.clearToken) {
-          logout();
           router.push('/login');
           return;
         }
@@ -116,14 +113,11 @@ export default function GenreSelectionModal({
       console.log('Réponse réussie:', data);
 
       // Recharger les données utilisateur
-      const userResponse = await fetch('http://localhost:5001/api/users/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const userResponse = await fetchWithAuth('http://localhost:5001/api/users/me');
 
       if (userResponse.ok) {
         const userData = await userResponse.json();
+        console.log(userData);
         useAuthStore.getState().updateUser(userData);
       }
 
@@ -141,7 +135,7 @@ export default function GenreSelectionModal({
       onClose();
     } catch (error) {
       if (error instanceof Error) {
-        toast.error('🦄 Wow so easy!', {
+        toast.error('Erreur', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -173,7 +167,7 @@ export default function GenreSelectionModal({
 
   return (
     <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-oxford p-8 rounded-lg w-[90%] max-w-2xl">
+      <div className="bg-space p-8 rounded-lg w-[90%] max-w-2xl">
         <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
           Sélectionnez vos genres musicaux (max. 3)
         </h2>
@@ -186,8 +180,8 @@ export default function GenreSelectionModal({
                 onClick={() => handleGenreToggle(genre)}
                 className={`p-2 font-quicksand rounded transition-colors ${
                   selectedGenres.includes(genre)
-                    ? 'bg-space text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    ? 'bg-oxford text-white'
+                    : 'bg-charcoal text-gray-300 hover:bg-gray-600'
                 }`}
               >
                 {genre}
@@ -198,14 +192,14 @@ export default function GenreSelectionModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-oxford font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white hover:bg-oxford font-quicksand"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

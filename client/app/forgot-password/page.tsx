@@ -113,7 +113,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="button font-quicksand font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-air hover:bg-[#595B88]"
+            className="button font-quicksand font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-charcoal hover:bg-[#595B88]"
           >
             {loading ? 'Envoi...' : 'Valider'}
           </button>

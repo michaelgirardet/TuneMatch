@@ -157,13 +157,13 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-white font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white font-quicksand"
             >
               Ajouter
             </button>

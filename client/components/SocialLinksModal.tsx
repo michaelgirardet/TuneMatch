@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { ToasterError, ToasterSuccess } from './Toast';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface SocialLinksModalProps {
   isOpen: boolean;
@@ -26,7 +27,6 @@ export default function SocialLinksModal({
 }: SocialLinksModalProps) {
   const [link, setLink] = useState(currentLinks[platform] || '');
   const [loading, setLoading] = useState(false);
-  const { token } = useAuthStore();
 
   const platformLabels = {
     youtube: 'YouTube',
@@ -39,12 +39,8 @@ export default function SocialLinksModal({
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/users/social-links', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/social-links', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           platform,
           link,
@@ -88,14 +84,14 @@ export default function SocialLinksModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-white font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white font-quicksand"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

@@ -1,5 +1,4 @@
 'use client';
-import { ToasterError, ToasterSuccess } from '@/components/Toast';
 import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/authStore';
 import { ArrowLeftIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
@@ -8,6 +7,7 @@ import { fr } from 'date-fns/locale';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface Message {
   id: number;
@@ -34,11 +34,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
   const fetchMessages = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/messages/${params.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth(`http://localhost:5001/api/messages/${params.id}`, {});
 
       if (!response.ok) {
         throw new Error('Erreur lors de la récupération des messages');
@@ -59,7 +55,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
         theme: 'dark',
       });
     }
-  }, [token, params.id]);
+  }, [params.id]);
 
   useEffect(() => {
     if (token) {
@@ -72,11 +68,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   useEffect(() => {
     const fetchInterlocutor = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/users/${params.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetchWithAuth(`http://localhost:5001/api/users/${params.id}`, {});
 
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des informations de l'interlocuteur");
@@ -99,12 +91,8 @@ export default function ConversationPage({ params }: { params: { id: string } })
     if (!newMessage.trim()) return;
 
     try {
-      const response = await fetch('http://localhost:5001/api/messages', {
+      const response = await fetchWithAuth('http://localhost:5001/api/messages', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           content: newMessage,
           recipientId: Number.parseInt(params.id),
@@ -143,7 +131,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
+    <div className="container px-4 py-8 h-screen min-w-[90vw] flex flex-col self-center bg-oxford">
       {/* En-tête de la conversation */}
       <div className="bg-[#212936] rounded-t-lg p-4 flex items-center gap-4 border-b border-gray-700">
         <button
@@ -168,8 +156,8 @@ export default function ConversationPage({ params }: { params: { id: string } })
                 }}
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-air flex items-center justify-center text-white font-bold">
-                {interlocutor.nom_utilisateur[0].toUpperCase()}
+              <div className="w-10 h-10 rounded-full bg-charcoal capitalize flex items-center justify-center text-white font-semibold">
+                {interlocutor.nom_utilisateur}
               </div>
             )}
             <div>
@@ -206,14 +194,14 @@ export default function ConversationPage({ params }: { params: { id: string } })
                   }}
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-air flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center text-white text-sm font-bold">
                   {message.expediteur_nom[0].toUpperCase()}
                 </div>
               )}
               <div
                 className={`rounded-lg p-3 ${
                   message.id_expediteur === user?.id
-                    ? 'bg-air text-white'
+                    ? 'bg-charcoal text-white'
                     : 'bg-[#212936] text-gray-200'
                 }`}
               >
@@ -245,7 +233,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
         />
         <button
           type="submit"
-          className="bg-air text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-charcoal text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!newMessage.trim()}
         >
           <PaperAirplaneIcon className="h-6 w-6" />

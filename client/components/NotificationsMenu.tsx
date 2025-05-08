@@ -1,3 +1,4 @@
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 import { useAuthStore } from '@/store/authStore';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
@@ -23,11 +24,10 @@ export default function NotificationsMenu() {
 
   const fetchNotifications = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/applications/notifications', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetchWithAuth(
+        'http://localhost:5001/api/applications/notifications',
+        {}
+      );
 
       if (!response.ok) {
         throw new Error('Erreur lors de la récupération des notifications');
@@ -40,17 +40,14 @@ export default function NotificationsMenu() {
       console.error('Erreur:', error);
       setError("🔔 Les notifications ne s'affichent pas. Un petit bug ?");
     }
-  }, [token]);
+  }, []);
 
   const markAsRead = async (notificationId: number) => {
     try {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `http://localhost:5001/api/applications/notifications/${notificationId}/read`,
         {
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
 
@@ -96,9 +93,9 @@ export default function NotificationsMenu() {
           className="relative p-2 text-gray-400 hover:text-white focus:outline-none flex items-center gap-2"
         >
           <>
-            <BellIcon className="h-6 w-6 stroke-gray-400" />
+            <BellIcon className="h-6 w-6 stroke-gray-400 cursor-pointer" />
             {unreadCount > 0 && (
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-air rounded-full">
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-charcoal rounded-full">
                 {unreadCount}
               </span>
             )}
@@ -106,7 +103,7 @@ export default function NotificationsMenu() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-80 bg-[#212936] border border-gray-700 rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 mt-6 w-80 bg-space border border-gray-700 rounded-lg shadow-lg z-50">
             <div className="p-4">
               <h3 className="text-lg font-quicksand text-white mb-4">Notifications</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
@@ -118,8 +115,8 @@ export default function NotificationsMenu() {
                       key={notification.id}
                       className={`p-3 rounded-lg ${
                         notification.is_read
-                          ? 'bg-[#101119]'
-                          : 'bg-[#101119] border-l-4 border-[#51537B]'
+                          ? 'bg-oxford shadow-lg'
+                          : 'bg-oxford border-l-4 border-[#51537B shadow-lg'
                       }`}
                       onClick={() => !notification.is_read && markAsRead(notification.id)}
                       onKeyDown={() => !notification.is_read && markAsRead(notification.id)}

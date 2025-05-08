@@ -50,8 +50,7 @@ export default function Register() {
         setError(json.message || json.error || "Erreur lors de l'inscription");
         toast.error('🚨 🎵 Petit couac technique ! On réessaie ?');
       } else {
-        // Stocke la session dans Zustand (avec persistance automatique)
-        login(json.token, json.user);
+        login(json.accessToken || json.token, json.user);
         toast.success(
           "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",
           {
@@ -59,7 +58,7 @@ export default function Register() {
             autoClose: 5000,
           }
         );
-        router.push('/complete-profile');
+        router.push('/profile');
       }
     } catch (err) {
       setError('🔌 Problème de connexion au serveur. Vérifie ta connexion et réessaie.');
@@ -83,7 +82,7 @@ export default function Register() {
           name="role"
           value={formData.role}
           onChange={handleChange}
-          className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded"
+          className="bg-space text-white text-center form-input flex w-[90vw] md:w-[30vw] self-center p-5 rounded active:outline-electric"
           required
         >
           <option value="">Tu es dans quel mood ? 😎</option>
@@ -98,7 +97,7 @@ export default function Register() {
           value={formData.nom_utilisateur}
           onChange={handleChange}
           placeholder="Username"
-          className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
+          className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
 
@@ -108,7 +107,7 @@ export default function Register() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
+          className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
 
@@ -118,7 +117,7 @@ export default function Register() {
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
-          className="bg-space text-white text-center form-input flex w-[280px] self-center p-2 rounded focus:outline-electric"
+          className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
 
@@ -128,18 +127,18 @@ export default function Register() {
           value={formData.confirm_password}
           onChange={handleChange}
           placeholder="Confirm Password"
-          className="bg-space text-white text-center form-input  flex w-[280px] self-center p-2 rounded focus:outline-electric"
+          className="bg-space text-white text-center form-input  w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
         <Link
           href="/login"
-          className="font-quicksand font-thin text-white text-xs hover:underline underline-offset-2"
+          className="font-quicksand font-thin text-white text-md hover:underline underline-offset-2"
         >
           Déjà enregistré ?
         </Link>
         <button
           type="submit"
-          className="bg-electric hover:bg-electrichover text-white button p-5 w-[200px] rounded flex justify-center self-center item-center"
+          className="bg-electric hover:bg-electrichover text-white button p-5 w-[90vw] md:w-[30vw] rounded flex justify-center self-center item-center text-lg"
         >
           S&apos;inscrire
         </button>

@@ -12,6 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface UserProfile {
   id: number;
@@ -44,11 +45,7 @@ export default function PublicProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/users/${params.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetchWithAuth(`http://localhost:5001/api/users/${params.id}`, {});
 
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération du profil');
@@ -73,11 +70,10 @@ export default function PublicProfile() {
 
     const fetchUserTracks = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/tracks/user/${params.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetchWithAuth(
+          `http://localhost:5001/api/tracks/user/${params.id}`,
+          {}
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -129,7 +125,7 @@ export default function PublicProfile() {
             }}
           />
         ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-air flex items-center justify-center text-white text-4xl font-bold">
+          <div className="w-[120px] h-[120px] rounded-full bg-charcoal flex items-center justify-center text-white text-4xl font-bold">
             {profile.nom_utilisateur[0].toUpperCase()}
           </div>
         )}

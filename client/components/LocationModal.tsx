@@ -1,9 +1,9 @@
 'use client';
 
 import { useAuthStore } from '@/store/authStore';
-import { useState } from 'react';
-import { ToasterError, ToasterSuccess } from './Toast';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -15,33 +15,34 @@ interface LocationModalProps {
   };
 }
 
-export default function LocationModal({
-  isOpen,
-  onClose,
-  onUpdate,
-  currentLocation,
-}: LocationModalProps) {
-  const [city, setCity] = useState(currentLocation.city || '');
-  const [country, setCountry] = useState(currentLocation.country || '');
+export default function LocationModal({ isOpen, onClose, currentLocation }: LocationModalProps) {
+  const { user, updateUser } = useAuthStore();
+  const [city, setCity] = useState(user?.city || '');
+  const [country, setCountry] = useState(user?.country || '');
   const [loading, setLoading] = useState(false);
-  const { token } = useAuthStore();
+
+  useEffect(() => {
+    setCity(currentLocation.city || '');
+    setCountry(currentLocation.country || '');
+  }, [currentLocation.city, currentLocation.country]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/users/location', {
+      const response = await fetchWithAuth('http://localhost:5001/api/users/location', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ city, country }),
       });
 
       if (response.ok) {
-        onUpdate({ city, country });
+        const json = await response.json();
+        if (json?.user) {
+          updateUser(json.user);
+        } else if (user?.id) {
+          updateUser({ ...user, city, country });
+        }
         toast.success('📍 Localisation enregistrée ! Place à la connexion.', {
           position: 'bottom-right',
           autoClose: 5000,
@@ -53,6 +54,7 @@ export default function LocationModal({
           theme: 'dark',
         });
         onClose();
+        updateUser(json.user);
       } else {
         toast.error('Erreur lors de la mise à jour de la localisation', {
           position: 'bottom-right',
@@ -111,14 +113,14 @@ export default function LocationModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-oxford font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-oxford font-quicksand"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>
