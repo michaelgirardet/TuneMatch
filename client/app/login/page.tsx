@@ -28,17 +28,17 @@ export default function Login() {
         credentials: 'include',
       });
 
-      const data = await response.json();
+      const json = await response.json();
 
       if (response.ok) {
-        login(data.token, data.user); // stocke le token et l'utilisateur dans Zustand/localStorage
+        login(json.accessToken || json.token, json.user);
         toast.success('🎸 Connexion réussie ! Prêt à faire du bruit ?', {
           position: 'bottom-right',
           autoClose: 5000,
         });
         router.push('/profile');
       } else {
-        setError(data.error || 'Erreur lors de la connexion');
+        setError(json.error || 'Erreur lors de la connexion');
         toast.error('🚨 🎵 Petit couac technique ! On réessaie ?', {
           position: 'bottom-right',
           autoClose: 5000,

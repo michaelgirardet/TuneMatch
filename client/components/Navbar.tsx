@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import NotificationsMenu from './NotificationsMenu';
 import { toast } from 'react-toastify';
+import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuthStore();
@@ -17,9 +18,9 @@ export default function Navbar() {
   const router = useRouter();
 
   async function handleLogout() {
-    await fetch('http://localhost:5001/api/logout', {
+    await fetchWithAuth('http://localhost:5001/api/auth/logout', {
       method: 'POST',
-      credentials: 'include', // pour envoyer le cookie
+      credentials: 'include',
     });
     logout();
     setIsMenu(false);

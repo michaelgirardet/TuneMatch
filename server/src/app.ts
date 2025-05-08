@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import announcementRoutes from './routes/announcement.routes';
 import applicationRoutes from './routes/application.routes';
 import authRoutes from './routes/auth.routes';
-import completeProfileRoutes from './routes/completeProfile.routes';
 import messageRoutes from './routes/message.routes';
 import searchRoutes from './routes/search.routes';
 import tracksRoutes from './routes/tracks.routes';
@@ -36,7 +35,6 @@ app.use('/api/search', searchRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/announcements', announcementRoutes);
-app.use('/api/com', completeProfileRoutes);
 
 console.log('Routes enregistrées');
 

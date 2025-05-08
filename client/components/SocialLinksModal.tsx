@@ -84,7 +84,7 @@ export default function SocialLinksModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
             >
               Annuler
             </button>

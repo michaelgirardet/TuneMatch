@@ -50,8 +50,7 @@ export default function Register() {
         setError(json.message || json.error || "Erreur lors de l'inscription");
         toast.error('🚨 🎵 Petit couac technique ! On réessaie ?');
       } else {
-        // Stocke la session dans Zustand (avec persistance automatique)
-        login(json.token, json.user);
+        login(json.accessToken || json.token, json.user);
         toast.success(
           "🎧 Bienvenue dans le groove ! L'aventure musicale commence maintenant ! 🚀",
           {

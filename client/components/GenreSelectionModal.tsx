@@ -92,6 +92,7 @@ export default function GenreSelectionModal({
         return;
       }
 
+      // Mettre à jour les genres musicaux
       const response = await fetchWithAuth('http://localhost:5001/api/users/genres', {
         method: 'PUT',
         body: JSON.stringify({ genres: selectedGenres }),
@@ -102,7 +103,6 @@ export default function GenreSelectionModal({
         console.error('Erreur détaillée:', error);
 
         if (response.status === 401 || error.clearToken) {
-          logout();
           router.push('/login');
           return;
         }
@@ -113,10 +113,11 @@ export default function GenreSelectionModal({
       console.log('Réponse réussie:', data);
 
       // Recharger les données utilisateur
-      const userResponse = await fetchWithAuth('http://localhost:5001/api/users/me', {});
+      const userResponse = await fetchWithAuth('http://localhost:5001/api/users/me');
 
       if (userResponse.ok) {
         const userData = await userResponse.json();
+        console.log(userData);
         useAuthStore.getState().updateUser(userData);
       }
 
@@ -134,7 +135,7 @@ export default function GenreSelectionModal({
       onClose();
     } catch (error) {
       if (error instanceof Error) {
-        toast.error('🦄 Wow so easy!', {
+        toast.error('Erreur', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -191,7 +192,7 @@ export default function GenreSelectionModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#OAOAOA] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
             >
               Annuler
             </button>
