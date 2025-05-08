@@ -3,3 +3,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.Toastify__toast-theme--dark {
+  background-color: #2a4651 !important;
+  font-size: 1rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
+}
