@@ -5,6 +5,7 @@ import { fetchWithAuth } from '../app/utils/fetchWithAuth';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-toastify';
 import ProfilePhotoModal from './ProfilePhotoModal';
+
 interface ProfilePhotoProps {
   currentPhotoUrl?: string;
   onPhotoUpdate: (url: string) => void;
@@ -14,17 +15,20 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const updateUser = useAuthStore((state) => state.updateUser);
 
-  // Handler d'upload (API à adapter à ton backend)
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const openFileDialog = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       toast.error('Le fichier doit être une image.');
       return;
     }
+
     setIsUploading(true);
     try {
       const formData = new FormData();
@@ -35,11 +39,11 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
         body: formData,
       });
       const json = await response.json();
+
       if (response.ok && json.photoUrl) {
         onPhotoUpdate(json.photoUrl);
         updateUser({ ...json.user });
         toast.success('Photo de profil mise à jour !');
-        setIsModalOpen(false);
       } else {
         toast.error(json.error || "Erreur lors de l'upload.");
       }
@@ -49,24 +53,23 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
     } finally {
       setIsUploading(false);
     }
-  }
+  };
 
   return (
     <>
       <div className="relative group flex flex-col items-center">
-        {/* Avatar Card */}
         <div
           className="w-[160px] h-[160px] rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
           transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer"
-          aria-label="Changer la photo de profil"
           onClick={() => setIsModalOpen(true)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') setIsModalOpen(true);
-          }}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setIsModalOpen(true)}
+          tabIndex={0}
+          role="button"
+          aria-label="Changer la photo de profil"
         >
           <Image
             src={currentPhotoUrl || '/avatar.png'}
-            alt={currentPhotoUrl ? 'Photo de profil' : 'Avatar par défaut'}
+            alt="Photo de profil"
             width={160}
             height={160}
             className="object-cover w-full h-full transition-opacity duration-200 group-hover:opacity-80"
@@ -78,29 +81,51 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
             </div>
           )}
         </div>
-        {/* Modifier Button (toujours visible sur mobile, hover sur desktop) */}
-        <button
-          type="button"
-          aria-label="Modifier la photo de profil"
-          onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-2 left-1/2 -translate-x-1/2 px-4 py-1 text-xs bg-air text-white rounded-full 
-          shadow transition-all duration-200 opacity-100 md:opacity-0 group-hover:opacity-100 group-hover:translate-y-2"
-        >
-          Modifier
-        </button>
+
+        <div className="flex gap-2 mt-2">
+          <button
+            type="button"
+            onClick={openFileDialog}
+            className="px-4 py-1 text-xs bg-air text-white rounded-full shadow hover:bg-air/80 transition"
+          >
+            Téléverser une image
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-1 text-xs bg-air text-white rounded-full shadow hover:bg-air/80 transition"
+          >
+            Depuis une URL
+          </button>
+        </div>
       </div>
 
-      {/* Modal pour changer la photo */}
       <ProfilePhotoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onPhotoUpdate={(url) => {
-          onPhotoUpdate(url);
-          setIsModalOpen(false);
+        onPhotoUpdate={async (url) => {
+          try {
+            const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ photo_profil: url }),
+            });
+            const json = await response.json();
+            if (response.ok && json.photoUrl) {
+              onPhotoUpdate(json.photoUrl);
+              updateUser({ ...json.user });
+              toast.success('📸 Nouvelle photo enregistrée !');
+              setIsModalOpen(false);
+            } else {
+              toast.error(json.error || 'Erreur lors de la mise à jour.');
+            }
+          } catch (error) {
+            toast.error('Erreur réseau lors de la mise à jour.');
+            console.error(error);
+          }
         }}
       />
 
-      {/* Input file caché pour accessibilité */}
       <input
         type="file"
         accept="image/*"

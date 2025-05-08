@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { fetchWithAuth } from '../utils/fetchWithAuth';
@@ -13,6 +14,7 @@ import LogoSoundCloud from '@/public/soundcloud-removebg-preview.png';
 import LogoYT from '@/public/yt-icon-wh.png';
 import BiographyModal from '@/components/BiographyModal';
 import type { TrackProps } from '../types/TrackProps';
+import { toast } from 'react-toastify';
 
 export default function Profile() {
   const user = useAuthStore((state) => state.user);
@@ -24,7 +26,6 @@ export default function Profile() {
   const [isBioModalOpen, setBioModalOpen] = useState(false);
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isTrackModalOpen, setTrackModalOpen] = useState(false);
-
   const [tracks, setTracks] = useState<TrackProps[] | undefined>();
 
   if (!isAuthenticated || !user) {
@@ -35,40 +36,47 @@ export default function Profile() {
     );
   }
 
-  // --- Handlers pour update (à brancher à tes modales) ---
+  // --- Handlers pour update ---
   async function handleUpdateGenres(newGenres: string[]) {
-    const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
+    console.log('🔁 Appel API: update genres', newGenres);
+    const response = await fetchWithAuth('http://localhost:5001/api/users/genres', {
       method: 'PUT',
-      body: JSON.stringify({ genres_musicaux: newGenres.join(',') }),
+      body: JSON.stringify({ genres: newGenres }),
     });
-    const json = await response.json();
-    if (response.ok && json.user) {
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Erreur API:', errorData);
+      toast.error(`Erreur : ${errorData.message || 'Une erreur est survenue.'}`);
+    } else {
+      const json = await response.json();
       updateUser(json.user);
       setGenreModalOpen(false);
     }
   }
 
-  async function handleUpdateBio(newBio: string) {
-    const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
+  async function handleUpdateLocation({ city, country }: { city: string; country: string }) {
+    const response = await fetchWithAuth('http://localhost:5001/api/users/location', {
       method: 'PUT',
-      body: JSON.stringify({ biography: newBio }),
-    });
-    const json = await response.json();
-    if (response.ok && json.user) {
-      updateUser(json.user);
-      setBioModalOpen(false);
-    }
-  }
-
-  async function handleUpdateLocation(location: { city: string; country: string }) {
-    const response = await fetchWithAuth('http://localhost:5001/api/users/profile', {
-      method: 'PUT',
-      body: JSON.stringify({ city: location.city, country: location.country }),
+      body: JSON.stringify({ city, country }),
     });
     const json = await response.json();
     if (response.ok && json.user) {
       updateUser(json.user);
       setLocationModalOpen(false);
+    }
+  }
+
+  async function handleUpdateBio(newBio: string) {
+    const response = await fetchWithAuth('http://localhost:5001/api/users/biography', {
+      method: 'PUT',
+      body: JSON.stringify({ biography: newBio }),
+    });
+    const json = await response.json();
+    console.log('Updated user:', json.user);
+    if (response.ok && json.user) {
+      updateUser(json.user);
+      setBioModalOpen(false);
     }
   }
 
@@ -91,8 +99,15 @@ export default function Profile() {
       <div className="flex flex-col items-center gap-3 bg-space p-8 shadow-lg w-full">
         <ProfilePhoto
           currentPhotoUrl={user.photo_profil}
-          onPhotoUpdate={(url) => {
-            updateUser({ ...user, photo_profil: url });
+          onPhotoUpdate={async (url) => {
+            const response = await fetchWithAuth('http://localhost:5001/api/users/photo', {
+              method: 'PUT',
+              body: JSON.stringify({ photo_profil: url }),
+            });
+            const json = await response.json();
+            if (response.ok && json.user) {
+              updateUser(json.user);
+            }
           }}
         />
         <h2 className="text-3xl font-bold font-quicksand text-white">{user.nom_utilisateur}</h2>
@@ -203,10 +218,7 @@ export default function Profile() {
         isOpen={isLocationModalOpen}
         onClose={() => setLocationModalOpen(false)}
         onUpdate={handleUpdateLocation}
-        currentLocation={{
-          city: user.city || '',
-          country: user.country || '',
-        }}
+        currentLocation={{ city: user.city || '', country: user.country || '' }}
       />
       <BiographyModal
         isOpen={isBioModalOpen}

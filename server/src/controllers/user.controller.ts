@@ -1,4 +1,3 @@
-import express from 'express';
 import type { RequestHandler } from 'express';
 import { ZodError } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
@@ -17,6 +16,33 @@ type AuthRequestHandler = RequestHandler<
   { user?: AuthRequest['user'] }
 >;
 
+// Récupérer le profil d'un utilisateur par son ID
+export const getCurrentUserProfile: AuthRequestHandler = async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Utilisateur non authentifié' });
+    }
+
+    const [rows] = await req.app.locals.pool.execute(
+      `SELECT id, nom_utilisateur, role, photo_profil, biography, genres_musicaux,
+       youtube_link, instagram_link, soundcloud_link, city, country
+       FROM users WHERE id = ?`,
+      [userId]
+    );
+
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil:', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération du profil' });
+  }
+};
+
 // Changer sa photo de profil
 export const updatePhoto: AuthRequestHandler = async (req, res) => {
   try {
@@ -27,12 +53,22 @@ export const updatePhoto: AuthRequestHandler = async (req, res) => {
       return res.status(401).json({ error: 'Utilisateur non authentifié' });
     }
 
-    const [_result] = await req.app.locals.pool.execute(
-      'UPDATE users SET photo_profil = ? WHERE id = ?',
-      [photo_profil, userId]
-    );
+    if (!photo_profil || typeof photo_profil !== 'string') {
+      return res.status(400).json({ error: 'URL de photo invalide' });
+    }
 
-    res.json({ message: 'Photo de profil mise à jour avec succès' });
+    await req.app.locals.pool.execute('UPDATE users SET photo_profil = ? WHERE id = ?', [
+      photo_profil,
+      userId,
+    ]);
+    const [rows] = await req.app.locals.pool.query('SELECT * FROM users WHERE id = ?', [userId]);
+    const user = rows[0];
+
+    res.json({
+      message: 'Photo de profil mise à jour avec succès',
+      photoUrl: photo_profil,
+      user,
+    });
   } catch (error) {
     console.error('Erreur lors de la mise à jour de la photo de profil:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour de la photo de profil' });
@@ -143,10 +179,10 @@ export const updateLocation: AuthRequestHandler = async (req, res) => {
       'UPDATE users SET city = ?, country = ? WHERE id = ?',
       [city, country, userId]
     );
-
     res.json({
       message: 'Localisation mise à jour avec succès',
-      location: { city, country },
+      city: city,
+      country: country,
     });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -157,72 +193,5 @@ export const updateLocation: AuthRequestHandler = async (req, res) => {
     }
     console.error('Erreur lors de la mise à jour de la localisation:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour de la localisation' });
-  }
-};
-
-// Récupérer le profil d'un utilisateur par son ID
-export const getUserProfile: AuthRequestHandler = async (req, res) => {
-  try {
-    const userId = req.params.id;
-
-    if (!userId) {
-      return res.status(400).json({ error: 'ID utilisateur non spécifié' });
-    }
-
-    const [rows] = await req.app.locals.pool.execute(
-      `SELECT id, nom_utilisateur, role, photo_profil, biography, genres_musicaux,
-       youtube_link, instagram_link, soundcloud_link, city, country
-       FROM users WHERE id = ?`,
-      [userId]
-    );
-
-    if (!Array.isArray(rows) || rows.length === 0) {
-      return res.status(404).json({ error: 'Utilisateur non trouvé' });
-    }
-
-    res.json(rows[0]);
-  } catch (error) {
-    console.error('Erreur lors de la récupération du profil:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération du profil' });
-  }
-};
-
-// Remplir son profil à l'inscription
-export const updateProfile: AuthRequestHandler = async (req, res) => {
-  try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      return res.status(401).json({ error: 'Utilisateur non authentifié' });
-    }
-
-    // Récupère tous les champs du body
-    const {
-      instruments,
-      genres_musicaux,
-      biography,
-      youtube_link,
-      instagram_link,
-      soundcloud_link,
-    } = req.body;
-
-    // Ici tu peux ajouter des validations si tu veux (Zod, etc.)
-
-    await req.app.locals.pool.execute(
-      'UPDATE users SET instruments = ?, genres_musicaux = ?, biography = ?, youtube_link = ?, instagram_link = ?, soundcloud_link = ? WHERE id = ?',
-      [
-        instruments || null,
-        genres_musicaux || null,
-        biography || null,
-        youtube_link || null,
-        instagram_link || null,
-        soundcloud_link || null,
-        userId,
-      ]
-    );
-
-    res.json({ message: 'Profil mis à jour avec succès' });
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour du profil:', error);
-    res.status(500).json({ error: 'Erreur lors de la mise à jour du profil' });
   }
 };
