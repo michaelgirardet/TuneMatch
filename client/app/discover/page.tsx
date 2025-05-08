@@ -17,6 +17,7 @@ interface UserProfile {
 }
 
 export default function DiscoverPage() {
+  const user = useAuthStore((state) => state.user);
   const [profiles, setProfiles] = useState<UserProfile[]>([]);
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ export default function DiscoverPage() {
         if (!res.ok) throw new Error('Erreur lors du chargement des profils');
         const data = await res.json();
         setProfiles(data);
-      } catch (e) {
+      } catch (_e) {
         toast.error('Impossible de charger les profils à découvrir.');
       } finally {
         setLoading(false);
