@@ -59,8 +59,8 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
     <>
       <div className="relative group flex flex-col items-center gap-5">
         <div
-          className="w-[180px] h-auto md:w-[270px] md:h-auto rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
-          transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer"
+          className="w-[180px] h-auto rounded-full overflow-hidden shadow-xl border-4 border-[#212936] bg-[#101119] 
+          transition-transform duration-300 group-hover:scale-105 group-hover:ring-4 ring-[#51537B] cursor-pointer mt-5"
           onClick={() => setIsModalOpen(true)}
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setIsModalOpen(true)}
           aria-label="Changer la photo de profil"
@@ -68,8 +68,8 @@ export default function ProfilePhoto({ currentPhotoUrl, onPhotoUpdate }: Profile
           <Image
             src={currentPhotoUrl || '/avatar.png'}
             alt="Photo de profil"
-            width={160}
-            height={160}
+            width={120}
+            height={120}
             className="object-cover w-full h-full transition-opacity duration-200 group-hover:opacity-80"
             priority
           />
