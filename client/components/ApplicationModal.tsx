@@ -50,9 +50,9 @@ export default function ApplicationModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-2xl">
-        <h2 className="text-xl mb-4 font-quicksand text-center font-bold">
-          Postuler à l&apos;annonce
+      <div className="bg-space p-8 rounded-lg w-[90%] max-w-2xl">
+        <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
+          Rejoindre le projet
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -63,7 +63,7 @@ export default function ApplicationModal({
               id="message"
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="p-2 rounded bg-[#101119] text-white font-quicksand min-h-[100px] italic"
+              className="p-2 rounded bg-oxford text-white font-quicksand min-h-[100px] italic"
               placeholder="Présentez-vous et expliquez pourquoi vous êtes intéressé par cette annonce..."
               required
             />
@@ -94,13 +94,13 @@ export default function ApplicationModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-oxford hover:bg-oxfordhover border text-white font-quicksand"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal hover:bg-charcoalhover disabled:opacity-50 text-white font-quicksand"
             >
               Envoyer
             </button>

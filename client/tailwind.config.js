@@ -9,6 +9,7 @@ module.exports = {
         electrichover: '#A033FF',
         lavender: '#dbe1f0',
         oxford: '#0b132b',
+        oxfordhover: '#111D41',
         space: '#1c2541',
       },
       fontFamily: {

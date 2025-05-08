@@ -147,17 +147,17 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Rechercher par genre, instrument..."
-                className="w-full bg-surface-white bg-opacity-10 backdrop-blur-sm text-surface-white border border-primary-light rounded-full py-4 px-6 pl-12 focus:outline-none focus:ring-2 focus:ring-accent-violet"
+                className="w-full bg-space text-white border border-space rounded-full py-4 px-6 pl-12 focus:outline-electric"
                 onChange={(e) => handleFilterChange('query', e.target.value)}
                 value={filters.query || ''}
               />
-              <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-primary-light text-xl" />
+              <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-xl" />
               <button
                 type="button"
                 onClick={toggleFilters}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary-light hover:text-accent-violet transition-colors"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-accent-violet transition-colors"
               >
-                <FiFilter className="text-xl" />
+                <FiFilter className="text-xl text-white" />
               </button>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function SearchPage() {
                 </label>
                 <select
                   id="role-select"
-                  className="w-full bg-primary-dark text-oxford font-quicksand px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-oxford text-white font-quicksand px-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('role', e.target.value)}
                   value={filters.role || ''}
                 >
@@ -207,11 +207,11 @@ export default function SearchPage() {
                   Genre musical
                 </label>
                 <div className="relative">
-                  <FiMusic className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-light" />
+                  <FiMusic className="absolute left-3 top-1/2 transform -translate-y-1/2 text-electric" />
                   <input
                     type="text"
                     placeholder="Pop, Rock, Jazz..."
-                    className="w-full bg-primary-dark text-surface-light font-body pl-10 pr-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                    className="w-full bg-oxford text-white font-body pl-10 pr-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                     onChange={(e) => handleFilterChange('genres', e.target.value)}
                     value={filters.genres || ''}
                   />
@@ -228,7 +228,7 @@ export default function SearchPage() {
                 <input
                   type="text"
                   placeholder="Guitare, Piano, Batterie..."
-                  className="w-full bg-primary-dark text-surface-light font-body px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-oxford text-white font-body px-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('instruments', e.target.value)}
                   value={filters.instruments || ''}
                 />
@@ -239,11 +239,11 @@ export default function SearchPage() {
                   Ville
                 </label>
                 <div className="relative">
-                  <FiMapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-light" />
+                  <FiMapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-electric" />
                   <input
                     type="text"
                     placeholder="Paris, Lyon, Marseille..."
-                    className="w-full bg-primary-dark text-surface-light font-body pl-10 pr-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                    className="w-full bg-oxford text-white font-body pl-10 pr-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                     onChange={(e) => handleFilterChange('city', e.target.value)}
                     value={filters.city || ''}
                   />
@@ -255,11 +255,11 @@ export default function SearchPage() {
                   Pays
                 </label>
                 <div className="relative">
-                  <FiGlobe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-light" />
+                  <FiGlobe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-electric" />
                   <input
                     type="text"
                     placeholder="France, Belgique, Canada..."
-                    className="w-full bg-primary-dark text-surface-light font-body pl-10 pr-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                    className="w-full bg-oxford text-white font-body pl-10 pr-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                     onChange={(e) => handleFilterChange('country', e.target.value)}
                     value={filters.country || ''}
                   />
@@ -271,7 +271,7 @@ export default function SearchPage() {
                   Résultats par page
                 </label>
                 <select
-                  className="w-full bg-primary-dark text-surface-light font-body px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-oxford text-white font-body px-4 py-3 rounded-lg border border-oxford focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('limit', e.target.value)}
                   value={filters.limit.toString()}
                 >
@@ -306,7 +306,7 @@ export default function SearchPage() {
           </div>
 
           <div className="text-white flex items-center space-x-4">
-            <span className="text-primary-light font-body">Affichage:</span>
+            <span className="text-white font-body">Affichage:</span>
             <button
               type="button"
               onClick={() => setViewMode('grid')}
@@ -318,7 +318,7 @@ export default function SearchPage() {
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-accent-violet text-surface-white' : 'text-primary-light hover:text-surface-white'}`}
+              className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-accent-violet text-surface-white' : 'text-white hover:text-surface-white'}`}
               aria-label="Affichage en liste"
             >
               <FiList />
@@ -369,13 +369,13 @@ export default function SearchPage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-primary-dark flex items-center justify-center">
-                          <span className="text-6xl text-primary-light opacity-50">
+                          <span className="text-6xl text-white opacity-50">
                             {artist.nom_utilisateur?.charAt(0).toUpperCase() ?? '?'}
                           </span>
                         </div>
                       )}
                       <div className="absolute bottom-2 left-2 bg-primary-dark px-2 py-1 rounded">
-                        <span className="text-xs text-primary-light capitalize">{artist.role}</span>
+                        <span className="text-xs text-white capitalize">{artist.role}</span>
                       </div>
                     </div>
 
@@ -383,7 +383,7 @@ export default function SearchPage() {
                       <h3 className="font-heading text-xl font-medium text-surface-white mb-2 capitalize">
                         {artist.nom_utilisateur}
                       </h3>
-                      <div className="flex items-center text-sm text-primary-light mb-3">
+                      <div className="flex items-center text-sm mb-3">
                         <FiMapPin className="mr-1" />
                         <span>
                           {artist.city}, {artist.country}
@@ -396,7 +396,7 @@ export default function SearchPage() {
                         {artist.genres_musicaux.split(',').map((genre) => (
                           <span
                             key={genre.trim()}
-                            className="bg-primary-dark px-2 py-1 rounded-full text-xs text-primary-light"
+                            className="bg-primary-dark px-2 py-1 rounded-full text-xs text-white"
                           >
                             {genre.trim()}
                           </span>
@@ -404,7 +404,7 @@ export default function SearchPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <div>
-                          <span className="text-sm text-primary-light">
+                          <span className="text-sm text-white">
                             {artist.tracks_count} morceau{artist.tracks_count !== 1 ? 'x' : ''}
                           </span>
                         </div>
@@ -430,7 +430,7 @@ export default function SearchPage() {
                 <h3 className="font-heading text-xl text-surface-white mb-2 text-white">
                   Aucun artiste trouvé
                 </h3>
-                <p className="text-primary-light max-w-md mx-auto text-white">
+                <p className="text-white max-w-md mx-auto text-white">
                   Essayez d&apos;ajuster vos filtres de recherche ou d&apos;élargir vos critères
                   pour obtenir plus de résultats.
                 </p>
