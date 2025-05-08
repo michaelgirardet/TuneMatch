@@ -168,7 +168,7 @@ export default function AnnouncementModal({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-white font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white font-quicksand"
             >
               {announcement ? 'Modifier' : 'Créer'}
             </button>

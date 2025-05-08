@@ -77,7 +77,7 @@ export default function ApplicationModal({
                     key={track.id}
                     className={`p-2 rounded cursor-pointer transition-colors ${
                       selectedTrackIds.includes(track.id)
-                        ? 'bg-air text-white'
+                        ? 'bg-charcoal text-white'
                         : 'bg-[#101119] text-gray-300 hover:bg-gray-800'
                     }`}
                     onClick={() => handleTrackToggle(track.id)}
@@ -100,7 +100,7 @@ export default function ApplicationModal({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-air disabled:opacity-50 text-white font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white font-quicksand"
             >
               Envoyer
             </button>

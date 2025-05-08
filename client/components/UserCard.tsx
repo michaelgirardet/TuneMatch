@@ -75,7 +75,7 @@ export function UserCard({ user }: UserCardProps) {
           </div>
           <Link
             href={`/profile/${user.id}`}
-            className="btn btn-primary btn-sm font-quicksand text-white hover:text-airhover font-light underline cursor-pointer"
+            className="btn btn-primary btn-sm font-quicksand text-white hover:text-charcoalhover font-light underline cursor-pointer"
           >
             Voir le profil
           </Link>

@@ -136,7 +136,7 @@ export default function AnnouncementsPage() {
                       // We'll need to expose a method from AnnouncementList to open the modal
                       window.openAnnouncementModal?.();
                     }}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-air hover:bg-[#595B88] text-white font-quicksand transition-all"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-charcoal hover:bg-[#595B88] text-white font-quicksand transition-all"
                   >
                     <svg
                       className="h-5 w-5"
@@ -170,7 +170,7 @@ export default function AnnouncementsPage() {
                     className={`px-3 py-2 rounded-full text-sm font-medium transition-all
                       ${
                         filterStyle === style || (style === 'Tous' && filterStyle === '')
-                          ? 'bg-air text-white'
+                          ? 'bg-charcoal text-white'
                           : 'bg-[#2a2b3c] text-gray-300 hover:bg-[#3a3b4c]'
                       }`}
                   >

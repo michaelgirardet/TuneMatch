@@ -28,6 +28,7 @@ interface SearchFilters {
   city?: string;
   country?: string;
   instruments?: string;
+  query?: string;
   page: number;
   limit: number;
 }
@@ -40,6 +41,7 @@ export default function SearchPage() {
   const [filters, setFilters] = useState<SearchFilters>({
     page: 1,
     limit: 12,
+    query: '',
   });
   const [pagination, setPagination] = useState({
     total: 0,
@@ -130,7 +132,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-oxford">
       {/* Hero section */}
-      <div className="bg-space py-16">
+      <div className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-quicksand text-5xl md:text-6xl font-bold text-white mb-6">
@@ -146,8 +148,8 @@ export default function SearchPage() {
                 type="text"
                 placeholder="Rechercher par genre, instrument..."
                 className="w-full bg-surface-white bg-opacity-10 backdrop-blur-sm text-surface-white border border-primary-light rounded-full py-4 px-6 pl-12 focus:outline-none focus:ring-2 focus:ring-accent-violet"
-                onChange={(e) => handleFilterChange('genres', e.target.value)}
-                value={filters.genres || ''}
+                onChange={(e) => handleFilterChange('query', e.target.value)}
+                value={filters.query || ''}
               />
               <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-primary-light text-xl" />
               <button
@@ -167,13 +169,13 @@ export default function SearchPage() {
         <div
           className={`mb-10 transition-all duration-300 ${isFiltersOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}
         >
-          <div className="bg-primary rounded-xl shadow-lg p-6">
+          <div className="bg-space rounded-xl shadow-lg p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="font-heading text-xl text-surface-white">Filtres avancés</h2>
+              <h2 className="font-quicksand text-xl text-white">Filtres avancés</h2>
               <button
                 type="button"
                 onClick={clearFilters}
-                className="text-sm text-primary-light hover:text-accent-violet transition-colors"
+                className="text-sm text-white font-quicksand hover:text-accent-violet transition-colors"
               >
                 Réinitialiser
               </button>
@@ -181,12 +183,12 @@ export default function SearchPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <label htmlFor="role-select" className="block text-sm text-primary-light font-body">
+                <label htmlFor="role-select" className="block text-sm  text-white font-quicksand">
                   Rôle
                 </label>
                 <select
                   id="role-select"
-                  className="w-full bg-primary-dark text-surface-light font-body px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
+                  className="w-full bg-primary-dark text-oxford font-quicksand px-4 py-3 rounded-lg border border-primary focus:outline-none focus:border-accent-violet"
                   onChange={(e) => handleFilterChange('role', e.target.value)}
                   value={filters.role || ''}
                 >
@@ -199,7 +201,7 @@ export default function SearchPage() {
 
               <div className="space-y-2">
                 <label
-                  className="block text-sm text-primary-light font-body"
+                  className="block text-sm text-white font-quicksand"
                   htmlFor="music-genres-select"
                 >
                   Genre musical
@@ -218,7 +220,7 @@ export default function SearchPage() {
 
               <div className="space-y-2">
                 <label
-                  className="block text-sm text-primary-light font-body"
+                  className="block text-sm text-white font-quicksand"
                   htmlFor="instrument choice"
                 >
                   Instrument
@@ -233,7 +235,7 @@ export default function SearchPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm text-primary-light font-body" htmlFor="city choice">
+                <label className="block text-sm text-white font-quicksand" htmlFor="city choice">
                   Ville
                 </label>
                 <div className="relative">
@@ -249,10 +251,7 @@ export default function SearchPage() {
               </div>
 
               <div className="space-y-2">
-                <label
-                  className="block text-sm text-primary-light font-body"
-                  htmlFor="country choice"
-                >
+                <label className="block text-sm text-white font-quicksand" htmlFor="country choice">
                   Pays
                 </label>
                 <div className="relative">
@@ -268,7 +267,7 @@ export default function SearchPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm text-primary-light font-body" htmlFor="results">
+                <label className="block text-sm text-white font-quicksand" htmlFor="results">
                   Résultats par page
                 </label>
                 <select
@@ -287,7 +286,7 @@ export default function SearchPage() {
               <button
                 type="button"
                 onClick={fetchArtists}
-                className="bg-accent-violet hover:bg-accent-pink text-surface-white font-body font-medium py-2 px-6 rounded-full transition-colors duration-300 flex items-center"
+                className="bg-electric hover:bg-electrichover text-white font-quicksand font-semibold py-2 px-6 rounded-full transition-colors duration-300 flex items-center"
               >
                 <FiSearch className="mr-2" />
                 Rechercher

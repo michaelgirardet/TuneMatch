@@ -263,7 +263,7 @@ export default function AnnouncementList() {
               setSelectedAnnouncement(undefined);
               setIsModalOpen(true);
             }}
-            className="px-4 py-2 rounded bg-air hover:bg-airhover text-white font-quicksand"
+            className="px-4 py-2 rounded bg-charcoal hover:bg-charcoalhover text-white font-quicksand"
           >
             Créer une annonce
           </button>
@@ -293,7 +293,7 @@ export default function AnnouncementList() {
                   }}
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-air flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
                   {announcement.nom_utilisateur[0].toUpperCase()}
                 </div>
               )}
@@ -304,7 +304,7 @@ export default function AnnouncementList() {
                   <span
                     onClick={() => router.push(`/profile/${announcement.user_id}`)}
                     onKeyDown={() => router.push(`/profile/${announcement.user_id}`)}
-                    className="cursor-pointer text-air hover:text-airhover transition-colors"
+                    className="cursor-pointer text-air hover:text-charcoalhover transition-colors"
                   >
                     {announcement.nom_utilisateur}
                   </span>
@@ -372,7 +372,7 @@ export default function AnnouncementList() {
                       setSelectedAnnouncementId(announcement.id);
                       setIsApplicationModalOpen(true);
                     }}
-                    className="px-6 py-3 rounded bg-air text-white text-sm font-quicksand"
+                    className="px-6 py-3 rounded bg-charcoal text-white text-sm font-quicksand"
                   >
                     Postuler
                   </button>
