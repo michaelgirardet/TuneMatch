@@ -147,7 +147,7 @@ export default function SearchPage() {
               <input
                 type="text"
                 placeholder="Rechercher par genre, instrument..."
-                className="w-full bg-space text-white border border-space rounded-full py-4 px-6 pl-12 focus:outline-electric"
+                className="w-full bg-space text-white border border-space rounded-lg py-4 px-6 pl-12 focus:outline-electric"
                 onChange={(e) => handleFilterChange('query', e.target.value)}
                 value={filters.query || ''}
               />
