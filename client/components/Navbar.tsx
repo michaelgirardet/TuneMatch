@@ -77,6 +77,12 @@ export default function Navbar() {
                 Annonces
               </Link>
               <Link
+                href="/discover"
+                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+              >
+                Découverte
+              </Link>
+              <Link
                 href="/messages"
                 className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >

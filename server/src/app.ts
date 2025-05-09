@@ -8,6 +8,7 @@ import messageRoutes from './routes/message.routes';
 import searchRoutes from './routes/search.routes';
 import tracksRoutes from './routes/tracks.routes';
 import userRoutes from './routes/user.routes';
+import discoverRoutes from './routes/discover.routes';
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/search', searchRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/announcements', announcementRoutes);
+app.use('/api/discover', discoverRoutes);
 
 console.log('Routes enregistrées');
 
