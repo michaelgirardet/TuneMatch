@@ -88,7 +88,6 @@ export default function MyMatches() {
 
   return (
     <section className="mt-12">
-      <h2 className="text-white text-2xl font-semibold mb-4">Mes Matchs</h2>
       <div className="relative">
         {/* Bouton gauche */}
         <button
@@ -103,7 +102,7 @@ export default function MyMatches() {
         {/* Carousel */}
         <div
           ref={carouselRef}
-          className="flex overflow-x-auto space-x-4 scrollbar-hide scroll-smooth px-8"
+          className="flex overflow-x-auto space-x-4 scrollbar-hide scroll-smooth px-8 justify-center items-center"
           style={{ scrollBehavior: 'smooth' }}
         >
           {matches.map((match) => (
