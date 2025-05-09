@@ -38,7 +38,6 @@ export default function Profile() {
 
   // --- Handlers pour update ---
   async function handleUpdateGenres(newGenres: string[]) {
-    console.log('🔁 Appel API: update genres', newGenres);
     const response = await fetchWithAuth('http://localhost:5001/api/users/genres', {
       method: 'PUT',
       body: JSON.stringify({ genres: newGenres }),
@@ -73,7 +72,6 @@ export default function Profile() {
       body: JSON.stringify({ biography: newBio }),
     });
     const json = await response.json();
-    console.log('Updated user:', json.user);
     if (response.ok && json.user) {
       updateUser(json.user);
       setBioModalOpen(false);
