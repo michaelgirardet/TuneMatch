@@ -217,6 +217,12 @@ export default function Navbar() {
                           <span>Annonces</span>
                         </Link>
                         <Link
+                          href="/discover"
+                          className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                        >
+                          Découverte
+                        </Link>
+                        <Link
                           href="/messages"
                           className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
                           onClick={handleBurger}
