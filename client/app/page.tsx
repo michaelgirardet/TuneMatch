@@ -22,7 +22,10 @@ export default function Home() {
             Prêt à faire matcher ta musique ?
           </h2>
         </div>
-        <Link href="/register" className="self-center w-full md:w-auto">
+        <Link
+          href="/register"
+          className="flex justify-center items-center self-center w-full md:w-auto"
+        >
           <button
             className="btn btn-wide bg-electric hover:bg-electrichover font-semibold px-10 py-5 rounded-lg flex gap-5"
             type="button"
