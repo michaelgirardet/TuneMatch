@@ -9,6 +9,7 @@ import searchRoutes from './routes/search.routes';
 import tracksRoutes from './routes/tracks.routes';
 import userRoutes from './routes/user.routes';
 import discoverRoutes from './routes/discover.routes';
+import reviewRoutes from './routes/review.routes';
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/discover', discoverRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 console.log('Routes enregistrées');
 

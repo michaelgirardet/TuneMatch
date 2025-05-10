@@ -147,6 +147,20 @@ CREATE TABLE notifications (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- TABLE Reviews
+CREATE TABLE reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  reviewer_id INT NOT NULL,      -- utilisateur qui donne l'avis
+  reviewed_id INT NOT NULL,      -- utilisateur qui reçoit l'avis (l'artiste)
+  rating INT NOT NULL,           -- note, ex: 1 à 5
+  comment TEXT,                  -- commentaire optionnel
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_review (reviewer_id, reviewed_id),
+  FOREIGN KEY (reviewer_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (reviewed_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
 INSERT INTO users (
   nom_utilisateur, email, password, role, photo_profil, instruments, biography, city, country, refresh_token
 ) VALUES
@@ -230,3 +244,15 @@ INSERT INTO announcements (title, description, musical_style, voice_type, instru
 INSERT INTO applications (announcement_id, artist_id, message) VALUES
 (1, 1, 'Je suis intéressé par cette annonce'),
 (1, 3, 'Je suis également intéressé par cette annonce');
+
+INSERT INTO reviews (reviewer_id, reviewed_id, rating, comment) VALUES
+(1, 2, 5, 'Un artiste incroyable, très professionnel et créatif !'),
+(3, 2, 4, 'Très bon travail, à recommander.'),
+(4, 1, 3, 'Bon musicien mais peut encore s’améliorer sur certains aspects.'),
+(2, 3, 5, 'Collaboration parfaite, super expérience !'),
+(5, 1, 2, 'Pas entièrement satisfait, communication difficile.'),
+(6, 4, 4, 'Beau travail, à refaire avec plaisir.'),
+(7, 5, 5, 'Talentueux et très sympathique.'),
+(8, 2, 3, 'Correct mais manque un peu d’originalité.'),
+(9, 6, 4, 'Bonne énergie et bon son.'),
+(10, 7, 5, 'Artiste très professionnel, je recommande vivement !');
