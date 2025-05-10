@@ -43,10 +43,24 @@ export default function MessagesPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
+      <div className="flex flex-col items-center justify-start mt-8 flex-1 bg-oxford">
         <div className="w-[80vw] flex gap-5">
           <Link href="/">
-            <ArrowLeftIcon className="h-8 w-8 text-gray-200 mb-5" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6 text-white"
+            >
+              <title>return</title>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+              />
+            </svg>
           </Link>
           <h1 className="text-2xl font-quicksand text-white mb-6">Mes conversations</h1>
         </div>

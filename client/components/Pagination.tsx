@@ -36,46 +36,36 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
   };
 
   return (
-    <div className="join flex justify-center gap-3 font-quicksand font-semibold text-md">
+    <nav className="join text-white flex gap-5">
       <button
         type="button"
-        className="join-item text-2xl btn text-white"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
+        className="btn btn-soft btn-square join-item text-white"
+        aria-label="Previous Button"
       >
-        «
+        <span className="icon-[tabler--chevron-left] size-5 rtl:rotate-180" />
       </button>
-
-      {getVisiblePages().map((page) =>
-        page === -1 ? (
-          <button
-            type="button"
-            key={`ellipsis-${currentPage}-${page}`}
-            className="join-item btn"
-            disabled
-          >
-            ...
-          </button>
-        ) : (
-          <button
-            type="button"
-            key={page}
-            className={`join-item text-white btn ${currentPage === page ? 'btn-active' : ''}`}
-            onClick={() => onPageChange(page)}
-          >
-            {page}
-          </button>
-        )
-      )}
-
       <button
         type="button"
-        className="join-item btn text-2xl text-white"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        className="btn btn-soft join-item btn-square aria-[current='page']:text-bg-soft-primary"
       >
-        »
+        1
       </button>
-    </div>
+      <button
+        type="button"
+        className="btn btn-soft join-item btn-square aria-[current='page']:text-bg-soft-primary"
+        aria-current="page"
+      >
+        2
+      </button>
+      <button
+        type="button"
+        className="btn btn-soft join-item btn-square aria-[current='page']:text-bg-soft-primary"
+      >
+        3
+      </button>
+      <button type="button" className="btn btn-soft btn-square join-item" aria-label="Next Button">
+        <span className="icon-[tabler--chevron-right] size-5 rtl:rotate-180" />
+      </button>
+    </nav>
   );
 }

@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-oxford text-white px-4 py-8 md:py-0 font-quicksand">
-      <div className="w-full max-w-[500px] flex flex-col gap-6 md:gap-8 bg-opacity-80 rounded-xl md:shadow-xl md:bg-space/70 p-4 md:p-10">
+    <div className="min-h-full flex flex-col justify-center items-center bg-oxford text-white px-4 py-8 md:py-0 font-quicksand">
+      <div className="w-full max-w-[500px] flex flex-col gap-6">
         <h1 className="font-bold font-quicksand text-4xl md:text-5xl pb-6 md:pb-10 text-center">
           Tune
           <span className="text-[#B35CFF]">Match</span>
@@ -24,7 +24,7 @@ export default function Home() {
         </div>
         <Link href="/register" className="self-center w-full md:w-auto">
           <button
-            className="bg-electric hover:bg-electrichover mt-4 md:mt-8 w-full md:w-[200px] py-4 md:py-6 px-8 md:px-12 rounded-lg text-lg md:text-xl font-semibold shadow-lg transition font-quicksand"
+            className="btn btn-wide bg-electric hover:bg-electrichover font-semibold px-10 py-5 rounded-lg flex gap-5"
             type="button"
           >
             Découvrir

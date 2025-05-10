@@ -2,7 +2,6 @@
 import LogoBurger from '@/public/sliders-icon-wh.svg';
 import CloseIcon from '@/public/xmark-wh.svg';
 import { useAuthStore } from '@/store/authStore';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -10,6 +9,7 @@ import { useState } from 'react';
 import NotificationsMenu from './NotificationsMenu';
 import { toast } from 'react-toastify';
 import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
+import { FiTool } from 'react-icons/fi';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuthStore();
@@ -50,12 +50,12 @@ export default function Navbar() {
     <nav className="bg-space p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2 cursor-pointer">
-          <h1 className="text-white text-4xl font-quicksand font-bold">
+          <h1 className="text-white text-2xl font-quicksand font-bold">
             Tune<span className="text-[#B35CFF] font-extrabold">Match</span>
           </h1>
         </Link>
         {/* Navigation Desktop */}
-        <div className="hidden md:flex gap-4 items-center text-md lg:text-lg">
+        <div className="hidden md:flex gap-4 items-center text-sm lg:text-lg">
           {isAuthenticated ? (
             <>
               <Link
@@ -88,8 +88,26 @@ export default function Navbar() {
               >
                 Messages
               </Link>
-              <Link href="/search" aria-label="search an artist">
-                <MagnifyingGlassIcon className="h-6 w-6 stroke-gray-400 cursor-pointer" />
+              <Link
+                href="/search"
+                aria-label="search an artist"
+                className="size-6 text-white hover:text-electric"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <title>MagnifyingGlassIcon</title>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
               </Link>
               <NotificationsMenu />
               {user && (
@@ -107,7 +125,7 @@ export default function Navbar() {
                           alt={user.nom_utilisateur}
                           width={48}
                           height={48}
-                          className="object-fit w-full h-full"
+                          className="object-cover object-center w-full h-full"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = '/default-avatar.png';
@@ -197,41 +215,42 @@ export default function Navbar() {
                         <NotificationsMenu />
                         <Link
                           href="/"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Accueil</span>
                         </Link>
                         <Link
                           href="/profile"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Profil</span>
                         </Link>
                         <Link
                           href="/announcements"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Annonces</span>
                         </Link>
                         <Link
                           href="/discover"
-                          className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          onClick={handleBurger}
                         >
                           Découverte
                         </Link>
                         <Link
                           href="/messages"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Messages</span>
                         </Link>
                         <Link
                           href="/search"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Recherche</span>
@@ -240,7 +259,7 @@ export default function Navbar() {
                         <button
                           type="button"
                           onClick={handleLogout}
-                          className="flex items-center px-4 py-3 text-red-600 hover:bg-red-500/10 rounded-lg transition-all duration-200 text-xl font-medium mt-auto font-quicksand"
+                          className="flex items-center px-4 py-3 text-red-600 hover:bg-red-500/10 rounded-lg transition-all duration-200 text-lg font-medium mt-auto font-quicksand"
                         >
                           <span>Déconnexion</span>
                         </button>

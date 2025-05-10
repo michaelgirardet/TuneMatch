@@ -16,7 +16,7 @@ type AuthRequestHandler = RequestHandler<
   { user?: AuthRequest['user'] }
 >;
 
-// Récupérer le profil d'un utilisateur par son ID
+// Récupérer le profil de l'utilisateur actuel
 export const getCurrentUserProfile: AuthRequestHandler = async (req, res) => {
   try {
     const userId = req.user?.userId;
@@ -41,6 +41,23 @@ export const getCurrentUserProfile: AuthRequestHandler = async (req, res) => {
     console.error('Erreur lors de la récupération du profil:', error);
     res.status(500).json({ error: 'Erreur lors de la récupération du profil' });
   }
+};
+
+// Récupérer le profil de l'interlocuteur
+export const getUserById: RequestHandler<{ id: string }> = async (req, res) => {
+  const { id } = req.params;
+  const [rows] = await req.app.locals.pool.execute(
+    `SELECT id, nom_utilisateur, role, photo_profil, biography, genres_musicaux,
+     youtube_link, instagram_link, soundcloud_link, city, country
+     FROM users WHERE id = ?`,
+    [id]
+  );
+
+  if (!Array.isArray(rows) || rows.length === 0) {
+    return res.status(404).json({ error: 'Utilisateur non trouvé' });
+  }
+
+  res.json(rows[0]);
 };
 
 // Changer sa photo de profil
