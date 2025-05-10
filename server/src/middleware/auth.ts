@@ -64,7 +64,23 @@ export const auth: RequestHandler = async (req: AuthRequest, res: Response, next
         }
       }
 
-      req.user = decoded;
+      // Récupérer nom_utilisateur depuis la DB
+      const [rows] = await req.app.locals.pool.execute(
+        'SELECT nom_utilisateur FROM users WHERE id = ?',
+        [decoded.userId]
+      );
+
+      if (!rows[0]) {
+        console.log('Utilisateur non trouvé dans la base');
+        return res.status(401).json({ message: 'Utilisateur introuvable' });
+      }
+
+      req.user = {
+        ...decoded,
+        nom_utilisateur: rows[0].nom_utilisateur,
+      };
+
+      
       next();
     } catch (error) {
       console.error('Erreur de vérification du token:', error);

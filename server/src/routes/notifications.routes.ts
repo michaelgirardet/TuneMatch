@@ -1,4 +1,4 @@
-import { getUserNotifications, markNotificationAsRead } from '@/controllers/application.controller';
+import { getUserNotifications, markNotificationAsRead } from '@/controllers/notifications.controller';
 import express from 'express';
 import { auth } from '../middleware/auth';
 

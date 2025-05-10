@@ -16,6 +16,15 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || 'mon_projet',
 });
 
+// Example query to test database connection
+pool.query('SELECT 1 + 1 AS solution', (error, results) => {
+  if (error) {
+    console.error('Database connection failed:', error);
+  } else {
+    console.log('Database connected successfully. Test query result:', results[0].solution);
+  }
+});
+
 // Route de test
 app.get('/api/test', (_req, res) => {
   res.json({ message: 'Connexion réussie avec le serveur!' });
