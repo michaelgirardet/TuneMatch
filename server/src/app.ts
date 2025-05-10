@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import applicationRoutes from './routes/application.routes';
+import notificationRoutes from './routes/notifications.routes';
 import authRoutes from './routes/auth.routes';
 import messageRoutes from './routes/message.routes';
 import tracksRoutes from './routes/tracks.routes';
@@ -31,7 +31,7 @@ console.log('Enregistrement des routes...');
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tracks', tracksRoutes);
-app.use('/api/applications', applicationRoutes);
+app.use('/api/applications', notificationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/discover', discoverRoutes);
 app.use('/api/reviews', reviewRoutes);

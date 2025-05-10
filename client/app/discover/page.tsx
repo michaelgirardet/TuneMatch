@@ -11,10 +11,6 @@ export default function DiscoverPage() {
     <main className="min-h-screen w-full bg-oxford p-6 font-quicksand flex flex-col items-center justify-center">
       <h1 className="text-white text-4xl font-bold mb-8 text-center">Découvrir des musiciens</h1>
       <UserSwiper />
-      <div>
-        <h2 className="text-white text-4xl font-bold mb-8 mt-8 text-center">Mes Matchs</h2>
-        <MyMatches />
-      </div>
     </main>
   );
 }

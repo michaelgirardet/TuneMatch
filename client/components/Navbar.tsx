@@ -78,6 +78,12 @@ export default function Navbar() {
                 Découverte
               </Link>
               <Link
+                href="/matches"
+                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+              >
+                Mes Matchs
+              </Link>
+              <Link
                 href="/messages"
                 className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
@@ -208,6 +214,13 @@ export default function Navbar() {
                           onClick={handleBurger}
                         >
                           Découverte
+                        </Link>
+                        <Link
+                          href="/matches"
+                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          onClick={handleBurger}
+                        >
+                          Mes Matchs
                         </Link>
                         <Link
                           href="/messages"
