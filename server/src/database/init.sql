@@ -43,21 +43,6 @@ CREATE TABLE tracks (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- TABLE Annonces (dépend de users)
-CREATE TABLE announcements (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    musical_style VARCHAR(255) NOT NULL,
-    voice_type VARCHAR(255),
-    instrument VARCHAR(255),
-    other_criteria TEXT,
-    user_id INT NOT NULL,
-    status ENUM('active', 'closed') DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
 
 -- TABLE Profil Artiste (dépend de users)
 CREATE TABLE profil_artiste (
@@ -120,20 +105,6 @@ CREATE TABLE messages (
     FOREIGN KEY (id_destinataire) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- TABLE Applications (Collabs aux annonces)
-CREATE TABLE applications (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    announcement_id INT NOT NULL,
-    artist_id INT NOT NULL,
-    message TEXT NOT NULL,
-    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
-    selected_tracks VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (announcement_id) REFERENCES announcements(id) ON DELETE CASCADE,
-    FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_application (announcement_id, artist_id)
-);
 
 -- TABLE Notifications
 CREATE TABLE notifications (
@@ -219,31 +190,6 @@ INSERT INTO swipe_queue (viewer_id, viewed_id, seen) VALUES
 INSERT INTO messages (id_expediteur, id_destinataire, contenu) VALUES
 (1, 2, 'Salut Marie, intéressée par un featuring électro ?'),
 (2, 1, "Salut John, j\'aime ton style ! On peut en discuter.");
-
--- Ajout d'annonces de test
-INSERT INTO announcements (title, description, musical_style, voice_type, instrument, user_id) VALUES
-("Cherche beatmaker trap", "Besoin d'un beatmaker pour un projet de mixtape", "Trap", NULL, NULL, 5),
-("Violoniste pour orchestre", "Recherche violoniste classique pour concerts", "Classique", NULL, "Violon", 4),
-("Batteur métal recherché", "Projet métal en cours, besoin d'un batteur expérimenté", "Métal", NULL, "Batterie", 9),
-("Chanteur reggae", "Besoin d'un chanteur pour un album reggae", "Reggae", "Ténor", NULL, 6),
-("DJ pour collaboration house", "Je cherche un DJ pour mixer mes tracks house", "House", NULL, "DJ", 12),
-("Pianiste jazz", "Cherche pianiste pour trio jazz", "Jazz", NULL, "Piano", 7),
-("Guitariste pour projet indie", "Projet indie-pop en préparation, besoin d'un guitariste", "Indie", NULL, "Guitare", 2),
-("Chanteuse pop urbaine", "Besoin d'une chanteuse avec une voix RnB", "Pop", "Alto", NULL, 10),
-("Basse funk groove", "Je cherche un bassiste funky pour un band", "Funk", NULL, "Basse", 11),
-("Artiste hip-hop pour feat", "Besoin d'un rappeur pour un feat sur mon EP", "Hip-Hop", NULL, NULL, 8),
-("Orchestre symphonique cherche voix", "Orchestre cherchant une voix soprano", "Classique", "Soprano", NULL, 14),
-("Chanteur/Chanteuse rock alternatif", "Besoin d'une voix puissante pour projet rock", "Rock", "Baryton", NULL, 15),
-("Batteur jazz fusion", "Recherche batteur pour projet jazz fusion", "Jazz", NULL, "Batterie", 7),
-("Choriste gospel", "Chœur gospel cherche choriste alto", "Gospel", "Alto", NULL, 13),
-("Saxophoniste funk", "Projet funk en recherche d'un saxophoniste", "Funk", NULL, "Saxophone", 11);
-
-
-
--- Applications de test
-INSERT INTO applications (announcement_id, artist_id, message) VALUES
-(1, 1, 'Je suis intéressé par cette annonce'),
-(1, 3, 'Je suis également intéressé par cette annonce');
 
 INSERT INTO reviews (reviewer_id, reviewed_id, rating, comment) VALUES
 (1, 2, 5, 'Un artiste incroyable, très professionnel et créatif !'),
