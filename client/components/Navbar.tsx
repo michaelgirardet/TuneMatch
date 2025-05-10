@@ -70,12 +70,7 @@ export default function Navbar() {
               >
                 Profil
               </Link>
-              <Link
-                href="/announcements"
-                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
-              >
-                Annonces
-              </Link>
+        
               <Link
                 href="/discover"
                 className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
@@ -227,13 +222,7 @@ export default function Navbar() {
                         >
                           <span>Profil</span>
                         </Link>
-                        <Link
-                          href="/announcements"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
-                          onClick={handleBurger}
-                        >
-                          <span>Annonces</span>
-                        </Link>
+                
                         <Link
                           href="/discover"
                           className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"

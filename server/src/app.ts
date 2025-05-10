@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import announcementRoutes from './routes/announcement.routes';
 import applicationRoutes from './routes/application.routes';
 import authRoutes from './routes/auth.routes';
 import messageRoutes from './routes/message.routes';
@@ -36,7 +35,6 @@ app.use('/api/tracks', tracksRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/messages', messageRoutes);
-app.use('/api/announcements', announcementRoutes);
 app.use('/api/discover', discoverRoutes);
 app.use('/api/reviews', reviewRoutes);
 
