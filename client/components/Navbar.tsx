@@ -70,7 +70,7 @@ export default function Navbar() {
               >
                 Profil
               </Link>
-        
+
               <Link
                 href="/discover"
                 className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
@@ -82,27 +82,6 @@ export default function Navbar() {
                 className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Messages
-              </Link>
-              <Link
-                href="/search"
-                aria-label="search an artist"
-                className="size-6 text-white hover:text-electric"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <title>MagnifyingGlassIcon</title>
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
               </Link>
               <NotificationsMenu />
               {user && (
@@ -222,7 +201,7 @@ export default function Navbar() {
                         >
                           <span>Profil</span>
                         </Link>
-                
+
                         <Link
                           href="/discover"
                           className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
@@ -236,13 +215,6 @@ export default function Navbar() {
                           onClick={handleBurger}
                         >
                           <span>Messages</span>
-                        </Link>
-                        <Link
-                          href="/search"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
-                          onClick={handleBurger}
-                        >
-                          <span>Recherche</span>
                         </Link>
                         <div className="flex-grow" />
                         <button
