@@ -1,244 +1,139 @@
 'use client';
-import { toast } from 'react-toastify';
-import { useAuthStore } from '@/store/authStore';
-import { ArrowLeftIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
-import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
+import Image from 'next/image';
+import { toast } from 'react-toastify';
 
-interface Message {
-  id: number;
-  contenu: string;
-  date_envoi: string;
-  id_expediteur: number;
-  expediteur_nom: string;
-  expediteur_photo: string;
-}
-
-interface Interlocutor {
+interface UserProfile {
   id: number;
   nom_utilisateur: string;
-  photo_profil: string;
+  role: string;
+  photo_profil?: string;
+  biography?: string;
+  genres_musicaux?: string;
+  youtube_link?: string;
+  instagram_link?: string;
+  soundcloud_link?: string;
+  city?: string;
+  country?: string;
 }
 
-export default function ConversationPage({ params }: { params: { id: string } }) {
-  const { token, user } = useAuthStore();
+export default function UserProfilePage() {
+  const params = useParams();
   const router = useRouter();
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [interlocutor, setInterlocutor] = useState<Interlocutor | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const fetchMessages = useCallback(async () => {
-    try {
-      const response = await fetchWithAuth(`http://localhost:5001/api/messages/${params.id}`, {});
-
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des messages');
-      }
-
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      console.error('Erreur:', error);
-      toast.error('Erreur lors de la récupération des messages', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    }
-  }, [params.id]);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
-      fetchMessages();
-      const interval = setInterval(fetchMessages, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [token, fetchMessages]);
-
-  useEffect(() => {
-    const fetchInterlocutor = async () => {
+    const fetchProfile = async () => {
+      setLoading(true);
       try {
-        const response = await fetchWithAuth(`http://localhost:5001/api/users/${params.id}`, {});
-
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des informations de l'interlocuteur");
-        }
-
-        const data = await response.json();
-        setInterlocutor(data);
+        // Adapte l'URL selon ton API
+        const res = await fetchWithAuth(`http://localhost:5001/api/users/${params.id}`);
+        if (!res.ok) throw new Error('Erreur lors du chargement du profil');
+        const data = await res.json();
+        setProfile(data);
       } catch (error) {
-        console.error('Erreur:', error);
+        toast.error('Impossible de charger le profil.');
+        router.push('/404');
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
+    if (params.id) fetchProfile();
+  }, [params.id, router]);
 
-    if (token) {
-      fetchInterlocutor();
-    }
-  }, [token, params.id]);
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-white">
+        Chargement du profil...
+      </div>
+    );
+  }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newMessage.trim()) return;
-
-    try {
-      const response = await fetchWithAuth('http://localhost:5001/api/messages', {
-        method: 'POST',
-        body: JSON.stringify({
-          content: newMessage,
-          recipientId: Number.parseInt(params.id),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erreur lors de l'envoi du message");
-      }
-
-      setNewMessage('');
-      await fetchMessages();
-      toast.success("✉️ Message bien envoyé ! Plus qu'à attendre une réponse.", {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    } catch (error) {
-      console.error('Erreur:', error);
-      toast.error("Erreur lors de l'envoi du message", {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    }
-  };
+  if (!profile) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-white">
+        Profil introuvable.
+      </div>
+    );
+  }
 
   return (
-    <div className="container px-4 py-8 h-screen min-w-[90vw] flex flex-col self-center bg-oxford">
-      {/* En-tête de la conversation */}
-      <div className="bg-[#212936] rounded-t-lg p-4 flex items-center gap-4 border-b border-gray-700">
-        <button
-          type="button"
-          onClick={() => router.push('/messages')}
-          className="p-2 hover:bg-[#2a344a] rounded-full transition-colors"
-        >
-          <ArrowLeftIcon className="h-6 w-6 text-white" />
-        </button>
-        {interlocutor && (
-          <>
-            {interlocutor.photo_profil ? (
-              <Image
-                src={interlocutor.photo_profil}
-                alt={interlocutor.nom_utilisateur}
-                width={40}
-                height={40}
-                className="rounded-full"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = '/default-avatar.png';
-                }}
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-charcoal capitalize flex items-center justify-center text-white font-semibold">
-                {interlocutor.nom_utilisateur}
-              </div>
-            )}
-            <div>
-              <h2 className="text-white font-quicksand text-lg">{interlocutor.nom_utilisateur}</h2>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Zone des messages */}
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 bg-[#1d1e2c] p-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${
-              message.id_expediteur === user?.id ? 'justify-end' : 'justify-start'
-            }`}
-          >
-            <div
-              className={`flex items-start space-x-2 max-w-[70%] ${
-                message.id_expediteur === user?.id ? 'flex-row-reverse space-x-reverse' : 'flex-row'
-              }`}
-            >
-              {message.expediteur_photo ? (
-                <Image
-                  src={message.expediteur_photo}
-                  alt={message.expediteur_nom}
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/default-avatar.png';
-                  }}
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center text-white text-sm font-bold">
-                  {message.expediteur_nom[0].toUpperCase()}
-                </div>
-              )}
-              <div
-                className={`rounded-lg p-3 ${
-                  message.id_expediteur === user?.id
-                    ? 'bg-charcoal text-white'
-                    : 'bg-[#212936] text-gray-200'
-                }`}
-              >
-                <p className="text-sm mb-1">{message.contenu}</p>
-                <p className="text-xs opacity-75">
-                  {formatDistanceToNow(new Date(message.date_envoi), {
-                    addSuffix: true,
-                    locale: fr,
-                  })}
-                </p>
-              </div>
-            </div>
+    <main className="flex flex-col items-center py-12 px-4 bg-oxford min-h-screen">
+      <div className="bg-space rounded-2xl shadow-xl p-8 max-w-2xl w-full flex flex-col items-center">
+        <div className="relative">
+          <Image
+            src={profile.photo_profil || '/default-avatar.jpg'}
+            alt={profile.nom_utilisateur}
+            width={160}
+            height={160}
+            className="rounded-full border-4 border-[#212936] shadow-lg object-cover"
+            priority
+          />
+          <span className="absolute bottom-2 right-2 bg-electric text-white px-3 py-1 rounded-full text-xs font-semibold">
+            {profile.role}
+          </span>
+        </div>
+        <h1 className="text-white text-3xl font-bold mt-6 mb-2 capitalize font-quicksand text-center">
+          {profile.nom_utilisateur}
+        </h1>
+        <p className="text-lavender text-base mb-3 text-center">
+          {profile.city}
+          {profile.city && profile.country ? ', ' : ''}
+          {profile.country}
+        </p>
+        {profile.genres_musicaux && (
+          <div className="mb-4">
+            <span className="bg-[#2a344a] text-air px-3 py-1 rounded-full text-xs font-quicksand">
+              {profile.genres_musicaux}
+            </span>
           </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+        )}
+        {profile.biography && (
+          <p className="text-white text-center mb-6 whitespace-pre-line">{profile.biography}</p>
+        )}
 
-      {/* Formulaire d'envoi */}
-      <form
-        onSubmit={handleSubmit}
-        className="flex items-center space-x-2 bg-[#212936] rounded-b-lg p-4"
-      >
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Écrivez votre message..."
-          className="flex-1 bg-[#2a344a] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#51537B]"
-        />
-        <button
-          type="submit"
-          className="bg-charcoal text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={!newMessage.trim()}
-        >
-          <PaperAirplaneIcon className="h-6 w-6" />
-        </button>
-      </form>
-    </div>
+        {/* Réseaux sociaux */}
+        <div className="flex gap-5 mt-4">
+          {profile.youtube_link && (
+            <a
+              href={profile.youtube_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:scale-110 transition-transform"
+              title="YouTube"
+            >
+              <Image src="/icons/youtube.svg" alt="YouTube" width={32} height={32} />
+            </a>
+          )}
+          {profile.instagram_link && (
+            <a
+              href={profile.instagram_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:scale-110 transition-transform"
+              title="Instagram"
+            >
+              <Image src="/icons/instagram.svg" alt="Instagram" width={32} height={32} />
+            </a>
+          )}
+          {profile.soundcloud_link && (
+            <a
+              href={profile.soundcloud_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:scale-110 transition-transform"
+              title="SoundCloud"
+            >
+              <Image src="/icons/soundcloud.svg" alt="SoundCloud" width={32} height={32} />
+            </a>
+          )}
+        </div>
+      </div>
+    </main>
   );
 }

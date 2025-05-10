@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import { number, z } from 'zod';
+import { z } from 'zod';
 import type { AuthRequest } from '../types/auth.types';
 
 const messageSchema = z.object({
