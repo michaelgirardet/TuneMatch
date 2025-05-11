@@ -131,7 +131,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
+    <div className="container mx-auto px-4 py-8 h-screen flex flex-col font-quicksand rounded-md">
       {/* En-tête de la conversation */}
       <div className="bg-[#212936] rounded-t-lg p-4 flex items-center gap-4 border-b border-gray-700">
         <button
@@ -149,26 +149,28 @@ export default function ConversationPage({ params }: { params: { id: string } })
                 alt={interlocutor.nom_utilisateur}
                 width={40}
                 height={40}
-                className="rounded-full"
+                className="rounded-full h-10 w-10"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = '/default-avatar.png';
                 }}
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-charcoal flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 rounded-full bg-charcoal capitalize flex items-center justify-center text-white font-bold">
                 {interlocutor.nom_utilisateur[0].toUpperCase()}
               </div>
             )}
             <div>
-              <h2 className="text-white font-quicksand text-lg">{interlocutor.nom_utilisateur}</h2>
+              <h2 className="text-white font-quicksand text-lg capitalize">
+                {interlocutor.nom_utilisateur}
+              </h2>
             </div>
           </>
         )}
       </div>
 
       {/* Zone des messages */}
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 bg-[#1d1e2c] p-4">
+      <div className="flex-1 overflow-y-auto mb-4 space-y-4 bg-raisin p-4">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -229,11 +231,11 @@ export default function ConversationPage({ params }: { params: { id: string } })
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Écrivez votre message..."
-          className="flex-1 bg-[#2a344a] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#51537B]"
+          className="flex-1 bg-raisin text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#51537B]"
         />
         <button
           type="submit"
-          className="bg-charcoal text-white p-2 rounded-lg hover:bg-[#8f1356] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-electric text-white p-2 rounded-lg hover:bg-electrichover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!newMessage.trim()}
         >
           <PaperAirplaneIcon className="h-6 w-6" />

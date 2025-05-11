@@ -80,7 +80,7 @@ export default function UserSwiper() {
   if (currentIndex >= profiles.length) {
     return (
       <div className="text-white text-center py-20">
-        Plus de profils à découvrir pour le moment.
+        Pas de nouveaux profils à découvrir pour le moment.
       </div>
     );
   }
@@ -97,9 +97,9 @@ export default function UserSwiper() {
         className="w-full mb-4"
         priority
       />
-      <h2 className="text-2xl font-bold mb-1">{profile.nom_utilisateur}</h2>
-      <p className="mb-2 bg-raisin rounded-lg capitalize p-2">{profile.role}</p>
-      <p className="text-air mb-4 bg-raisin">{profile.genres_musicaux}</p>
+      <h2 className="text-4xl font-bold">{profile.nom_utilisateur}</h2>
+      <p className="bg-raisin rounded-lg capitalize p-2">{profile.role}</p>
+      <p className="text-air bg-raisin">{profile.genres_musicaux}</p>
       <div className="flex gap-8 p-4">
         <button
           type="button"

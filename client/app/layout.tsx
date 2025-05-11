@@ -8,7 +8,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="min-h-screen flex flex-col justify-center items-center bg-space">
+        <main className="min-h-screen flex flex-col justify-start items-center bg-space py-10">
           {children}
           <ToastContainer
             position="bottom-right"

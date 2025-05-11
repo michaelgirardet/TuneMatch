@@ -13,6 +13,7 @@ import LogoIG from '@/public/instagram-new.png';
 import LogoSoundCloud from '@/public/soundcloud-removebg-preview.png';
 import LogoYT from '@/public/yt-icon-wh.png';
 import BiographyModal from '@/components/BiographyModal';
+import SocialLinksModal from '@/components/SocialLinksModal';
 import type { TrackProps } from '../types/TrackProps';
 import { toast } from 'react-toastify';
 
@@ -21,11 +22,14 @@ export default function Profile() {
   const updateUser = useAuthStore((state) => state.updateUser);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  // Modals state
   const [isGenreModalOpen, setGenreModalOpen] = useState(false);
   const [isBioModalOpen, setBioModalOpen] = useState(false);
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isTrackModalOpen, setTrackModalOpen] = useState(false);
+  const [isSocialModalOpen, setSocialModalOpen] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    'youtube' | 'instagram' | 'soundcloud' | null
+  >(null);
   const [tracks, setTracks] = useState<TrackProps[] | undefined>();
 
   if (!isAuthenticated || !user) {
@@ -36,7 +40,11 @@ export default function Profile() {
     );
   }
 
-  // --- Handlers pour update ---
+  function openSocialModal(platform: 'youtube' | 'instagram' | 'soundcloud') {
+    setSelectedPlatform(platform);
+    setSocialModalOpen(true);
+  }
+
   async function handleUpdateGenres(newGenres: string[]) {
     const response = await fetchWithAuth('http://localhost:5001/api/users/genres', {
       method: 'PUT',
@@ -83,8 +91,8 @@ export default function Profile() {
     setTracks([...safeTracks, { ...newTrack, id: newTrack.id ?? Date.now() }]);
     setTrackModalOpen(false);
   }
+
   async function handleDeleteTrack(trackId: number) {
-    // Appel API pour supprimer, puis maj localement
     setTracks(tracks?.filter((t: { id: number }) => t.id !== trackId));
   }
 
@@ -108,33 +116,24 @@ export default function Profile() {
         />
         <h2 className="text-4xl font-bold text-white capitalize">{user.nom_utilisateur}</h2>
         <p className="text-lg text-white uppercase tracking-wider">{user.role}</p>
+
         {/* Réseaux sociaux */}
         <div className="flex gap-6 justify-center mt-4">
           {[
             { platform: 'youtube', icon: LogoYT, link: user.youtube_link },
             { platform: 'instagram', icon: LogoIG, link: user.instagram_link },
             { platform: 'soundcloud', icon: LogoSoundCloud, link: user.soundcloud_link },
-          ].map(({ platform, icon, link }) =>
-            link ? (
-              <a
-                key={platform}
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition transform hover:scale-110 hover:ring-2 ring-[#51537B] rounded-lg p-2"
-              >
-                <Image src={icon} alt={`${platform} logo`} width={50} height={50} />
-              </a>
-            ) : (
-              <div
-                key={platform}
-                className="opacity-40 cursor-not-allowed rounded-lg p-2 bg-space"
-                title="Lien non fourni"
-              >
-                <Image src={icon} alt={`${platform} logo grisé`} width={50} height={50} />
-              </div>
-            )
-          )}
+          ].map(({ platform, icon, link }) => (
+            <div
+              key={platform}
+              className={`rounded-lg p-2 ${link ? 'cursor-pointer hover:scale-110 hover:ring-2 ring-[#51537B]' : 'opacity-40 cursor-pointer bg-space'}`}
+              onClick={() => openSocialModal(platform as 'youtube' | 'instagram' | 'soundcloud')}
+              onKeyDown={() => openSocialModal(platform as 'youtube' | 'instagram' | 'soundcloud')}
+              title={link ? '' : 'Lien non fourni'}
+            >
+              <Image src={icon} alt={`${platform} logo`} width={50} height={50} />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -142,7 +141,6 @@ export default function Profile() {
       <section className="bg-space w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
         {/* Genres musicaux */}
         <div>
-          <div className="flex justify-between items-center mb-3" />
           <ul className="w-full flex items-center justify-between">
             {user.genres_musicaux ? (
               user.genres_musicaux.split(',').map((genre) => (
@@ -157,8 +155,7 @@ export default function Profile() {
               ))
             ) : (
               <li
-                className="text-white
-                "
+                className="text-white"
                 onClick={() => setGenreModalOpen(true)}
                 onKeyDown={() => setGenreModalOpen(true)}
               >
@@ -167,9 +164,9 @@ export default function Profile() {
             )}
           </ul>
         </div>
+
         {/* Localisation */}
         <div>
-          <div className="flex justify-between items-center mb-3" />
           <p
             className="text-white capitalize text-2xl font-semibold"
             onClick={() => setLocationModalOpen(true)}
@@ -178,9 +175,9 @@ export default function Profile() {
             {user.city || 'Pas de ville renseignée !'}, {user.country || 'Pays inconnu'}
           </p>
         </div>
+
+        {/* Biographie */}
         <div>
-          {/* Biographie */}
-          <div className="flex justify-between items-center mb-3" />
           <p
             className="bg-raisin text-white p-4 rounded-md"
             onClick={() => setBioModalOpen(true)}
@@ -199,9 +196,8 @@ export default function Profile() {
           />
         </div>
       </section>
-      {/* 
 
-{/* Modals */}
+      {/* Modals */}
       <GenreSelectionModal
         isOpen={isGenreModalOpen}
         onClose={() => setGenreModalOpen(false)}
@@ -225,6 +221,21 @@ export default function Profile() {
         onClose={() => setTrackModalOpen(false)}
         onAdd={handleAddTrack}
       />
+      {selectedPlatform && (
+        <SocialLinksModal
+          isOpen={isSocialModalOpen}
+          onClose={() => setSocialModalOpen(false)}
+          onUpdate={(updatedLinks) => {
+            updateUser({ ...user, ...updatedLinks });
+          }}
+          currentLinks={{
+            youtube: user.youtube_link,
+            instagram: user.instagram_link,
+            soundcloud: user.soundcloud_link,
+          }}
+          platform={selectedPlatform}
+        />
+      )}
     </div>
   );
 }

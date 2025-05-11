@@ -85,16 +85,16 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col">
-      <div className="flex flex-col items-center justify-center h-[86vh]">
+    <div className="min-h-screen w-full flex flex-col text-white font-quicksand">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <h1 className="font-quicksand font-semibold text-4xl font mt-5 text-center text-white absolute top-32">
           Mot de passe oublié
         </h1>
         {resetError && <ErrModal message={resetError} />}
         {resetSuccess && <SuccessModal message={resetSuccess} />}
         <form onSubmit={handleForgot} className="flex flex-col justify-center items-center gap-5">
-          <p className="font-quicksand px-4 text-center">
-            Pas de panique, ça nous est tous arrivé au moins une fois
+          <p className="font-quicksand px-4 text-center font-medium text-white">
+            Pas de panique, ça nous est tous arrivé au moins une fois ...
           </p>
           <div className="p-5 flex flex-col justify-center item-center">
             <label htmlFor="email" className="sr-only">
@@ -114,7 +114,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="button font-quicksand font-semibold text-red-100 p-5 w-[200px] rounded flex justify-center self-center item-center bg-charcoal hover:bg-[#595B88]"
+            className="btn btn-wide bg-electric hover:bg-electrichover font-semibold px-10 py-5 rounded-lg flex items-center justify-center self-center gap-5"
           >
             {loading ? 'Envoi...' : 'Valider'}
           </button>

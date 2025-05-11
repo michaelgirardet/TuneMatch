@@ -28,12 +28,12 @@ export default function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: 
   return (
     <div className="flex flex-col gap-4 w-full text-white">
       {tracks.length === 0 ? (
-        <div className="w-full p-6 rounded-lg text-cente flex justify-center items-center">
+        <div className="w-full p-6 rounded-lg">
           {onAddTrack && (
             <button
               type="button"
               onClick={onAddTrack}
-              className="btn btn-wide bg-electric hover:bg-electrichover font-semibold px-10 py-5 rounded-lg flex gap-5"
+              className="btn btn-wide bg-electric hover:bg-electrichover font-semibold px-10 py-5 rounded-lg flex items-center justify-center gap-5"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
