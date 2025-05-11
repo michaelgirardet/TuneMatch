@@ -54,7 +54,7 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-oxford p-8 rounded-xl w-[90%] max-w-md shadow-2xl border-2 border-space relative animate-fade-in">
+      <div className="bg-raisin p-8 rounded-xl w-[90%] max-w-md shadow-2xl border-2 border-space relative animate-fade-in">
         <button
           type="button"
           onClick={onClose}

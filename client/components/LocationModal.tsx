@@ -88,7 +88,7 @@ export default function LocationModal({ isOpen, onClose, currentLocation }: Loca
 
   return (
     <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-oxford p-8 rounded-lg w-[90%] max-w-md">
+      <div className="bg-raisin p-8 rounded-lg w-[90%] max-w-md">
         <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
           Modifier la localisation
         </h2>

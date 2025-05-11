@@ -46,11 +46,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-space p-4 shadow-lg">
+    <nav className="bg-raisin p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2 cursor-pointer">
           <h1 className="text-white text-2xl font-quicksand font-bold">
-            Tune<span className="text-[#B35CFF] font-extrabold">Match</span>
+            Tune<span className="text-electric font-extrabold">Match</span>
           </h1>
         </Link>
         {/* Navigation Desktop */}
@@ -59,32 +59,32 @@ export default function Navbar() {
             <>
               <Link
                 href="/"
-                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Accueil
               </Link>
               <Link
                 href="/profile"
-                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Profil
               </Link>
 
               <Link
                 href="/discover"
-                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Découverte
               </Link>
               <Link
                 href="/matches"
-                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Mes Matchs
               </Link>
               <Link
                 href="/messages"
-                className="text-white hover:text-[#ffffff] hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
+                className="text-white hover:underline decoration-electric underline-offset-8 p-3 rounded-md transition-colors font-quicksand"
               >
                 Messages
               </Link>
@@ -118,10 +118,10 @@ export default function Navbar() {
                     )}
                   </div>
                   {isMenu && (
-                    <div className="absolute right-0 mt-5 w-48 bg-space rounded-lg z-50">
+                    <div className="absolute right-0 mt-5 w-48 bg-raisin rounded-lg z-50">
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-white hover:bg-oxfordhover font-quicksand rounded-t-lg"
+                        className="block px-4 py-2 text-white hover:bg-raisinhover font-quicksand rounded-t-lg"
                         onClick={() => setIsMenu(false)}
                       >
                         Mon profil
@@ -129,7 +129,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-white hover:bg-oxfordhover font-quicksand rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-white hover:bg-raisinhover font-quicksand rounded-b-lg"
                       >
                         Déconnexion
                       </button>
@@ -173,16 +173,16 @@ export default function Navbar() {
               aria-label="Fermer le menu"
             >
               <div
-                className="fixed top-0 right-0 w-[300px] h-full bg-gradient-to-b from-[#1a1f2c] to-[#212936] shadow-2xl transform transition-transform duration-300 ease-in-out"
+                className="fixed top-0 right-0 w-[300px] bg-raisin h-full shadow-2xl transform transition-transform duration-300 ease-in-out"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
               >
-                <div className="flex flex-col h-full p-8 bg-space backdrop-blur-md">
+                <div className="flex flex-col h-full p-8 bg-raisin backdrop-blur-md">
                   <div className="flex justify-end mb-8">
                     <button
                       type="button"
                       onClick={handleBurger}
-                      className="p-2 hover:bg-oxford rounded-full transition-colors duration-200"
+                      className="p-2 hover:bg-raisin rounded-full transition-colors duration-200"
                     >
                       <Image src={CloseIcon} alt="fermeture du menu" className="w-6 h-6" />
                     </button>
@@ -194,14 +194,14 @@ export default function Navbar() {
                         <NotificationsMenu />
                         <Link
                           href="/"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-raisin rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Accueil</span>
                         </Link>
                         <Link
                           href="/profile"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-raisin rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Profil</span>
@@ -209,21 +209,21 @@ export default function Navbar() {
 
                         <Link
                           href="/discover"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-raisin rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           Découverte
                         </Link>
                         <Link
                           href="/matches"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-raisin rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           Mes Matchs
                         </Link>
                         <Link
                           href="/messages"
-                          className="flex items-center px-4 py-3 text-white hover:bg-oxford rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white hover:bg-raisin rounded-lg transition-all duration-200 text-lg font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Messages</span>

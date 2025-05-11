@@ -85,10 +85,11 @@ export default function ForgotPassword() {
   };
 
   return (
-    <main className="min-h-screen w-full flex flex-col">
-      <Navbar />
+    <div className="min-h-screen w-full flex flex-col">
       <div className="flex flex-col items-center justify-center h-[86vh]">
-        <h1 className="title font-quicksand pb-10 text-center">Mot de passe oublié</h1>
+        <h1 className="font-quicksand font-semibold text-4xl font mt-5 text-center text-white absolute top-32">
+          Mot de passe oublié
+        </h1>
         {resetError && <ErrModal message={resetError} />}
         {resetSuccess && <SuccessModal message={resetSuccess} />}
         <form onSubmit={handleForgot} className="flex flex-col justify-center items-center gap-5">
@@ -119,7 +120,6 @@ export default function ForgotPassword() {
           </button>
         </form>
       </div>
-      <Footer />
-    </main>
+    </div>
   );
 }

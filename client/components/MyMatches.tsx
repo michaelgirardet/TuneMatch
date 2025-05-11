@@ -12,8 +12,9 @@ interface UserProfile {
   role: string;
   city?: string;
   country?: string;
-  musical_style?: string;
-  bio?: string;
+  genres_musicaux?: string;
+  youtube_link: string;
+  biography?: string;
 }
 
 export default function MyMatches() {
@@ -78,50 +79,55 @@ export default function MyMatches() {
   }
 
   return (
-    <section className="px-4 flex flex-col items-center gap-8">
+    <section className="p-2 flex flex-col items-center gap-1 font-quicksand">
       {/* Carousel avec photos round */}
-      <div className="flex overflow-x-auto gap-6 py-4 w-full scrollbar-hide justify-center bg-space px-4">
+      <div className="flex items-center justify-center gap-6 w-[95vw] p-2 scrollbar-hide bg-oxford font-quicksand rounded-md">
         {matches.map((match) => (
-          <button
-            type="button"
-            key={match.id}
-            onClick={() => handleSelectMatch(match)}
-            className={`transition duration-200 transform hover:scale-120 focus:outline-none ${
-              selectedMatch?.id === match.id ? 'ring-electric shadow-lg scale-110' : 'opacity-80'
-            } rounded-full`}
-          >
-            <Image
-              src={match.photo_profil || '/default-avatar.jpg'}
-              alt={match.nom_utilisateur}
-              width={80}
-              height={80}
-              className="rounded-full object-cover w-20 h-20 border-2 border-white"
-            />
-          </button>
+          <div key={match.id} className="flex flex-col items-center justify-center">
+            <button
+              type="button"
+              key={match.id}
+              onClick={() => handleSelectMatch(match)}
+              className={`transition duration-200 transform hover:scale-120 focus:outline-none ${
+                selectedMatch?.id === match.id ? 'ring-electric shadow-lg scale-110' : 'opacity-80'
+              } rounded-full`}
+            >
+              <Image
+                src={match.photo_profil || '/default-avatar.jpg'}
+                alt={match.nom_utilisateur}
+                width={100}
+                height={100}
+                className="rounded-full object-cover max-w-20 h-20 bg-lavender"
+              />
+              <p className="text-white font-semibold text-center">{match.nom_utilisateur}</p>
+              <p className="text-white font-medium">{match.role}</p>
+            </button>
+          </div>
         ))}
       </div>
 
       {/* Card avec infos du match sélectionné */}
       {selectedMatch && (
-        <div className="w-[90vw] bg-space p-2 text-white">
+        <div className="w-[95vw] bg-oxford p-2 text-white rounded-md">
           <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
             <Image
               src={selectedMatch.photo_profil || '/default-avatar.jpg'}
               alt={selectedMatch.nom_utilisateur}
               width={140}
               height={140}
-              className="object-cover w-full h-72"
+              className="object-cover w-full h-72 rounded-sm"
             />
-            <div className="flex flex-col text-left gap-2 w-full">
+            <div className="flex flex-col text-left gap-2 p-2 w-full font-quicksand">
               <h2 className="text-2xl font-bold capitalize">{selectedMatch.nom_utilisateur}</h2>
-              <p className="text-lavender text-sm uppercase tracking-wider">{selectedMatch.role}</p>
-              <p className="text-gray-300 text-sm italic">
-                {selectedMatch.bio || 'Aucune bio disponible.'}
+              <p className="text-white text-md uppercase tracking-wider">{selectedMatch.role}</p>
+              <p className="text-white text-md">
+                {selectedMatch.biography || 'Aucune bio disponible.'}
               </p>
             </div>
           </div>
 
           <div className="flex justify-center gap-6 mt-8">
+            <p>{selectedMatch.youtube_link}</p>
             <button
               type="button"
               onClick={() => handleSendMessage(selectedMatch.id)}

@@ -30,7 +30,7 @@ export default function Profile() {
 
   if (!isAuthenticated || !user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-oxford text-white text-2xl">
+      <div className="flex items-center justify-center min-h-screen bg-raisin text-white text-2xl">
         Veuillez vous connecter pour accéder à votre profil.
       </div>
     );
@@ -78,10 +78,9 @@ export default function Profile() {
     }
   }
 
-  // // Tracks (ajout/suppression)
-  async function handleAddTrack(newTrack: string) {
-    // Appel API pour ajouter le track, puis maj localement
-    setTracks([...tracks, { id: Date.now(), ...(typeof newTrack === 'object' ? newTrack : {}) }]);
+  async function handleAddTrack(newTrack: TrackProps) {
+    const safeTracks = Array.isArray(tracks) ? tracks : [];
+    setTracks([...safeTracks, { ...newTrack, id: newTrack.id ?? Date.now() }]);
     setTrackModalOpen(false);
   }
   async function handleDeleteTrack(trackId: number) {
@@ -90,10 +89,10 @@ export default function Profile() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-oxford">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-space font-quicksand">
       {/* Profil Card */}
       <section className="w-[100vw] md:w-[55vw] h-auto mx-auto flex flex-col items-center" />
-      <div className="flex flex-col items-center justify-center gap-5 bg-oxford">
+      <div className="flex flex-col items-center justify-center gap-5 bg-space">
         <ProfilePhoto
           currentPhotoUrl={user.photo_profil}
           onPhotoUpdate={async (url) => {
@@ -107,10 +106,8 @@ export default function Profile() {
             }
           }}
         />
-        <h2 className="text-4xl font-bold font-quicksand text-white capitalize">
-          {user.nom_utilisateur}
-        </h2>
-        <p className="text-lg font-quicksand text-white uppercase tracking-wider">{user.role}</p>
+        <h2 className="text-4xl font-bold text-white capitalize">{user.nom_utilisateur}</h2>
+        <p className="text-lg text-white uppercase tracking-wider">{user.role}</p>
         {/* Réseaux sociaux */}
         <div className="flex gap-6 justify-center mt-4">
           {[
@@ -124,17 +121,17 @@ export default function Profile() {
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition transform hover:scale-110 hover:ring-2 ring-[#51537B] rounded-lg p-2 bg-[#1a1a2f]"
+                className="transition transform hover:scale-110 hover:ring-2 ring-[#51537B] rounded-lg p-2"
               >
-                <Image src={icon} alt={`${platform} logo`} width={40} height={40} />
+                <Image src={icon} alt={`${platform} logo`} width={50} height={50} />
               </a>
             ) : (
               <div
                 key={platform}
-                className="opacity-40 cursor-not-allowed rounded-lg p-2 bg-[#1a1a2f]"
+                className="opacity-40 cursor-not-allowed rounded-lg p-2 bg-space"
                 title="Lien non fourni"
               >
-                <Image src={icon} alt={`${platform} logo grisé`} width={40} height={40} />
+                <Image src={icon} alt={`${platform} logo grisé`} width={50} height={50} />
               </div>
             )
           )}
@@ -142,7 +139,7 @@ export default function Profile() {
       </div>
 
       {/* Infos Profil */}
-      <section className="bg-oxford w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
+      <section className="bg-space w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
         {/* Genres musicaux */}
         <div>
           <div className="flex justify-between items-center mb-3" />
@@ -151,7 +148,7 @@ export default function Profile() {
               user.genres_musicaux.split(',').map((genre) => (
                 <li
                   key={genre}
-                  className="bg-[#32334E] text-white px-4 py-2 rounded-full text-sm cursor-pointer"
+                  className="bg-raisin text-white px-8 py-2 rounded-full text-sm cursor-pointer font-semibold"
                   onClick={() => setGenreModalOpen(true)}
                   onKeyDown={() => setGenreModalOpen(true)}
                 >
@@ -160,7 +157,8 @@ export default function Profile() {
               ))
             ) : (
               <li
-                className="text-white font-quicksand"
+                className="text-white
+                "
                 onClick={() => setGenreModalOpen(true)}
                 onKeyDown={() => setGenreModalOpen(true)}
               >
@@ -173,7 +171,7 @@ export default function Profile() {
         <div>
           <div className="flex justify-between items-center mb-3" />
           <p
-            className="text-white font-quicksand capitalize text-2xl font-semibold"
+            className="text-white capitalize text-2xl font-semibold"
             onClick={() => setLocationModalOpen(true)}
             onKeyDown={() => setLocationModalOpen(true)}
           >
@@ -184,7 +182,7 @@ export default function Profile() {
           {/* Biographie */}
           <div className="flex justify-between items-center mb-3" />
           <p
-            className="bg-space text-white font-quicksand p-2 rounded-md"
+            className="bg-raisin text-white p-4 rounded-md"
             onClick={() => setBioModalOpen(true)}
             onKeyDown={() => setBioModalOpen(true)}
           >

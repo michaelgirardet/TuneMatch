@@ -98,7 +98,7 @@ export default function NotificationsMenu() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6 text-white hover:text-electric flex self-center"
+              className="size-8 text-white hover:text-electric flex self-center"
             >
               <title>notifications icon</title>
               <path
@@ -117,7 +117,7 @@ export default function NotificationsMenu() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-6 w-80 bg-space border border-gray-700 rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 mt-16 w-80 bg-raisin border border-gray-700 rounded-lg shadow-lg z-50">
             <div className="p-4">
               <h3 className="text-lg font-quicksand text-white mb-4">Notifications</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
@@ -129,8 +129,8 @@ export default function NotificationsMenu() {
                       key={notification.id}
                       className={`p-3 rounded-lg ${
                         notification.is_read
-                          ? 'bg-oxford shadow-lg'
-                          : 'bg-oxford border-l-4 border-[#51537B shadow-lg'
+                          ? 'bg-space shadow-lg'
+                          : 'bg-space border-l-4 border-[#51537B shadow-lg'
                       }`}
                       onClick={() => !notification.is_read && markAsRead(notification.id)}
                       onKeyDown={() => !notification.is_read && markAsRead(notification.id)}

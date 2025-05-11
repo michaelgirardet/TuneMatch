@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <div className="font-quicksand py-4 text-center bg-space text-white shadow-sm">
+    <div className="font-quicksand py-4 text-center bg-raisin text-white shadow-sm">
       Copyright TuneMatch 2025
     </div>
   );
