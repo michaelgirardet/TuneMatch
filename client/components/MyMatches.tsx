@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
+import YoutubeIcon from '@/public/yt-icon-wh.png';
+import InstagramIcon from '@/public/instagram-new.png';
+import SoundcloudIcon from '@/public/soundcloud-removebg-preview.png';
 
 interface UserProfile {
   id: number;
@@ -14,6 +17,8 @@ interface UserProfile {
   country?: string;
   genres_musicaux?: string;
   youtube_link: string;
+  instagram_link: string;
+  soundcloud_link: string;
   biography?: string;
 }
 
@@ -81,7 +86,7 @@ export default function MyMatches() {
   return (
     <section className="p-2 flex flex-col items-center gap-1 font-quicksand">
       {/* Carousel avec photos round */}
-      <div className="flex items-center justify-center gap-6 w-[95vw] p-2 scrollbar-hide bg-oxford font-quicksand rounded-md">
+      <div className="flex items-center justify-center gap-6 w-[95vw] p-2 scrollbar-hide bg-raisin font-quicksand rounded-md">
         {matches.map((match) => (
           <div key={match.id} className="flex flex-col items-center justify-center">
             <button
@@ -99,8 +104,10 @@ export default function MyMatches() {
                 height={100}
                 className="rounded-full object-cover max-w-20 h-20 bg-lavender"
               />
-              <p className="text-white font-semibold text-center">{match.nom_utilisateur}</p>
-              <p className="text-white font-medium">{match.role}</p>
+              <p className="text-white font-semibold text-center capitalize">
+                {match.nom_utilisateur}
+              </p>
+              <p className="text-white font-medium capitalize">{match.role}</p>
             </button>
           </div>
         ))}
@@ -108,14 +115,14 @@ export default function MyMatches() {
 
       {/* Card avec infos du match sélectionné */}
       {selectedMatch && (
-        <div className="w-[95vw] bg-oxford p-2 text-white rounded-md">
+        <div className="w-[95vw] bg-raisin p-2 text-white rounded-md">
           <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
             <Image
               src={selectedMatch.photo_profil || '/default-avatar.jpg'}
               alt={selectedMatch.nom_utilisateur}
               width={140}
               height={140}
-              className="object-cover w-full h-72 rounded-sm"
+              className="object-cover w-full h-72 rounded-md"
             />
             <div className="flex flex-col text-left gap-2 p-2 w-full font-quicksand">
               <h2 className="text-2xl font-bold capitalize">{selectedMatch.nom_utilisateur}</h2>
@@ -125,53 +132,107 @@ export default function MyMatches() {
               </p>
             </div>
           </div>
+          <div className="flex items-center justify-between gap-1">
+            <div className="flex justify-end items-center">
+              {selectedMatch.youtube_link ? (
+                <a
+                  href={selectedMatch.youtube_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition transform hover:scale-105"
+                >
+                  <Image src={YoutubeIcon} alt="YouTube" />
+                </a>
+              ) : (
+                <div className="opacity-40 cursor-not-allowed" title="Lien YouTube non renseigné">
+                  <Image src={YoutubeIcon} alt="YouTube désactivé" className="w-12 h-12" />
+                </div>
+              )}
 
-          <div className="flex justify-center gap-6 mt-8">
-            <p>{selectedMatch.youtube_link}</p>
-            <button
-              type="button"
-              onClick={() => handleSendMessage(selectedMatch.id)}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5"
+              <div className="flex justify-end items-center">
+                {selectedMatch.instagram_link ? (
+                  <a
+                    href={selectedMatch.instagram_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition transform hover:scale-105"
+                  >
+                    <Image src={InstagramIcon} alt="Instagram" />
+                  </a>
+                ) : (
+                  <div className="opacity-40 cursor-not-allowed" title="Lien YouTube non renseigné">
+                    <Image src={InstagramIcon} alt="Instagram désactivé" className="w-12 h-12" />
+                  </div>
+                )}
+                <div className="flex justify-end items-center">
+                  {selectedMatch.soundcloud_link ? (
+                    <a
+                      href={selectedMatch.soundcloud_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition transform hover:scale-105"
+                    >
+                      <Image src={SoundcloudIcon} alt="Soundcloud" />
+                    </a>
+                  ) : (
+                    <div
+                      className="opacity-40 cursor-not-allowed"
+                      title="Lien YouTube non renseigné"
+                    >
+                      <Image
+                        src={SoundcloudIcon}
+                        alt="Soundcloud désactivé"
+                        className="w-12 h-12"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleSendMessage(selectedMatch.id)}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition"
               >
-                <title>message</title>
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-                />
-              </svg>
-              Message
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDeleteMatch(selectedMatch.id)}
-              className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-8 h-8"
+                >
+                  <title>message</title>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeleteMatch(selectedMatch.id)}
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition"
               >
-                <title>delete</title>
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-              Supprimer
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-8 h-8"
+                >
+                  <title>delete</title>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       )}

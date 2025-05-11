@@ -72,7 +72,7 @@ export default function MessagesPage() {
               <Link
                 key={conversation.id}
                 href={`/messages/${conversation.id}`}
-                className="block bg-space rounded-lg p-4 hover:bg-raisinhover transition-colors"
+                className="block bg-[#282A3E] rounded-lg p-4 hover:bg-raisinhover transition-colors"
               >
                 <div className="text-white flex items-center space-x-4  min-w-[80vw]">
                   {conversation.photo_profil ? (
@@ -81,7 +81,7 @@ export default function MessagesPage() {
                       alt={conversation.nom_utilisateur}
                       width={48}
                       height={48}
-                      className="rounded-full"
+                      className="rounded-full h-10 w-10"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = '/default-avatar.png';
@@ -93,7 +93,9 @@ export default function MessagesPage() {
                     </div>
                   )}
                   <div className="flex-1">
-                    <h3 className="text-white font-quicksand">{conversation.nom_utilisateur}</h3>
+                    <h3 className="text-white font-quicksand capitalize">
+                      {conversation.nom_utilisateur}
+                    </h3>
                     <p className="text-gray-400 text-sm truncate">{conversation.dernier_message}</p>
                   </div>
                   <div className="text-xs text-gray-500">

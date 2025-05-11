@@ -104,7 +104,7 @@ export const updateSocialLinks: AuthRequestHandler = async (req, res) => {
 
     const columnName = `${platform}_link`;
     const [_result] = await req.app.locals.pool.execute(
-      `UPDATE users SET ${columnName} = ? WHEREcom id = ?`,
+      `UPDATE users SET ${columnName} = ? WHERE id = ?`,
       [link, userId]
     );
 

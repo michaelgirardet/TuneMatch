@@ -12,6 +12,7 @@ module.exports = {
         oxfordhover: '#111D41',
         space: '#1c2541',
         raisin: '#1D1E2C',
+        cadet: '#282A3E',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
