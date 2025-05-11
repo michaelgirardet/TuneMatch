@@ -43,7 +43,7 @@ export default function MessagesPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-start mt-8 flex-1 bg-oxford">
+      <div className="flex flex-col items-center justify-start mt-8 flex-1 bg-raisin">
         <div className="w-[80vw] flex gap-5">
           <Link href="/">
             <svg
@@ -72,7 +72,7 @@ export default function MessagesPage() {
               <Link
                 key={conversation.id}
                 href={`/messages/${conversation.id}`}
-                className="block bg-space rounded-lg p-4 hover:bg-oxfordhover transition-colors"
+                className="block bg-space rounded-lg p-4 hover:bg-raisinhover transition-colors"
               >
                 <div className="text-white flex items-center space-x-4  min-w-[80vw]">
                   {conversation.photo_profil ? (

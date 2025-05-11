@@ -91,10 +91,11 @@ export default function PublicProfile() {
 
         const profileData = await profileRes.json();
         const tracksData = await tracksRes.json();
+        console.log('tracksData :', tracksData);
         const reviewsData = await reviewsRes.json();
 
         setProfile(profileData);
-        setTracks(tracksData);
+        setTracks(Array.isArray(tracksData) ? tracksData : tracksData.tracks || []);
         setReviewsData(reviewsData);
       })
       .catch((err) => {
@@ -105,7 +106,7 @@ export default function PublicProfile() {
   }, [token, params.id]);
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
+    <div className="flex flex-col items-center justify-center flex-1 bg-raisin">
       <div>
         <Link href="/search">
           <ArrowLeftIcon className="h-8 w-8 text-white mb-5" />

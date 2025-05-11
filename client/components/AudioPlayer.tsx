@@ -56,51 +56,55 @@ export default function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: 
         </div>
       ) : (
         <>
-          {tracks.map((track) => (
-            <div key={track.id} className="w-full rounded-lg p-6 flex flex-col gap-4 bg-[#101119]">
-              <div className="flex justify-between items-center">
-                <h3 className="text-white font-quicksand">
-                  {track.artist} - {track.title}
-                </h3>
-                <div className="flex items-center gap-4">
-                  {onDeleteTrack && (
+          {Array.isArray(tracks) &&
+            tracks.map((track) => (
+              <div
+                key={track.id}
+                className="w-full rounded-lg p-6 flex flex-col gap-4 bg-[#101119]"
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="text-white font-quicksand">
+                    {track.artist} - {track.title}
+                  </h3>
+                  <div className="flex items-center gap-4">
+                    {onDeleteTrack && (
+                      <Image
+                        src={CloseIcon}
+                        alt="Supprimer le morceau"
+                        className="w-8 cursor-pointer"
+                        onClick={() => onDeleteTrack(track.id)}
+                      />
+                    )}
                     <Image
-                      src={CloseIcon}
-                      alt="Supprimer le morceau"
+                      src={playingTrackId === track.id ? PauseRose : PlayRose}
                       className="w-8 cursor-pointer"
-                      onClick={() => onDeleteTrack(track.id)}
+                      alt={playingTrackId === track.id ? 'Pause' : 'Play'}
+                      onClick={() => handlePlay(track.id)}
                     />
-                  )}
-                  <Image
-                    src={playingTrackId === track.id ? PauseRose : PlayRose}
-                    className="w-8 cursor-pointer"
-                    alt={playingTrackId === track.id ? 'Pause' : 'Play'}
-                    onClick={() => handlePlay(track.id)}
-                  />
+                  </div>
                 </div>
+                {playingTrackId === track.id && (
+                  <div className="aspect-video w-full">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${track.url}?autoplay=1`}
+                      title={`${track.artist} - ${track.title}`}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
               </div>
-              {playingTrackId === track.id && (
-                <div className="aspect-video w-full">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${track.url}?autoplay=1`}
-                    title={`${track.artist} - ${track.title}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
           {onAddTrack && tracks.length < 3 && (
             <button
               type="button"
               onClick={onAddTrack}
-              className="bg-charcoal text-white px-8 py-4 rounded hover:bg-charcoalhover transition-colors self-center font-quicksand"
+              className="btn btn-wide bg-electric hover:bg-electrichover font-semibold px-10 py-5 rounded-lg flex items-center justify-center gap-5"
             >
-              rceau
+              Ajouter un morceau
             </button>
           )}
         </>

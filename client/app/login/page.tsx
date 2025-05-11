@@ -52,8 +52,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-oxford">
-      <h1 className="font-quicksand text-4xl font mt-5 text-center text-white">Connexion</h1>
+    <div className="flex flex-col items-center bg-space">
+      <h1 className="font-quicksand font-semibold text-4xl font mt-5 text-center text-white absolute top-32">
+        Connexion
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-5">
         <div className="p-5 flex flex-col justify-center item-center">
           <label htmlFor="email" className="form-label" aria-label="email form" />
@@ -63,7 +65,7 @@ export default function Login() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
+            className="bg-raisin text-white text-center form-input w-[90vw] md:w-[35vw] self-center p-5 rounded focus:outline-electric"
             placeholder="Email"
             required
           />
@@ -77,7 +79,7 @@ export default function Login() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
+            className="bg-raisin text-white text-center form-input w-[90vw] md:w-[35vw] self-center p-5 rounded focus:outline-electric"
             required
           />
         </div>
@@ -97,7 +99,7 @@ export default function Login() {
         </div>
         <button
           type="submit"
-          className="bg-electric hover:bg-electrichover text-white button p-5 w-[90vw] md:w-[30vw] rounded flex justify-center self-center item-center text-lg"
+          className="bg-electric hover:bg-electrichover text-white button p-5 w-[90vw] md:w-[35vw] rounded flex justify-center self-center item-center text-lg"
         >
           Connexion
         </button>

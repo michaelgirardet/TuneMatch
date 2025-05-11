@@ -120,8 +120,8 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-oxford text-white bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-space p-6 rounded-lg w-full max-w-md">
+    <div className="fixed inset-0 bg-raisin text-white bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-raisin p-6 mx-2 rounded-lg w-full max-w-md">
         <h2 className="text-xl mb-4 font-quicksand text-center font-semibold uppercase">
           Ajouter un morceau
         </h2>
@@ -131,7 +131,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Titre du morceau"
-            className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand focus:outline-electric"
+            className="form-input p-2 rounded text-center bg-space font-thin italic font-quicksand focus:outline-electric"
             required
           />
           <input
@@ -139,7 +139,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
             placeholder="Nom de l'artiste"
-            className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand focus:outline-electric"
+            className="form-input p-2 rounded text-center bg-space font-thin italic font-quicksand focus:outline-electric"
             required
           />
           <div>
@@ -148,7 +148,7 @@ export default function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalP
               value={youtubeUrl}
               onChange={handleUrlChange}
               placeholder="URL YouTube"
-              className={`form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand w-full focus:outline-electric ${urlError ? 'border border-red-500' : ''}`}
+              className={`form-input p-2 rounded text-center bg-space font-thin italic font-quicksand w-full focus:outline-electric ${urlError ? 'border border-red-500' : ''}`}
               required
             />
             {urlError && <p className="text-red-500 text-sm mt-1">{urlError}</p>}

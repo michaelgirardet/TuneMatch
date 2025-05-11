@@ -180,7 +180,7 @@ export default function GenreSelectionModal({
                 onClick={() => handleGenreToggle(genre)}
                 className={`p-2 font-quicksand rounded transition-colors ${
                   selectedGenres.includes(genre)
-                    ? 'bg-oxford text-white'
+                    ? 'bg-raisin text-white'
                     : 'bg-charcoal text-gray-300 hover:bg-gray-600'
                 }`}
               >
@@ -199,7 +199,7 @@ export default function GenreSelectionModal({
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white hover:bg-oxford font-quicksand"
+              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white hover:bg-raisin font-quicksand"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

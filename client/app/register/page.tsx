@@ -68,7 +68,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 bg-oxford" id="register-form">
+    <div className="flex flex-col items-center justify-center flex-1 bg-space" id="register-form">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col justify-center items-center pb-7 gap-5"
@@ -82,7 +82,7 @@ export default function Register() {
           name="role"
           value={formData.role}
           onChange={handleChange}
-          className="bg-space text-white text-center form-input flex w-[90vw] md:w-[30vw] self-center p-5 rounded active:outline-electric"
+          className="bg-raisin text-white text-center form-input flex w-[90vw] md:w-[30vw] self-center p-5 rounded active:outline-electric"
           required
         >
           <option value="">Tu es dans quel mood ? 😎</option>
@@ -97,7 +97,7 @@ export default function Register() {
           value={formData.nom_utilisateur}
           onChange={handleChange}
           placeholder="Username"
-          className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
+          className="bg-raisin text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
 
@@ -107,7 +107,7 @@ export default function Register() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
+          className="bg-raisin text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
 
@@ -117,7 +117,7 @@ export default function Register() {
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
-          className="bg-space text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
+          className="bg-raisin text-white text-center form-input w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
 
@@ -127,7 +127,7 @@ export default function Register() {
           value={formData.confirm_password}
           onChange={handleChange}
           placeholder="Confirm Password"
-          className="bg-space text-white text-center form-input  w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
+          className="bg-raisin text-white text-center form-input  w-[90vw] md:w-[30vw] self-center p-5 rounded focus:outline-electric"
           required
         />
         <Link

@@ -12,8 +12,8 @@ interface UserProfile {
   role: string;
   city?: string;
   country?: string;
-  musical_style?: string;
-  bio?: string;
+  genres_musicaux?: string;
+  biography?: string;
 }
 
 export default function UserSwiper() {
@@ -88,7 +88,7 @@ export default function UserSwiper() {
   const profile = profiles[currentIndex];
 
   return (
-    <div className="w-[90vw] md:w-[80vw] lg:w-[70vw] h-full bg-space rounded-md p-2 shadow-xl flex flex-col items-center justify-center self-center">
+    <div className="w-[90vw] md:w-[80vw] lg:w-[70vw] h-full bg-oxford text-white rounded-md px-2 py-8 shadow-xl flex flex-col items-center justify-center self-center font-quicksand">
       <Image
         src={profile.photo_profil || '/default-avatar.jpg'}
         alt={profile.nom_utilisateur}
@@ -97,10 +97,9 @@ export default function UserSwiper() {
         className="w-full mb-4"
         priority
       />
-      <h2 className="text-white text-2xl font-bold mb-1">{profile.nom_utilisateur}</h2>
-      <p className="text-lavender mb-2 bg-oxford rounded-full p-2">{profile.role}</p>
-      <p className="text-air mb-4">{profile.musical_style}</p>
-      <p className="text-white text-center mb-6">{profile.bio}</p>
+      <h2 className="text-2xl font-bold mb-1">{profile.nom_utilisateur}</h2>
+      <p className="mb-2 bg-raisin rounded-full p-2">{profile.role}</p>
+      <p className="text-air mb-4 bg-raisin">{profile.genres_musicaux}</p>
       <div className="flex gap-8">
         <button
           type="button"
@@ -141,9 +140,6 @@ export default function UserSwiper() {
             />
           </svg>
         </button>
-      </div>
-      <div className="mt-6 text-gray-400 text-sm">
-        Profil {currentIndex + 1} sur {profiles.length}
       </div>
     </div>
   );

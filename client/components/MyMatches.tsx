@@ -12,8 +12,8 @@ interface UserProfile {
   role: string;
   city?: string;
   country?: string;
-  musical_style?: string;
-  bio?: string;
+  genres_musicaux?: string;
+  biography?: string;
 }
 
 export default function MyMatches() {
@@ -78,26 +78,30 @@ export default function MyMatches() {
   }
 
   return (
-    <section className="px-4 flex flex-col items-center gap-8">
+    <section className="p-2 flex flex-col items-center gap-2">
       {/* Carousel avec photos round */}
-      <div className="flex overflow-x-auto gap-6 py-4 w-full scrollbar-hide justify-center bg-space px-4">
+      <div className="flex overflow-x-auto gap-6 py-4 w-full scrollbar-hide justify-center bg-space font-quicksand">
         {matches.map((match) => (
-          <button
-            type="button"
-            key={match.id}
-            onClick={() => handleSelectMatch(match)}
-            className={`transition duration-200 transform hover:scale-120 focus:outline-none ${
-              selectedMatch?.id === match.id ? 'ring-electric shadow-lg scale-110' : 'opacity-80'
-            } rounded-full`}
-          >
-            <Image
-              src={match.photo_profil || '/default-avatar.jpg'}
-              alt={match.nom_utilisateur}
-              width={80}
-              height={80}
-              className="rounded-full object-cover w-20 h-20 border-2 border-white"
-            />
-          </button>
+          <div key={match.id} className="flex flex-col items-center justify-center">
+            <button
+              type="button"
+              key={match.id}
+              onClick={() => handleSelectMatch(match)}
+              className={`transition duration-200 transform hover:scale-120 focus:outline-none ${
+                selectedMatch?.id === match.id ? 'ring-electric shadow-lg scale-110' : 'opacity-80'
+              } rounded-full`}
+            >
+              <Image
+                src={match.photo_profil || '/default-avatar.jpg'}
+                alt={match.nom_utilisateur}
+                width={80}
+                height={80}
+                className="rounded-full object-cover w-20 h-20 border-2 border-white"
+              />
+              <p className="text-white font-semibold text-center">{match.nom_utilisateur}</p>
+              <p className="text-white font-medium">{match.role}</p>
+            </button>
+          </div>
         ))}
       </div>
 
@@ -112,11 +116,11 @@ export default function MyMatches() {
               height={140}
               className="object-cover w-full h-72"
             />
-            <div className="flex flex-col text-left gap-2 w-full">
+            <div className="flex flex-col text-left gap-2 p-2 w-full font-quicksand">
               <h2 className="text-2xl font-bold capitalize">{selectedMatch.nom_utilisateur}</h2>
-              <p className="text-lavender text-sm uppercase tracking-wider">{selectedMatch.role}</p>
-              <p className="text-gray-300 text-sm italic">
-                {selectedMatch.bio || 'Aucune bio disponible.'}
+              <p className="text-white text-md uppercase tracking-wider">{selectedMatch.role}</p>
+              <p className="text-white text-md">
+                "{selectedMatch.biography || 'Aucune bio disponible.'}"
               </p>
             </div>
           </div>
