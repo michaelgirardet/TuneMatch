@@ -85,7 +85,7 @@ export default function NotificationsMenu() {
           progress: undefined,
           theme: 'dark',
         })}
-      <div className="relative">
+      <div className="relative flex justify-center">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
@@ -98,7 +98,7 @@ export default function NotificationsMenu() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6 text-white hover:text-electric"
+              className="size-6 text-white hover:text-electric flex self-center"
             >
               <title>notifications icon</title>
               <path

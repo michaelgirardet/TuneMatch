@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/store/authStore';
 import PauseRose from '@/public/circle-pause-solid.svg';
 import PlayRose from '@/public/circle-play-solid.svg';
 import CloseIcon from '@/public/circle-xmark-solid.svg';

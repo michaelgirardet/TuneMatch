@@ -52,10 +52,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 bg-oxford">
-      <h1 className="font-quicksand text-4xl font-semibold mb-20 text-center text-white">
-        Connexion
-      </h1>
+    <div className="flex flex-col items-center bg-oxford">
+      <h1 className="font-quicksand text-4xl font mt-5 text-center text-white">Connexion</h1>
       <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-5">
         <div className="p-5 flex flex-col justify-center item-center">
           <label htmlFor="email" className="form-label" aria-label="email form" />
@@ -83,7 +81,7 @@ export default function Login() {
             required
           />
         </div>
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center justify-evenly">
           <Link href="/forgot-password">
             <p className="font-quicksand font-thin text-white text-md hover:underline underline-offset-2">
               Mot de passe oublié ?

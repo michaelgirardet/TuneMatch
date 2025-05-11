@@ -117,19 +117,26 @@ export default function Profile() {
             { platform: 'youtube', icon: LogoYT, link: user.youtube_link },
             { platform: 'instagram', icon: LogoIG, link: user.instagram_link },
             { platform: 'soundcloud', icon: LogoSoundCloud, link: user.soundcloud_link },
-          ].map(
-            ({ platform, icon, link }) =>
-              link && (
-                <a
-                  key={platform}
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition transform hover:scale-110 hover:ring-2 ring-[#51537B] rounded-lg p-2 bg-[#1a1a2f]"
-                >
-                  <Image src={icon} alt={`${platform} logo`} width={40} height={40} />
-                </a>
-              )
+          ].map(({ platform, icon, link }) =>
+            link ? (
+              <a
+                key={platform}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition transform hover:scale-110 hover:ring-2 ring-[#51537B] rounded-lg p-2 bg-[#1a1a2f]"
+              >
+                <Image src={icon} alt={`${platform} logo`} width={40} height={40} />
+              </a>
+            ) : (
+              <div
+                key={platform}
+                className="opacity-40 cursor-not-allowed rounded-lg p-2 bg-[#1a1a2f]"
+                title="Lien non fourni"
+              >
+                <Image src={icon} alt={`${platform} logo grisé`} width={40} height={40} />
+              </div>
+            )
           )}
         </div>
       </div>
@@ -138,63 +145,49 @@ export default function Profile() {
       <section className="bg-oxford w-full md:w-[80vw] lg:w-[50vw] p-5 flex flex-col gap-5">
         {/* Genres musicaux */}
         <div>
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-2xl font-semibold font-quicksand text-center text-white">
-              Genres musicaux
-            </h3>
-            <button
-              type="button"
-              className="text-sm font-quicksand font-thin text-white hover:text-charcoalhover underline"
-              onClick={() => setGenreModalOpen(true)}
-            >
-              Modifier
-            </button>
-          </div>
-          <ul className="flex flex-wrap gap-3">
+          <div className="flex justify-between items-center mb-3" />
+          <ul className="w-full flex items-center justify-between">
             {user.genres_musicaux ? (
               user.genres_musicaux.split(',').map((genre) => (
-                <li key={genre} className="bg-[#32334E] text-white px-3 py-1 rounded-full text-sm">
+                <li
+                  key={genre}
+                  className="bg-[#32334E] text-white px-4 py-2 rounded-full text-sm cursor-pointer"
+                  onClick={() => setGenreModalOpen(true)}
+                  onKeyDown={() => setGenreModalOpen(true)}
+                >
                   {genre}
                 </li>
               ))
             ) : (
-              <li className="text-white font-quicksand">Non renseigné</li>
+              <li
+                className="text-white font-quicksand"
+                onClick={() => setGenreModalOpen(true)}
+                onKeyDown={() => setGenreModalOpen(true)}
+              >
+                Non renseigné
+              </li>
             )}
           </ul>
         </div>
         {/* Localisation */}
         <div>
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-2xl font-semibold font-quicksand text-center text-white">
-              Localisation
-            </h3>
-            <button
-              type="button"
-              className="text-sm font-quicksand font-thin text-white hover:text-charcoalhover underline"
-              onClick={() => setLocationModalOpen(true)}
-            >
-              Modifier
-            </button>
-          </div>
-          <p className="text-white font-quicksand capitalize">
+          <div className="flex justify-between items-center mb-3" />
+          <p
+            className="text-white font-quicksand capitalize text-2xl font-semibold"
+            onClick={() => setLocationModalOpen(true)}
+            onKeyDown={() => setLocationModalOpen(true)}
+          >
             {user.city || 'Pas de ville renseignée !'}, {user.country || 'Pays inconnu'}
           </p>
         </div>
         <div>
           {/* Biographie */}
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-2xl font-semibold font-quicksand text-center text-white">
-              Biographie
-            </h3>
-            <button
-              type="button"
-              className="text-sm font-quicksand font-thin text-white hover:text-charcoalhover underline"
-              onClick={() => setBioModalOpen(true)}
-            >
-              Modifier
-            </button>
-          </div>
-          <p className="text-white font-quicksand">
+          <div className="flex justify-between items-center mb-3" />
+          <p
+            className="bg-space text-white font-quicksand p-2 rounded-md"
+            onClick={() => setBioModalOpen(true)}
+            onKeyDown={() => setBioModalOpen(true)}
+          >
             {user.biography || 'Aucune biographie pour le moment.'}
           </p>
         </div>

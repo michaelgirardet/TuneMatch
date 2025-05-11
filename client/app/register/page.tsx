@@ -73,7 +73,7 @@ export default function Register() {
         onSubmit={handleSubmit}
         className="flex flex-col justify-center items-center pb-7 gap-5"
       >
-        <h1 className="font-quicksand text-4xl font-semibold pb-10 text-center text-white">
+        <h1 className="font-quicksand text-4xl font-semibold text-center text-white mt-5 mb-5">
           Inscription
         </h1>
         {error && <p className="text-red-500">{error}</p>}

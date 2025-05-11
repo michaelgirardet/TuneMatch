@@ -9,7 +9,6 @@ import { useState } from 'react';
 import NotificationsMenu from './NotificationsMenu';
 import { toast } from 'react-toastify';
 import { fetchWithAuth } from '@/app/utils/fetchWithAuth';
-import { FiTool } from 'react-icons/fi';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuthStore();
@@ -249,7 +248,7 @@ export default function Navbar() {
                         </Link>
                         <Link
                           href="/register"
-                          className="flex items-center px-4 py-3 text-white bg-charcoal hover:bg-[#8f1356] rounded-lg transition-all duration-200 text-xl font-medium font-quicksand"
+                          className="flex items-center px-4 py-3 text-white bg-electric hover:bg-electrichover rounded-lg text-xl font-medium font-quicksand"
                           onClick={handleBurger}
                         >
                           <span>Inscription</span>
