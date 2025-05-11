@@ -88,7 +88,7 @@ export default function UserSwiper() {
   const profile = profiles[currentIndex];
 
   return (
-    <div className="w-[90vw] md:w-[80vw] lg:w-[70vw] h-full bg-oxford text-white rounded-md px-2 py-8 shadow-xl flex flex-col items-center justify-center self-center font-quicksand">
+    <div className="w-[95vw] md:w-[80vw] lg:w-[70vw] h-[100vh] bg-oxford text-white rounded-md py-4 shadow-xl flex flex-col items-center justify-between self-center font-quicksand">
       <Image
         src={profile.photo_profil || '/default-avatar.jpg'}
         alt={profile.nom_utilisateur}
@@ -98,13 +98,13 @@ export default function UserSwiper() {
         priority
       />
       <h2 className="text-2xl font-bold mb-1">{profile.nom_utilisateur}</h2>
-      <p className="mb-2 bg-raisin rounded-full p-2">{profile.role}</p>
+      <p className="mb-2 bg-raisin rounded-lg capitalize p-2">{profile.role}</p>
       <p className="text-air mb-4 bg-raisin">{profile.genres_musicaux}</p>
-      <div className="flex gap-8">
+      <div className="flex gap-8 p-4">
         <button
           type="button"
           onClick={handlePass}
-          className="btn bg-charcoal hover:bg-charcoalhover px-6 py-6 flex items-center gap-2 rounded-lg text-white font-semibold"
+          className="btn bg-red-500 hover:bg-red-400 px-8 py-8 flex items-center gap-2 rounded-lg text-white font-semibold"
           aria-label="Passer"
         >
           <svg
@@ -113,7 +113,7 @@ export default function UserSwiper() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-6"
+            className="size-8"
           >
             <title>skip</title>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -121,7 +121,7 @@ export default function UserSwiper() {
         </button>
         <button
           type="button"
-          className="btn bg-red-500 hover:bg-red-400 px-6 py-6 flex items-center gap-2 rounded-lg text-white font-semibold"
+          className="btn bg-electric hover:electrichover px-8 py-8 flex items-center gap-2 rounded-lg text-white font-semibold"
           onClick={handleLike}
         >
           <svg
@@ -130,7 +130,7 @@ export default function UserSwiper() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-6"
+            className="size-8"
           >
             <title>like</title>
             <path

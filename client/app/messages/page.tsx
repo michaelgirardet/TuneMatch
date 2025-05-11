@@ -43,7 +43,7 @@ export default function MessagesPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-start mt-8 flex-1 bg-raisin">
+      <div className="flex flex-col items-center justify-center p-2 bg-raisin rounded-md font-quicksand">
         <div className="w-[80vw] flex gap-5">
           <Link href="/">
             <svg
@@ -52,7 +52,7 @@ export default function MessagesPage() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6 text-white"
+              className="size-8 text-white"
             >
               <title>return</title>
               <path

@@ -98,7 +98,7 @@ export default function NotificationsMenu() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6 text-white hover:text-electric flex self-center"
+              className="size-8 text-white hover:text-electric flex self-center"
             >
               <title>notifications icon</title>
               <path
