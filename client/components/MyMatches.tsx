@@ -86,7 +86,7 @@ export default function MyMatches() {
   return (
     <section className="p-2 flex flex-col items-center gap-1 font-quicksand">
       {/* Carousel avec photos round */}
-      <div className="flex items-center justify-center gap-6 w-[95vw] p-2 scrollbar-hide bg-raisin font-quicksand rounded-md">
+      <div className="flex items-center justify-center gap-6 w-[95vw] p-2 scrollbar-hide bg-raisin font-quicksand rounded-md shadow-2xl">
         {matches.map((match) => (
           <div key={match.id} className="flex flex-col items-center justify-center">
             <button
@@ -115,7 +115,7 @@ export default function MyMatches() {
 
       {/* Card avec infos du match sélectionné */}
       {selectedMatch && (
-        <div className="w-[95vw] bg-raisin p-2 text-white rounded-md">
+        <div className="w-[95vw] bg-raisin p-2 text-white rounded-md shadow-2xl">
           <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
             <Image
               src={selectedMatch.photo_profil || '/default-avatar.jpg'}
@@ -132,7 +132,7 @@ export default function MyMatches() {
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-between gap-1">
+          <div className="flex items-center justify-between md:justify-around gap-1">
             <div className="flex justify-end items-center">
               {selectedMatch.youtube_link ? (
                 <a

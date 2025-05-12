@@ -25,8 +25,6 @@ app.use(
 // Lire les cookies
 app.use(cookieParser());
 
-console.log('Enregistrement des routes...');
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -35,8 +33,6 @@ app.use('/api/applications', notificationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/discover', discoverRoutes);
 app.use('/api/reviews', reviewRoutes);
-
-console.log('Routes enregistrées');
 
 // Route de test
 app.get('/api/health', (_req, res) => {

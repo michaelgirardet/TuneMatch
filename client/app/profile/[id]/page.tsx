@@ -91,7 +91,6 @@ export default function PublicProfile() {
 
         const profileData = await profileRes.json();
         const tracksData = await tracksRes.json();
-        console.log('tracksData :', tracksData);
         const reviewsData = await reviewsRes.json();
 
         setProfile(profileData);

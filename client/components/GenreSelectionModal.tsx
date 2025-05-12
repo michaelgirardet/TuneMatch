@@ -166,9 +166,9 @@ export default function GenreSelectionModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-space p-8 rounded-lg w-[90%] max-w-2xl">
-        <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
+    <div className="fixed inset-0 bg-raisin bg-opacity-60 flex items-center justify-center z-50">
+      <div className="bg-raisin p-6 rounded-lg w-[90%] max-w-md shadow-lg">
+        <h2 className="text-xl mb-4 font-semibold text-white text-center uppercase">
           Sélectionnez vos genres musicaux (max. 3)
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -179,9 +179,7 @@ export default function GenreSelectionModal({
                 type="button"
                 onClick={() => handleGenreToggle(genre)}
                 className={`p-2 font-quicksand rounded transition-colors ${
-                  selectedGenres.includes(genre)
-                    ? 'bg-raisin text-white'
-                    : 'bg-charcoal text-gray-300 hover:bg-gray-600'
+                  selectedGenres.includes(genre) ? 'bg-oxford text-white' : 'bg-space text-lavender'
                 }`}
               >
                 {genre}
@@ -192,14 +190,14 @@ export default function GenreSelectionModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0a0a0a] text-white border border-gray-500 hover:bg-gray-800"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white hover:bg-raisin font-quicksand"
+              className="px-4 py-2 rounded-lg bg-electric text-white hover:bg-electrichover"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

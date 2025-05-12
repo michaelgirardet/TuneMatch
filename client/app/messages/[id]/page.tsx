@@ -131,7 +131,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col font-quicksand rounded-md">
+    <div className="container mx-auto px-4 py-8 h-screen flex flex-col font-quicksand rounded-md bg-raisin">
       {/* En-tête de la conversation */}
       <div className="bg-[#212936] rounded-t-lg p-4 flex items-center gap-4 border-b border-gray-700">
         <button

@@ -87,9 +87,9 @@ export default function LocationModal({ isOpen, onClose, currentLocation }: Loca
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-raisin p-8 rounded-lg w-[90%] max-w-md">
-        <h2 className="text-xl mb-4 font-quicksand text-center font-semibold text-white uppercase">
+    <div className="fixed inset-0 bg-raisin bg-opacity-60 flex items-center justify-center z-50">
+      <div className="bg-raisin p-6 rounded-lg w-[90%] max-w-md shadow-lg">
+        <h2 className="text-xl mb-4 font-semibold text-white text-center uppercase">
           Modifier la localisation
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -98,7 +98,7 @@ export default function LocationModal({ isOpen, onClose, currentLocation }: Loca
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="Ville"
-            className="form-input p-2 rounded text-center bg-space text-white font-thin italic font-quicksand focus:outline-electric"
+            className="p-2 rounded text-center bg-space text-white italic placeholder-gray-400 focus:outline-electric"
             required
           />
           <input
@@ -106,7 +106,7 @@ export default function LocationModal({ isOpen, onClose, currentLocation }: Loca
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             placeholder="Pays"
-            className="form-input p-2 rounded text-center bg-space text-white font-thin italic font-quicksand focus:outline-electric"
+            className="p-2 rounded text-center bg-space text-white italic placeholder-gray-400 focus:outline-electric"
             required
           />
           <div className="flex justify-center gap-4">
@@ -120,7 +120,7 @@ export default function LocationModal({ isOpen, onClose, currentLocation }: Loca
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-oxford font-quicksand"
+              className="px-4 py-2 rounded-lg bg-electric text-white hover:bg-electrichover"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

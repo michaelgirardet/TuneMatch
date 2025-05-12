@@ -28,7 +28,7 @@ export default function AudioPlayer({ tracks = [], onAddTrack, onDeleteTrack }: 
   return (
     <div className="flex flex-col gap-4 w-full text-white">
       {tracks.length === 0 ? (
-        <div className="w-full p-6 rounded-lg">
+        <div className="w-full p-6 rounded-lg flex justify-center items-center">
           {onAddTrack && (
             <button
               type="button"

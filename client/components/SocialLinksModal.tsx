@@ -66,9 +66,9 @@ export default function SocialLinksModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-[#1d1e2c] p-8 rounded-lg w-[90%] max-w-md">
-        <h2 className="text-xl mb-4 font-quicksand text-center font-bold">
+    <div className="fixed inset-0 bg-raisin bg-opacity-60 flex items-center justify-center z-50">
+      <div className="bg-raisin p-6 rounded-lg w-[90%] max-w-md shadow-lg">
+        <h2 className="text-xl mb-4 font-semibold text-white text-center uppercase">
           Modifier le lien {platformLabels[platform]}
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -77,21 +77,21 @@ export default function SocialLinksModal({
             value={link}
             onChange={(e) => setLink(e.target.value)}
             placeholder={`URL ${platformLabels[platform]}`}
-            className="form-input p-2 rounded text-center bg-[#101119] font-thin italic font-quicksand"
+            className="p-2 rounded text-center bg-space text-white italic placeholder-gray-400 focus:outline-electric"
             required
           />
           <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#0A0A0A] border text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-[#0a0a0a] text-white border border-gray-500 hover:bg-gray-800"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 rounded bg-charcoal disabled:opacity-50 text-white font-quicksand"
+              className="px-4 py-2 rounded-lg bg-electric text-white hover:bg-electrichover"
             >
               {loading ? 'Mise à jour...' : 'Enregistrer'}
             </button>

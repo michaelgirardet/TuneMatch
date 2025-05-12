@@ -121,7 +121,7 @@ export default function Navbar() {
                     <div className="absolute right-0 mt-5 w-48 bg-raisin rounded-lg z-50">
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-white hover:bg-raisinhover font-quicksand rounded-t-lg"
+                        className="block px-4 py-2 text-white hover:text-electric font-quicksand rounded-t-lg"
                         onClick={() => setIsMenu(false)}
                       >
                         Mon profil
@@ -129,7 +129,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-white hover:bg-raisinhover font-quicksand rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-white hover:text-electric font-quicksand rounded-b-lg"
                       >
                         Déconnexion
                       </button>

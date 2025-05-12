@@ -52,11 +52,14 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-space">
-      <h1 className="font-quicksand font-semibold text-4xl font mt-5 text-center text-white absolute top-32">
-        Connexion
-      </h1>
-      <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-5">
+    <div className="flex flex-col items-center bg-space w-full">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col justify-center items-center self-center gap-3 h-[80vh] w-full"
+      >
+        <h1 className="font-quicksand font-semibold text-4xl font py-5 text-center text-white">
+          Connexion
+        </h1>
         <div className="p-5 flex flex-col justify-center item-center">
           <label htmlFor="email" className="form-label" aria-label="email form" />
           <input
@@ -83,15 +86,15 @@ export default function Login() {
             required
           />
         </div>
-        <div className="w-full flex items-center justify-evenly">
+        <div className="w-full flex items-center justify-evenly md:justify-center gap-56">
           <Link href="/forgot-password">
-            <p className="font-quicksand font-thin text-white text-md hover:underline underline-offset-2">
+            <p className="font-quicksand font-thin text-white text-sm hover:underline underline-offset-2">
               Mot de passe oublié ?
             </p>
           </Link>
           <div className="flex items-center justyfy-center h-5">
             <Link href="/register">
-              <p className="font-quicksand font-thin text-white text-md hover:underline underline-offset-2">
+              <p className="font-quicksand font-thin text-white text-sm hover:underline underline-offset-2">
                 Pas encore inscrit ?
               </p>
             </Link>
@@ -99,7 +102,7 @@ export default function Login() {
         </div>
         <button
           type="submit"
-          className="bg-electric hover:bg-electrichover text-white button p-5 w-[90vw] md:w-[35vw] rounded flex justify-center self-center item-center text-lg"
+          className="bg-electric hover:bg-electrichover text-white button p-5 mt-12 w-[90vw] md:w-[35vw] rounded flex justify-center self-center item-center text-lg"
         >
           Connexion
         </button>

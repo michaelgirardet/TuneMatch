@@ -80,7 +80,6 @@ export const auth: RequestHandler = async (req: AuthRequest, res: Response, next
         nom_utilisateur: rows[0].nom_utilisateur,
       };
 
-      
       next();
     } catch (error) {
       console.error('Erreur de vérification du token:', error);

@@ -88,13 +88,13 @@ export default function UserSwiper() {
   const profile = profiles[currentIndex];
 
   return (
-    <div className="w-[95vw] md:w-[80vw] lg:w-[70vw] h-[100vh] bg-oxford text-white rounded-md py-4 shadow-xl flex flex-col items-center justify-between self-center font-quicksand">
+    <div className="md:w-[30vw] bg-raisin text-white rounded-md py-4 shadow-xl flex flex-col items-center justify-between self-center font-quicksand">
       <Image
         src={profile.photo_profil || '/default-avatar.jpg'}
         alt={profile.nom_utilisateur}
         width={140}
         height={140}
-        className="w-full mb-4"
+        className="w-full mb-4 h-full"
         priority
       />
       <h2 className="text-4xl font-bold">{profile.nom_utilisateur}</h2>

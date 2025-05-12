@@ -53,8 +53,8 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-raisin p-8 rounded-xl w-[90%] max-w-md shadow-2xl border-2 border-space relative animate-fade-in">
+    <div className="fixed inset-0 bg-raisin bg-opacity-60 flex items-center justify-center z-50">
+      <div className="bg-raisin h-96 p-6 rounded-lg w-[90%] max-w-md shadow-lg flex flex-col items-center justify-between">
         <button
           type="button"
           onClick={onClose}
@@ -63,7 +63,7 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
         >
           ×
         </button>
-        <h2 className="text-2xl mb-6 font-quicksand text-center font-semibold text-white uppercase tracking-widest">
+        <h2 className="text-xl mb-4 font-semibold text-white text-center uppercase">
           Modifier la biographie
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -71,7 +71,7 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
             value={biography}
             onChange={(e) => setBiography(e.target.value)}
             placeholder="Écris ta biographie ici…"
-            className="p-4 bg-space rounded-lg text-white font-quicksand min-h-[120px] focus:outline-electric"
+            className="p-4 bg-space rounded-lg text-white font-quicksand h-[30vh] w- focus:outline-electric"
             required
             maxLength={1000}
           />
@@ -79,14 +79,14 @@ export default function BiographyModal({ isOpen, onClose }: BiographyModalProps)
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 rounded-lg bg-[#212936] border border-lavender text-lavender font-sulphur hover:bg-space transition"
+              className="px-4 py-2 rounded-lg bg-oxford text-white border border-gray-500 hover:bg-gray-800"
               disabled={loading}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-charcoal text-oxford font-quicksand"
+              className="px-4 py-2 rounded-lg bg-electric text-white hover:bg-electrichover"
               disabled={loading || !biography}
             >
               {loading ? 'Sauvegarde...' : 'Sauvegarder'}

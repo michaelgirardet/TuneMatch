@@ -33,8 +33,8 @@ export default function ProfilePhotoModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-      <div className="bg-[#1a1b26] p-6 rounded-lg w-[90%] max-w-md shadow-lg">
+    <div className="fixed inset-0 bg-raisin bg-opacity-60 flex items-center justify-center z-50">
+      <div className="bg-raisin p-6 rounded-lg w-[90%] max-w-md shadow-lg">
         <h2 className="text-xl mb-4 font-semibold text-white text-center uppercase">
           Changer la photo
         </h2>
@@ -86,13 +86,13 @@ export default function ProfilePhotoModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-[#0a0a0a] text-white border border-gray-500 hover:bg-gray-800"
+              className="px-4 py-2 rounded-lg bg-oxford text-white border border-gray-500 hover:bg-gray-800"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-charcoal text-white hover:bg-charcoal/80"
+              className="px-4 py-2 rounded-lg bg-electric text-white hover:bg-electrichover"
               disabled={!isValidUrl(photoUrl)}
             >
               Enregistrer
