@@ -97,7 +97,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-space font-quicksand">
+    <div className="flex flex-col bg-space font-quicksand">
       {/* Profil Card */}
       <section className="w-[100vw] md:w-[55vw] h-auto mx-auto flex flex-col items-center" />
       <div className="flex flex-col items-center justify-center gap-5 bg-space">

@@ -118,21 +118,34 @@ export default function Navbar() {
                     )}
                   </div>
                   {isMenu && (
-                    <div className="absolute right-0 mt-5 w-48 bg-raisin rounded-lg z-50">
-                      <Link
-                        href="/profile"
-                        className="block px-4 py-2 text-white hover:text-electric font-quicksand rounded-t-lg"
-                        onClick={() => setIsMenu(false)}
+                    <div
+                      className="w-screen h-screen bg-transparent fixed top-0 left-0 z-40 flex items-center justify-center"
+                      onClick={() => setIsMenu(false)}
+                      onKeyDown={() => setIsMenu(false)}
+                    >
+                      <div
+                        className="absolute top-20 right-96 mt-5 w-48 bg-raisin rounded-lg z-50"
+                        onClick={(e) => e.stopPropagation()}
+                        onKeyDown={(e) => e.stopPropagation()}
                       >
-                        Mon profil
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-white hover:text-electric font-quicksand rounded-b-lg"
-                      >
-                        Déconnexion
-                      </button>
+                        <Link
+                          href="/profile"
+                          className="block px-4 py-2 text-white hover:text-electric font-quicksand rounded-t-lg"
+                          onClick={() => setIsMenu(false)}
+                        >
+                          Mon profil
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleLogout();
+                            setIsMenu(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-white hover:text-electric font-quicksand rounded-b-lg"
+                        >
+                          Déconnexion
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>

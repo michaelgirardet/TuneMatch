@@ -135,21 +135,21 @@ CREATE TABLE reviews (
 INSERT INTO users (
   nom_utilisateur, email, password, role, photo_profil, instruments, biography, city, country, refresh_token
 ) VALUES
-('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://i.pravatar.cc/300', 'Guitare', 'Passionné de musique électronique', 'Paris', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken1.signature'),
-('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://i.pravatar.cc/300', 'Piano, Chant', 'Productrice de hip-hop', 'Lyon', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken2.signature'),
-('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://i.pravatar.cc/300', 'Guitariste et auteur-compositeur', 'Guitare', 'Marseille', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken3.signature'),
-('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://i.pravatar.cc/300', 'Violoniste classique', 'Guitare', 'Bordeaux', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken4.signature'),
-('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://i.pravatar.cc/300', 'Beatmaker spécialisé trap et drill', 'Violon', 'Berlin', 'Allemagne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken5.signature'),
-('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://i.pravatar.cc/300', 'Chanteur de reggaeton', 'Madrid', 'DJ', 'Espagne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken6.signature'),
-('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://i.pravatar.cc/300', 'Pianiste jazz', 'DJ', 'Lille', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken7.signature'),
-('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://i.pravatar.cc/300', 'Producteur indépendant pop', 'Chant', 'New York', 'USA', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken8.signature'),
-('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://i.pravatar.cc/300', 'Batteur métal', 'Batterie', 'Bruxelles', 'Belgique', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken9.signature'),
-('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://i.pravatar.cc/300', 'Chanteuse pop K-pop', 'Piano', 'Séoul', 'Corée du Sud', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken10.signature'),
-('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://i.pravatar.cc/300', 'Basse funk', 'Piano', 'Los Angeles', 'USA', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken11.signature'),
-('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://i.pravatar.cc/300', 'Spécialisée en house music', 'Batterie', 'Milan', 'Italie', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken12.signature'),
-('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://i.pravatar.cc/300', 'DJ techno', 'DJ', 'Amsterdam', 'Pays-Bas', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken13.signature'),
-('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://i.pravatar.cc/300', 'Mezzo-soprano classique', 'Chant', 'Varsovie', 'Pologne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken14.signature'),
-('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://i.pravatar.cc/300', 'Ingé son spécialisé en rock alternatif', 'Batterie', 'Dublin', 'Irlande', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken15.signature');
+('JohnD999', 'johndoe@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'Guitare', 'Passionné de musique électronique', 'Paris', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken1.signature'),
+('Marie Martin', 'marie@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/girl', 'Piano, Chant', 'Productrice de hip-hop', 'Lyon', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken2.signature'),
+('Pierre Durant', 'pierre@example.com', '$2b$10$test', 'chanteur', 'https://avatar.iran.liara.run/public/boy', 'Guitariste et auteur-compositeur', 'Guitare', 'Marseille', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken3.signature'),
+('Sophie Dubois', 'sophie@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/girl', 'Violoniste classique', 'Guitare', 'Bordeaux', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken4.signature'),
+('Alex Becker', 'alex@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/boy', 'Beatmaker spécialisé trap et drill', 'Violon', 'Berlin', 'Allemagne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken5.signature'),
+('Carlos Mendez', 'carlos@example.com', '$2b$10$test', 'chanteur', 'https://avatar.iran.liara.run/public/boy', 'Chanteur de reggaeton', 'Madrid', 'DJ', 'Espagne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken6.signature'),
+('Emma Leroy', 'emma@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/girl', 'Pianiste jazz', 'DJ', 'Lille', 'France', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken7.signature'),
+('Noah Smith', 'noah@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/boy', 'Producteur indépendant pop', 'Chant', 'New York', 'USA', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken8.signature'),
+('Lucas Moreau', 'lucas@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'Batteur métal', 'Batterie', 'Bruxelles', 'Belgique', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken9.signature'),
+('Hana Tanaka', 'hana@example.com', '$2b$10$test', 'chanteur', 'https://avatar.iran.liara.run/public/girl', 'Chanteuse pop K-pop', 'Piano', 'Séoul', 'Corée du Sud', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken10.signature'),
+('Jamal Carter', 'jamal@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'Basse funk', 'Piano', 'Los Angeles', 'USA', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken11.signature'),
+('Maya Rossi', 'maya@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/girlhttps://i.pravatar.cc/300', 'Spécialisée en house music', 'Batterie', 'Milan', 'Italie', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken12.signature'),
+('Theo Evans', 'theo@example.com', '$2b$10$test', 'musicien', 'https://avatar.iran.liara.run/public/boy', 'DJ techno', 'DJ', 'Amsterdam', 'Pays-Bas', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken13.signature'),
+('Nina Kowalski', 'nina@example.com', '$2b$10$test', 'chanteur', 'https://avatar.iran.liara.run/public/girl', 'Mezzo-soprano classique', 'Chant', 'Varsovie', 'Pologne', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken14.signature'),
+('Ben Foster', 'ben@example.com', '$2b$10$test', 'producteur', 'https://avatar.iran.liara.run/public/boy', 'Ingé son spécialisé en rock alternatif', 'Batterie', 'Dublin', 'Irlande', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummyRefreshToken15.signature');
 
 
 INSERT INTO tracks (title, artist, url, user_id) VALUES
